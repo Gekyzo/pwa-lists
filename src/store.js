@@ -6,7 +6,7 @@ export const GROUPS = ['shop', 'aisle', 'none'];
 
 // `group` is the choice of the user to show a list in groups, and `sort` the order of the list.
 // `aisles` are the sections of the store, in the order of the walk.
-export const emptyState = () => ({ version: 9, items: [], group: 'shop', sort: 'custom', aisles: [] });
+export const emptyState = () => ({ version: 10, items: [], group: 'shop', sort: 'custom', aisles: [] });
 
 // An error is a message: the key of its text, with the parameters of the text. A `list`
 // parameter holds a list id. The screen turns the message into text.

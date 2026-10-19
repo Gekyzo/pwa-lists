@@ -90,9 +90,10 @@ const groupOf = (data) => {
   return data.grouped === false ? 'none' : 'shop';
 };
 
-const VERSIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+// Versions 1 to 9 are the states of Bodega; version 10 is the first of Stash.
+const VERSIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
-// Returns a clean version 9 state, or null when the data is not a known state. The recipes, the
+// Returns a clean version 10 state, or null when the data is not a known state. The recipes, the
 // sent recipes and the menu of a Bodega state are dropped.
 const normalizeState = (data) => {
   if (typeof data !== 'object' || data === null || !VERSIONS.includes(data.version) || !Array.isArray(data.items)) return null;
@@ -102,7 +103,7 @@ const normalizeState = (data) => {
   if (!valid) return null;
   const aisles = normalizeAisles(data.aisles);
   return {
-    version: 9,
+    version: 10,
     items: knownAisles(oneSpelling(items), aisles),
     group: groupOf(data),
     sort: SORTS.includes(data.sort) ? data.sort : 'custom',

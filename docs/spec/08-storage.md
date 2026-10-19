@@ -62,8 +62,9 @@ The `v1` of the key is the version of the key, not of the state. The state has i
   | `sort` | Unknown: `custom` |
   | Unknown fields | Dropped |
 
-- **STORE-8** An older state is migrated when it is read, and saved as version 9 at the next
-  change:
+- **STORE-8** Versions 1 to 9 are the states of Bodega; version 10 is the first state of Stash.
+  A Bodega backup and a Stash state thus never have the same version. An older state is migrated
+  when it is read, and saved as version 10 at the next change:
 
   | From | Change |
   |---|---|
@@ -73,6 +74,7 @@ The `v1` of the key is the version of the key, not of the state. The state has i
   | Version 1 to 6 | `aisles: []`, and each item gets `aisle: ''` |
   | Version 1 to 7 | An item of `list: 'next'` goes to `Compra`, not ticked. A ticked item of `Compra` with `again: true` loses its tick, except a recurrent item (`recurrent: true`), which keeps it. A `recurrent` that is not a boolean counts as not recurrent. Each item loses `again` |
   | Version 1 to 8 | No change of the data: version 9 of Bodega adds the dish of a meal, which Stash drops |
+  | Version 1 to 9 | No change of the data: the drops of STORE-7 make it a version 10 state |
 
 ## Failures
 
@@ -96,7 +98,7 @@ The `v1` of the key is the version of the key, not of the state. The state has i
 - **BACKUP-3** **Importar** opens a file choice for a JSON file. A file that is not JSON
   gives `error.invalidJson`. A JSON that is not a valid state (STORE-6) gives `error.notBackup`.
 - **BACKUP-4** A valid file is cleaned and migrated as a stored state is (STORE-7, STORE-8). A
-  backup of version 1 to 9 is thus accepted, also a backup of Bodega with recipes and a menu: the
+  backup of version 1 to 10 is thus accepted, also a backup of Bodega with recipes and a menu: the
   import keeps its items, groups, order and aisles only.
 - **BACKUP-5** Before the import the app asks: `¿Sustituir los datos actuales por los de la copia
   (N artículos)?`, with the count of the items only. A yes replaces the full state. It does not merge.

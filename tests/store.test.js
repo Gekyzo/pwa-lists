@@ -368,7 +368,7 @@ test('tripSummary of an empty state is all zero', () => {
 });
 
 test('emptyState has no recipes, no sent recipes and no menu, and groups by shop', () => {
-  assert.deepEqual(emptyState(), { version: 9, items: [], group: 'shop', sort: 'custom', aisles: [] });
+  assert.deepEqual(emptyState(), { version: 10, items: [], group: 'shop', sort: 'custom', aisles: [] });
 });
 
 test('arrivalMessage counts the items of Active that are not bought', () => {

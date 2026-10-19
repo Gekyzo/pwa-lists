@@ -6,7 +6,7 @@ The app has one state object. Each operation returns a new object and never chan
 
 ```js
 {
-  version: 9,
+  version: 10,
   items: [Item],      // insertion order, changed only by a manual move
   group: 'shop',      // 'shop' | 'aisle' | 'none'
   sort: 'custom',     // 'custom' | 'name'
@@ -14,7 +14,7 @@ The app has one state object. Each operation returns a new object and never chan
 }
 ```
 
-The empty state is `{ version: 9, items: [], group: 'shop', sort: 'custom', aisles: [] }`.
+The empty state is `{ version: 10, items: [], group: 'shop', sort: 'custom', aisles: [] }`.
 
 ## Item
 
