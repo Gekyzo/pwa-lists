@@ -1,6 +1,6 @@
 {
   "name": "lists",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Shopping list app by store: items, their shops, shop lists and aisles, offline on one phone",
   "private": true,
   "type": "module",
