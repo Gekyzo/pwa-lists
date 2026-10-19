@@ -1,0 +1,19 @@
+{
+  "name": "lists",
+  "version": "0.0.0",
+  "description": "Shopping list app by store: items, their shops, shop lists and aisles, offline on one phone",
+  "private": true,
+  "type": "module",
+  "imports": {
+    "#ds/*": "./vendor/design-system/*.js",
+    "#*": "./src/*.js"
+  },
+  "scripts": {
+    "test": "node --test",
+    "serve": "python3 -m http.server 8080",
+    "icons": "node scripts/make-icons.mjs",
+    "hooks": "git config core.hooksPath .githooks",
+    "release": "node scripts/release.mjs",
+    "ds": "node ../pwa-design-system/sync.mjs"
+  }
+}

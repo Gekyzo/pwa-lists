@@ -1,0 +1,79 @@
+{
+  "name": "Stash - Lista de la compra",
+  "short_name": "Stash",
+  "description": "Lista de la compra que se prepara sola para la próxima vez",
+  "lang": "es",
+  "id": "/pwa-lists/",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#f6f7f5",
+  "theme_color": "#1f7a4d",
+  "icons": [
+    {
+      "src": "icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "icons/icon-maskable-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Añadir artículo",
+      "url": "./?open=add",
+      "icons": [
+        {
+          "src": "icons/shortcut-add.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Compra",
+      "url": "./?open=active",
+      "icons": [
+        {
+          "src": "icons/shortcut-active.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Recetas",
+      "url": "./?open=recipes",
+      "icons": [
+        {
+          "src": "icons/shortcut-recipes.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Menú",
+      "url": "./?open=menu",
+      "icons": [
+        {
+          "src": "icons/shortcut-menu.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ]
+}
