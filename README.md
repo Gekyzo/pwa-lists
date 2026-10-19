@@ -76,6 +76,10 @@ GitHub repository:
 1. **Pages → Source**: `GitHub Actions`.
 2. **Environments → github-pages**: allow the tags `v*` to deploy.
 
+Deploy Bodega with commit `e163b40` of `pwa-shopping-list` before the first deploy of Stash. An
+older Bodega deletes each cache of the origin that is not its own, so its next update deletes the
+offline copy of Stash.
+
 ## Where to read
 
 | Subject | Document |

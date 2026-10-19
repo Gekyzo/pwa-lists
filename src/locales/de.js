@@ -13,7 +13,6 @@ export default {
   'header.left': { one: 'Noch {count} Artikel', other: 'Noch {count} Artikel' },
   'header.bought': { one: '{done} von {count} gekauft', other: '{done} von {count} gekauft' },
   'count.items': { one: '{count} Artikel', other: '{count} Artikel' },
-  'count.products': { one: '{count} Produkt', other: '{count} Produkte' },
   'count.bought': { one: 'Gekauft ({count})', other: 'Gekauft ({count})' },
 
   'row.delete': '{name} löschen',
@@ -173,7 +172,6 @@ export default {
   'error.unknownSort': 'Unbekannte Reihenfolge.',
   'error.unknownGroup': 'Unbekannte Gruppierung.',
   'error.invalidOrder': 'Ungültige Reihenfolge.',
-  'error.invalidLink': 'Der Link ist keine gültige Webadresse.',
   'error.shopRequired': 'Schreibe den Namen des Geschäfts.',
   'error.aisleRequired': 'Schreibe den Namen der Abteilung.',
   'error.duplicateAisle': 'Die Abteilung „{name}“ gibt es schon.',

@@ -13,7 +13,6 @@ export default {
   'header.left': { one: 'Resta {count} articolo', other: 'Restano {count} articoli' },
   'header.bought': { one: '{done} di {count} comprato', other: '{done} di {count} comprati' },
   'count.items': { one: '{count} articolo', other: '{count} articoli' },
-  'count.products': { one: '{count} prodotto', other: '{count} prodotti' },
   'count.bought': { one: 'Comprati ({count})', other: 'Comprati ({count})' },
 
   'row.delete': 'Elimina {name}',
@@ -173,7 +172,6 @@ export default {
   'error.unknownSort': 'Ordine sconosciuto.',
   'error.unknownGroup': 'Raggruppamento sconosciuto.',
   'error.invalidOrder': 'Ordine non valido.',
-  'error.invalidLink': 'Il link non è un indirizzo web valido.',
   'error.shopRequired': 'Scrivi il nome del negozio.',
   'error.aisleRequired': 'Scrivi il nome del reparto.',
   'error.duplicateAisle': 'Il reparto «{name}» esiste già.',

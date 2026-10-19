@@ -13,7 +13,6 @@ export default {
   'header.left': { one: 'Queda {count} article', other: 'Queden {count} articles' },
   'header.bought': { one: '{done} de {count} comprat', other: '{done} de {count} comprats' },
   'count.items': { one: '{count} article', other: '{count} articles' },
-  'count.products': { one: '{count} producte', other: '{count} productes' },
   'count.bought': { one: 'Comprats ({count})', other: 'Comprats ({count})' },
 
   'row.delete': 'Elimina {name}',
@@ -173,7 +172,6 @@ export default {
   'error.unknownSort': 'Ordre desconegut.',
   'error.unknownGroup': 'Agrupació desconeguda.',
   'error.invalidOrder': 'Ordre no vàlid.',
-  'error.invalidLink': 'L’enllaç no és una adreça web vàlida.',
   'error.shopRequired': 'Escriu el nom de la botiga.',
   'error.aisleRequired': 'Escriu el nom de la secció.',
   'error.duplicateAisle': 'La secció «{name}» ja existeix.',

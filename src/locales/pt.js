@@ -13,7 +13,6 @@ export default {
   'header.left': { one: 'Falta {count} artigo', other: 'Faltam {count} artigos' },
   'header.bought': { one: '{done} de {count} comprado', other: '{done} de {count} comprados' },
   'count.items': { one: '{count} artigo', other: '{count} artigos' },
-  'count.products': { one: '{count} produto', other: '{count} produtos' },
   'count.bought': { one: 'Comprados ({count})', other: 'Comprados ({count})' },
 
   'row.delete': 'Eliminar {name}',
@@ -173,7 +172,6 @@ export default {
   'error.unknownSort': 'Ordem desconhecida.',
   'error.unknownGroup': 'Agrupamento desconhecido.',
   'error.invalidOrder': 'Ordem não válida.',
-  'error.invalidLink': 'A ligação não é um endereço web válido.',
   'error.shopRequired': 'Escreva o nome da loja.',
   'error.aisleRequired': 'Escreva o nome da secção.',
   'error.duplicateAisle': 'A secção «{name}» já existe.',

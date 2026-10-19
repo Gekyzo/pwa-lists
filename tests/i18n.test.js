@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { readFileSync } from 'node:fs';
+import { readFileSync, readdirSync } from 'node:fs';
 import { CATALOGS, FALLBACK, LANGUAGES, LANGUAGE_NAMES, intlTag, pseudo, resolveLanguage, translator } from '#i18n';
 
 const fake = {
@@ -116,8 +116,8 @@ test('the Spanish catalog has each message key of the pure modules', () => {
 });
 
 test('Portuguese uses the European plural rule: zero is plural', () => {
-  assert.equal(translator('pt')('count.products', { count: 0 }), '0 produtos');
-  assert.equal(translator('pt')('count.products', { count: 1 }), '1 produto');
+  assert.equal(translator('pt')('count.items', { count: 0 }), '0 artigos');
+  assert.equal(translator('pt')('count.items', { count: 1 }), '1 artigo');
 });
 
 test('intlTag gives the regional tag of Portuguese and the code of each other language', () => {
@@ -157,5 +157,17 @@ test('no text names a removed feature: recipes, the menu or recurrent items', ()
       const texts = typeof entry === 'string' ? [entry] : [entry.one, entry.other];
       for (const text of texts) assert.doesNotMatch(text, removed, `${lang} ${key}`);
     }
+  }
+});
+
+test('each key of the catalog is used by the code or the page', () => {
+  const files = ['index.html', 'sw.js', ...readdirSync(new URL('../src/', import.meta.url)).filter((name) => name.endsWith('.js')).map((name) => `src/${name}`),
+    ...readdirSync(new URL('../src/ui/', import.meta.url)).map((name) => `src/ui/${name}`)];
+  const code = files.map((file) => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8')).join('\n');
+  // Keys that the code builds from a part, such as `onboarding.${page}.title`.
+  const dynamic = ['onboarding.', 'outcome.', 'aisles.usual.', 'list.'];
+  for (const key of Object.keys(CATALOGS.es)) {
+    if (dynamic.some((prefix) => key.startsWith(prefix))) continue;
+    assert.ok(code.includes(`'${key}'`) || code.includes(`"${key}"`) || code.includes(`:${key}`), key);
   }
 });

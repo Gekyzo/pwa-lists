@@ -13,7 +13,6 @@ export default {
   'header.left': { one: '{count} item left', other: '{count} items left' },
   'header.bought': { one: '{done} of {count} bought', other: '{done} of {count} bought' },
   'count.items': { one: '{count} item', other: '{count} items' },
-  'count.products': { one: '{count} product', other: '{count} products' },
   'count.bought': { one: 'Bought ({count})', other: 'Bought ({count})' },
 
   'row.delete': 'Delete {name}',
@@ -173,7 +172,6 @@ export default {
   'error.unknownSort': 'Unknown order.',
   'error.unknownGroup': 'Unknown grouping.',
   'error.invalidOrder': 'Invalid order.',
-  'error.invalidLink': 'The link is not a valid web address.',
   'error.shopRequired': 'Write the name of the shop.',
   'error.aisleRequired': 'Write the name of the section.',
   'error.duplicateAisle': 'The section “{name}” already exists.',
