@@ -9,14 +9,12 @@ import { openEdit } from '#ui/edit';
 import { reorder, bindReorder } from '#ui/drag';
 
 // The name of a row, with its quantity after it, and below it the shops of the item when the list
-// is not by shop, the other recipes of an item of two recipe groups (`also`) and the mark of a
-// recurrent item.
-const nameParts = (item, also) => {
+// is not by shop and the mark of a recurrent item.
+const nameParts = (item) => {
   const quantity = item.quantity ? [' ', el('span', { className: 'item-row-qty', textContent: item.quantity })] : [];
   const parts = [el('span', { className: 'item-row-label' }, [item.name, ...quantity])];
   const meta = [
     ...(item.shops.length && shownGroup() !== 'shop' ? [item.shops.join(' · ')] : []),
-    ...(also.length ? [t('row.alsoIn', { recipes: also.join(', ') })] : []),
     ...(item.recurrent ? [t('row.repeats')] : []),
   ];
   if (meta.length) parts.push(el('small', { className: 'item-row-meta', textContent: meta.join(' · ') }));
@@ -56,7 +54,7 @@ const editButton = (item) => {
 // A row of Compra: a tap on its body ticks the item (D1), the check only shows the state, and the
 // edit button stays at the end. The name is the checkbox for the keyboard and a screen reader: a
 // button gives it Space and Enter, and its click reaches the body like a tap.
-const itemRow = (item, also) => {
+const itemRow = (item) => {
   const toggle = () => {
     if (item.bought) {
       apply(store.toggleBought(state, item.id));
@@ -68,7 +66,7 @@ const itemRow = (item, also) => {
   };
   const check = el('input', { type: 'checkbox', className: 'item-row-check', checked: item.bought, tabIndex: -1 });
   check.setAttribute('aria-hidden', 'true');
-  const name = el('button', { type: 'button', className: 'item-row-name' }, nameParts(item, also));
+  const name = el('button', { type: 'button', className: 'item-row-name' }, nameParts(item));
   name.setAttribute('role', 'checkbox');
   name.setAttribute('aria-checked', String(item.bought));
   const row = [check, name, el('div', { className: 'item-row-end' }, [editButton(item)])];
@@ -87,7 +85,7 @@ export const moveRow = (row, x) => {
 };
 
 // Lets a horizontal drag of the row show the side menu behind it, or run the action of the slide
-// to the right. `settle` and `reached` decide the result. `id` is the id of an item or a recipe.
+// to the right. `settle` and `reached` decide the result. `id` is the id of an item.
 const bindSwipe = (row, widths, id, groupId, right) => {
   let drag = null;
   row.addEventListener('pointerdown', (event) => {
@@ -197,7 +195,7 @@ const tapBody = (event, opened, tap) => {
 // The box of a row that slides: the action of the slide to the right below it, the side actions
 // (`end`) behind its right end, and the body with `row`. `right` is { run, icon } or null. `tap`,
 // when given, makes the whole body the tick target.
-export const swipeBox = ({ id, groupId = null, row, end, right, tap = null }) => {
+const swipeBox = ({ id, groupId = null, row, end, right, tap = null }) => {
   const open = isOpen(id, groupId) ? ui.openSide : null;
   const widths = { start: 0, end: end.length * SIDE_BUTTON };
   const body = el('div', { className: tap ? 'item-row-body tick' : 'item-row-body' }, row);
@@ -218,9 +216,8 @@ export const swipeBox = ({ id, groupId = null, row, end, right, tap = null }) =>
   return { box, body };
 };
 
-// `also` names the other recipe groups that show the item (GROUP-20).
-export const itemNode = (item, groupId = null, also = []) => {
-  const { row, end, right, tap } = itemRow(item, also);
+export const itemNode = (item, groupId = null) => {
+  const { row, end, right, tap } = itemRow(item);
   const { box, body } = swipeBox({ id: item.id, groupId, row, end, right, tap });
   const node = el('li', {
     className: [

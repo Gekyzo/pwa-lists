@@ -383,22 +383,8 @@ test('tripSummary of an empty state is all zero', () => {
   assert.deepEqual(tripSummary(emptyState()), { total: 0, left: 0, back: 0, saved: 0 });
 });
 
-test('startNewShopping empties the sent recipes and keeps the recipes', () => {
-  const recipes = [{ id: 'r1', name: 'Omelette', products: ['Bread'] }];
-  const start = { ...build(['Bread', 'active', { bought: true }]), recipes, sent: ['r1'] };
-  const { state } = startNewShopping(start);
-  assert.deepEqual(state.sent, []);
-  assert.equal(state.recipes, recipes);
-  assert.deepEqual(start.sent, ['r1']);
-});
-
-test('an item operation keeps the recipes and the sent recipes', () => {
-  const start = { ...build(['Bread', 'active']), recipes: [{ id: 'r1', name: 'Omelette', products: [] }], sent: ['r1'] };
-  const { id } = find(start, 'Bread');
-  [deleteItem(start, id), toggleBought(start, id), toggleRecurrent(start, id), renameItem(start, id, 'Loaf')].forEach(({ state }) => {
-    assert.equal(state.recipes, start.recipes);
-    assert.equal(state.sent, start.sent);
-  });
+test('emptyState has no recipes, no sent recipes and no menu, and groups by shop', () => {
+  assert.deepEqual(emptyState(), { version: 9, items: [], group: 'shop', sort: 'custom', aisles: [] });
 });
 
 test('arrivalMessage counts the items of Active that are not bought', () => {
@@ -515,13 +501,15 @@ test('reorderItems from the name order rejects an unknown id and keeps the name 
 
 test('setGroup sets each known group and rejects another one', () => {
   const start = emptyState();
-  assert.equal(start.group, 'recipe');
-  assert.deepEqual(GROUPS, ['recipe', 'shop', 'aisle', 'none']);
+  assert.equal(start.group, 'shop');
+  assert.deepEqual(GROUPS, ['shop', 'aisle', 'none']);
   GROUPS.forEach((group) => assert.equal(setGroup(start, group).state.group, group));
-  assert.equal(start.group, 'recipe');
-  const rejected = setGroup(start, 'floor');
-  assert.equal(rejected.state, start);
-  assert.deepEqual(rejected.error, { key: 'error.unknownGroup' });
+  assert.equal(start.group, 'shop');
+  for (const group of ['floor', 'recipe']) {
+    const rejected = setGroup(start, group);
+    assert.equal(rejected.state, start);
+    assert.deepEqual(rejected.error, { key: 'error.unknownGroup' });
+  }
 });
 
 test('compareNames has no case and no accent distinction', () => {

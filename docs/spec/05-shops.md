@@ -48,7 +48,7 @@ apply in it.
 - **SHOP-18** A chip shows the count of its items to buy, or `✓` for none.
 - **SHOP-19** A shop list shows the items that have the shop. **Sin tienda** shows the items with
   no shop. An item of two shops shows in the two lists, and one tick is a tick in each. The search,
-  the order and the groups by recipe apply in the list. **Tiendas** is not a choice there
+  the order and the groups by aisle apply in the list. **Tiendas** is not a choice there
   (GROUP-2).
 - **SHOP-20** The header shows the name of the list as its title. Its subtitle and its ring are
   those of the items of the list.
@@ -89,5 +89,4 @@ apply in it.
 ## Limits
 
 No screen of shops. No rename and no delete of a shop for all its items at one time. No custom
-order of the shops. No memory of the shops of a deleted item. No shop on the products of a
-recipe, and no shop field in the add sheet.
+order of the shops. No memory of the shops of a deleted item. No shop field in the add sheet.

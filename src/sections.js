@@ -1,5 +1,5 @@
 // The sections, in the order of the bottom bar.
-export const SECTIONS = ['active', 'recipes', 'menu', 'settings'];
+export const SECTIONS = ['active', 'settings'];
 
 // The length of a slide that changes the section or a page.
 const SLIDE_MIN = 60;
@@ -40,7 +40,7 @@ export const direction = (from, to, sections = SECTIONS) => {
 
 // The shortcuts of the launcher, in the order of `shortcuts` of the manifest. Each one opens the
 // app at `?open=<name>`.
-export const SHORTCUTS = ['add', 'active', 'recipes', 'menu'];
+export const SHORTCUTS = ['add', 'active'];
 
 // The start of a shortcut: the section to show, and `add` to open the add sheet there. Null for a
 // name that is not a shortcut.
@@ -50,19 +50,12 @@ export const shortcutStart = (name) => {
 };
 
 // What an empty section says and offers. `title` and `text` are keys of the catalog, `title` null for
-// a search with no match and for Compra, whose header already says that it is empty. `action` is the next step as a button: `create-recipe`,
-// `add-query` or `add-item`; null when the add button of the screen is the action (or nothing is).
-// `secondary` is a second, lesser step: `add-sample`, or null.
-// `query` is the search text, `hasRecipes` is true with a recipe, `sample` with the sample recipe.
-export const emptyAction = (view, { query, hasRecipes, sample }) => {
-  const none = { title: null, text: null, action: null, secondary: null };
-  const searching = query.trim() !== '';
-  if (view === 'recipes') {
-    if (searching && hasRecipes) return { ...none, text: 'empty.noMatch' };
-    return { ...none, title: 'empty.recipesTitle', text: 'empty.recipes', action: 'create-recipe' };
-  }
+// a search with no match and for Compra, whose header already says that it is empty. `action` is the
+// next step as a button: `add-query`; null when the add button of the screen is the action (or
+// nothing is). `query` is the search text.
+export const emptyAction = (view, { query }) => {
+  const none = { title: null, text: null, action: null };
   if (view !== 'active') return none;
-  if (searching) return { ...none, text: 'empty.noItemMatch', action: 'add-query' };
-  if (sample) return { title: null, text: 'empty.sample', action: 'add-item', secondary: 'add-sample' };
+  if (query.trim() !== '') return { ...none, text: 'empty.noItemMatch', action: 'add-query' };
   return { ...none, text: 'empty.active' };
 };

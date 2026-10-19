@@ -78,9 +78,9 @@ const sheetParts = () => {
   return opens.map((open, i) => ({ id: open[2] ?? null, part: body.slice(open.index, opens[i + 1]?.index ?? body.length) }));
 };
 
-test('each of the nine sheets has the grab, then a head with its title and Listo, then a body', () => {
+test('each of the six sheets has the grab, then a head with its title and Listo, then a body', () => {
   const parts = sheetParts();
-  assert.equal(parts.length, 9);
+  assert.equal(parts.length, 6);
   for (const { id, part } of parts) {
     assert.match(
       part,
@@ -90,10 +90,10 @@ test('each of the nine sheets has the grab, then a head with its title and Listo
   }
 });
 
-test('the edit and recipe sheets have a foot with Eliminar and Guardado; the other sheets have none', () => {
+test('the edit sheet has a foot with Eliminar and Guardado; the other sheets have none', () => {
   const feet = sheetParts().filter(({ part }) => part.includes('sheet-foot')).map(({ id }) => id);
-  assert.deepEqual(feet, ['edit-form', 'recipe-sheet']);
-  for (const [id, prefix] of [['edit-form', 'edit'], ['recipe-sheet', 'recipe']]) {
+  assert.deepEqual(feet, ['edit-form']);
+  for (const [id, prefix] of [['edit-form', 'edit']]) {
     const { part } = sheetParts().find((sheet) => sheet.id === id);
     assert.match(
       part,
@@ -110,16 +110,13 @@ test('the sheets with a title of their own give it an id; the others a fixed tex
     ' data-i18n="arrange.label"',
     ' data-i18n="shops.lists"',
     ' data-i18n="trip.question"',
-    'id="meal-title" ',
-    ' data-i18n="nav.menu"',
     'id="edit-title" ',
     ' data-i18n="aisles.title"',
-    'id="recipe-title" ',
   ]);
 });
 
 test('the empty state of a list holds a title, a text and an action button, set by the view', () => {
-  assert.match(body, /<div id="empty" class="empty-state low" hidden>\s*<h2 id="empty-title" class="empty-state-title" hidden><\/h2>\s*<p id="empty-text"><\/p>\s*<button id="empty-action" class="button primary wide" type="button" hidden><\/button>\s*<button id="empty-secondary" class="button outline wide" type="button" hidden><\/button>\s*<\/div>/);
+  assert.match(body, /<div id="empty" class="empty-state low" hidden>\s*<h2 id="empty-title" class="empty-state-title" hidden><\/h2>\s*<p id="empty-text"><\/p>\s*<button id="empty-action" class="button primary wide" type="button" hidden><\/button>\s*<\/div>/);
 });
 
 test('the edit sheet has a veil, a dialog, the name and quantity fields and the shops', () => {
@@ -135,28 +132,6 @@ test('the edit sheet has a veil, a dialog, the name and quantity fields and the 
   assert.match(layer, /<span class="field-label" data-i18n="edit.quantity"><\/span><\/label>\s*<label class="switch"><span data-i18n="edit.repeat"><\/span><input id="edit-repeat" class="switch-input" type="checkbox" role="switch"><\/label>\s*<h2 class="sheet-title part" data-i18n="edit.shops"><\/h2>\s*<div id="edit-chips" class="cluster">/);
   assert.match(layer, /<input id="edit-shop"[^>]*maxlength="40"/);
   assert.doesNotMatch(body, /id="shops/);
-});
-
-test('the meal sheet has a recipe search between the title and the chips, a no-match text and the dish buttons', () => {
-  const [layer = ''] = body.match(/<div id="meal" class="sheet-layer"[\s\S]*?<\/div>\s*<\/div>/) ?? [];
-  const ids = [...layer.matchAll(/ id="([^"]+)"/g)].map(([, id]) => id);
-  assert.deepEqual(ids, ['meal', 'meal-veil', 'meal-sheet', 'meal-title', 'meal-query', 'meal-empty', 'meal-chips', 'meal-dish', 'meal-actions', 'meal-recipe', 'meal-remove']);
-  assert.match(layer, /<input id="meal-query" class="input" type="search"[^>]*data-i18n-attr="placeholder:menu.search,aria-label:menu.search"/);
-  assert.match(layer, /<div id="meal-actions" class="split meal-actions" hidden>\s*<button id="meal-recipe" class="button primary hand-side"[^>]*data-i18n="menu.toRecipe" hidden><\/button>\s*<button id="meal-remove" class="button outline danger"/);
-  assert.match(layer, /<p id="meal-empty"[^>]*hidden><\/p>/);
-});
-
-test('Llenar cesta stands in an action bar; Vaciar menú is an entry of the menu sheet', () => {
-  assert.match(body, /<div id="menu-actions" class="action-bar" hidden>\s*<button id="menu-fill" class="button primary wide"/);
-  const { part } = sheetParts().find((sheet) => sheet.id === 'menu-more-sheet');
-  assert.match(part, /<button id="menu-clear" class="button outline entry"[^>]*>[\s\S]*?<small class="entry-note" data-i18n="menu.clearNote"><\/small>/);
-  assert.doesNotMatch(body, /class="split menu-actions"/);
-  assert.match(body, /<button id="trip-button"[^>]*data-i18n-attr="aria-label:trip.menu"/);
-});
-
-test('the es text of menu.fill is Llenar cesta', async () => {
-  const { default: es } = await import('../src/locales/es.js');
-  assert.equal(es['menu.fill'], 'Llenar cesta');
 });
 
 const settings = body.match(/<section id="settings"[\s\S]*?<\/section>/)?.[0] ?? '';
@@ -176,12 +151,6 @@ test('language, hand, theme and density are rows of the group Preferencias', () 
     assert.match(rows, new RegExp(`<select id="${id}" class="select"`));
     assert.match(rows, new RegExp(`id="${id}-value" class="settings-row-value"`));
   }
-});
-
-test('Borrar la receta de ejemplo is a danger row with no chevron', () => {
-  const [row = ''] = settings.match(/<button id="delete-sample"[\s\S]*?<\/button>/) ?? [];
-  assert.match(row, /class="settings-row danger"/);
-  assert.doesNotMatch(row, /chevron/);
 });
 
 test('the rows that open something end with a chevron', () => {

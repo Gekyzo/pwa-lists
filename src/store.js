@@ -1,14 +1,12 @@
 // `custom` is the order of `items`: the insertion order, changed by the moves of the user.
 export const SORTS = ['custom', 'name'];
 
-// The groups of a list: by the recipes sent to Active, by the shops of each item, by the aisle of
-// each item, or none.
-export const GROUPS = ['recipe', 'shop', 'aisle', 'none'];
+// The groups of a list: by the shops of each item, by the aisle of each item, or none.
+export const GROUPS = ['shop', 'aisle', 'none'];
 
-// `sent` holds the ids of the recipes sent to Active in this trip. `group` is the choice of the
-// user to show a list in groups, and `sort` the order of the list. `aisles` are the sections
-// of the store, in the order of the walk.
-export const emptyState = () => ({ version: 9, items: [], recipes: [], sent: [], group: 'recipe', sort: 'custom', menu: [], aisles: [] });
+// `group` is the choice of the user to show a list in groups, and `sort` the order of the list.
+// `aisles` are the sections of the store, in the order of the walk.
+export const emptyState = () => ({ version: 9, items: [], group: 'shop', sort: 'custom', aisles: [] });
 
 // An error is a message: the key of its text, with the parameters of the text. A `list`
 // parameter holds a list id. The screen turns the message into text.
@@ -94,7 +92,7 @@ export const startNewShopping = (state, keep = []) => {
     const saved = !item.recurrent && !kept.has(item.id);
     return { ...item, list: saved ? 'saved' : 'active', bought: false };
   });
-  return { state: { ...state, items, sent: [] } };
+  return { state: { ...state, items } };
 };
 
 export const setSort = (state, sort) =>

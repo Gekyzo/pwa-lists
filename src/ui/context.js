@@ -107,7 +107,7 @@ const debugDiff = (before, after) => {
   for (const [id, row] of now) if (!old.has(id)) lines.push(`  + ${row}`);
   for (const [id, row] of old) if (!now.has(id)) lines.push(`  - ${row}`);
   for (const [id, row] of now) if (old.has(id) && old.get(id) !== row) lines.push(`  ~ ${old.get(id)} -> ${row}`);
-  for (const key of ['sent', 'group', 'sort', 'version']) {
+  for (const key of ['group', 'sort', 'version']) {
     if (JSON.stringify(before[key]) !== JSON.stringify(after[key])) lines.push(`  ${key}: ${JSON.stringify(before[key])} -> ${JSON.stringify(after[key])}`);
   }
   return lines;
@@ -133,43 +133,33 @@ export const ui = {
   arrangeOpen: false,
   // True while the sheet of the trip button of Compra is open.
   tripOpen: false,
-  menuMoreOpen: false,
   // True while the shop picker of the dock is open.
   shopPickOpen: false,
   // True while the sheet of the aisles of Ajustes is open.
   aislesOpen: false,
   // The item whose edit sheet is open, or null.
   editId: null,
-  // The meal whose sheet is open, as { day, meal }, or null.
-  mealOpen: null,
-  mealQuery: '',
   // The page of the walkthrough in view, or null while the walkthrough is closed.
   onboarding: firstStart ? 0 : null,
   boughtOpen: false,
   // The groups of a list that the user closed, as `<view>:<group key>`. Not stored.
   closedGroups: new Set(),
-  // The recipe whose sheet is open, or null.
-  recipeId: null,
-  // The text of the search field, which Recetas shows always and a list shows on demand. It is
-  // not stored.
+  // The text of the search field of a list. It is not stored.
   query: '',
   // True while the search field of Compra is open.
   searchOpen: false,
   // The shop list of Compra: null for Todas, '' for Sin tienda, or a shop. Not stored.
   shop: null,
-  // The group where the row actions are open: a recipe id, `shop:<name>`, or null out of a group.
+  // The group where the row actions are open: `shop:<name>`, `aisle:<name>`, or null out of a group.
   openGroup: null,
   // The side menu of the open item row: 'end' (slide left) or null.
   openSide: null,
   // Where the last drag left its row, so that the next render moves the row from there.
   settleFrom: null,
-  focusProduct: false,
   // True when the next render must open the new rows and close the rows that are gone.
   animate: false,
   // The ids of the ticked items whose rows are closing. A render in that time builds them closed.
   leaving: new Set(),
-  // The keys of the recipe and product rows that the next render opens and flashes.
-  bringKeys: new Set(),
   // `running` is the version of the cached shell; `latest` is the deployed one, read when Ajustes opens.
   version: { running: null, latest: null, checking: false },
 };

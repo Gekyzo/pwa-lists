@@ -5,10 +5,8 @@
 | Module | Responsibility | May import |
 |---|---|---|
 | `src/store.js` | Pure state operations and derived views | nothing |
-| `src/recipes.js` | Pure recipe operations; resolves product names against the items | `store` |
 | `src/shops.js` | Pure shop operations and the list by shop | `store` |
 | `src/aisles.js` | Pure aisle operations and the list by aisle | `store` |
-| `src/menu.js` | Pure menu operations and the fill of `Compra` | `store`, `recipes` |
 | `src/swipe.js` | The rule that settles the slide of an item row | nothing |
 | `src/sections.js` | The order of the sections, the rule of the slide between them, the start of a shortcut and what an empty section says and offers, the collapse of the `+` button on a scroll | nothing |
 | `src/layers.js` | The layers over a section: whether a sheet is open, and the top layer that `Escape` and the back close (`closeTop`) | nothing |
@@ -16,27 +14,25 @@
 | `src/reorder.js` | The geometry of a row move: drop place, gap, new order | nothing |
 | `src/sheets.js` | The rules of a sheet: when a field save shows `Guardado`, and for how long | nothing |
 | `src/suggest.js` | The rows above the add input: create first, then the matching items, and which are in the list | `store` |
-| `src/storage.js` | Load, save, export, import, validation, the language key and the device preferences | `store`, `recipes`, `menu` |
+| `src/storage.js` | Load, save, export, import, validation, the language key and the device preferences | `store` |
 | `src/version.js` | Pure version rules | nothing |
 | `src/install.js` | The install offer state machine | nothing |
 | `src/i18n.js` | The language to show and the translator | `locales/*` |
 | `src/locales/<lang>.js` | The text of one language | nothing |
 | `src/ui/context.js` | The values that the views share, their setters, the toast, the save and `render` | `store`, `storage`, `i18n`, `onboarding` |
-| `src/ui/view.js` | What the screen shows of the state: the list in view, the search, the open row, the grouping | `store`, `recipes`, `shops`, `ui/context` |
+| `src/ui/view.js` | What the screen shows of the state: the list in view, the search, the open row, the grouping | `store`, `shops`, `ui/context` |
 | `src/ui/motion.js` | The motion of rows: close, open, slide to a new place | `ui/context` |
 | `src/ui/controls.js` | The controls that several views use: icons, icon buttons, the save of a sheet field and the `Guardado` of a sheet save | `sheets`, `ui/context` |
 | `src/ui/edit.js` | The edit sheet `Editar` | `store`, `shops`, `aisles`, `ui/context`, `ui/controls` |
 | `src/ui/drag.js` | The manual order: the lift of a row, its move and its drop | `store`, `reorder`, `ui/context`, `ui/view`, `ui/motion` |
 | `src/ui/rows.js` | The item rows, their side menus, their swipe and the hint of the swipe | `store`, `swipe`, `storage`, `ui/context`, `ui/view`, `ui/motion`, `ui/controls`, `ui/edit`, `ui/drag` |
-| `src/ui/recipes.js` | The section `Recetas` and the recipe sheet | `store`, `recipes`, `menu`, `ui/context`, `ui/controls`, `ui/motion`, `ui/rows` |
-| `src/ui/menu.js` | The section `Menú` and its meal sheet | `recipes`, `menu`, `i18n`, `ui/context`, `ui/recipes`, `ui/nav` |
 | `src/ui/arrange.js` | The arrange sheet: the grouping, the order, the row of shop lists | `store`, `shops`, `ui/context`, `ui/view`, `ui/motion` |
-| `src/ui/list.js` | The list `Compra`: rows, search, shop lists, the dock and its shop picker, header, trip sheet | `store`, `recipes`, `shops`, `aisles`, `menu`, `sections`, `ui/context`, `ui/view`, `ui/controls`, `ui/rows`, `ui/recipes`, `ui/menu`, `ui/add`, `ui/nav` |
-| `src/ui/add.js` | The add sheet | `store`, `recipes`, `shops`, `suggest`, `ui/context`, `ui/view` |
-| `src/ui/onboarding.js` | The walkthrough and the load of the sample recipe | `onboarding`, `recipes`, `sections`, `storage`, `ui/context`, `ui/controls` |
+| `src/ui/list.js` | The list `Compra`: rows, search, shop lists, the dock and its shop picker, header, trip sheet | `store`, `shops`, `aisles`, `sections`, `ui/context`, `ui/view`, `ui/controls`, `ui/rows`, `ui/add`, `ui/nav` |
+| `src/ui/add.js` | The add sheet | `store`, `shops`, `suggest`, `ui/context`, `ui/view` |
+| `src/ui/onboarding.js` | The walkthrough | `onboarding`, `sections`, `storage`, `ui/context`, `ui/controls` |
 | `src/ui/aisles.js` | The sheet of the aisles of `Ajustes` | `aisles`, `ui/context`, `ui/controls` |
 | `src/ui/install.js` | The Install button of `Ajustes` | `install`, `ui/context` |
-| `src/ui/settings.js` | `Ajustes`: version and update, language, hand, theme, export and import, the delete of the sample recipe | `recipes`, `sections`, `storage`, `version`, `i18n`, `ui/context`, `ui/onboarding` |
+| `src/ui/settings.js` | `Ajustes`: version and update, language, hand, theme, export and import | `sections`, `storage`, `version`, `i18n`, `ui/context`, `ui/onboarding` |
 | `src/ui/nav.js` | The bottom bar and the change of section | `sections`, `layers`, `ui/context`, `ui/drag`, `ui/settings` |
 | `src/app.js` | The start of the app: the render of the screen, the bind of each view, the listeners of the document. With `src/ui/`, the only code that touches the page | all of the above |
 | `sw.js` | Offline cache of the app shell. Not a module of the app | nothing |
@@ -48,7 +44,7 @@
 - **ENG-2** A rejected operation returns `{ state, error }` with the same state object. Nothing
   throws for a user error. `error` is a message `{ key, params }`.
 - **ENG-3** An operation that changes nothing returns the same state object, where a caller needs
-  to know that (`reorderItems`, `sendRecipe`, `addItemShop`, `removeItemShop`, `bringToList` with
+  to know that (`reorderItems`, `addItemShop`, `removeItemShop`, `bringToList` with
   `changed`).
 - **ENG-4** The screen applies an operation, saves, then builds the page again from the state.
 - **ENG-5** A module with a side effect takes the object of that effect as a parameter (the
@@ -76,7 +72,7 @@
 |---|---|
 | A new list rule | An operation in `src/store.js` with its tests, then a control in its view of `src/ui/` |
 | A new view | A module of `src/ui/` with a `bind()` that `src/app.js` calls, its alias, its file in `SHELL` and its row in the module table |
-| A new recipe, shop or aisle rule | The same, in `src/recipes.js`, `src/shops.js` or `src/aisles.js` |
+| A new shop or aisle rule | The same, in `src/shops.js` or `src/aisles.js` |
 | A change of the shape of an item | `normalizeItem` in `src/storage.js`, a new `version` and its migration |
 | A new text | A key in each of the seven catalogs, with the same placeholders |
 | A new module of `src/` | Its alias in the import map of `index.html`, and its file in `SHELL` of `sw.js` |
@@ -91,10 +87,8 @@
 | Test file | Covers |
 |---|---|
 | `tests/store.test.js` | Items, the trip, the order, the search, the figures, the bring back of a saved item |
-| `tests/recipes.test.js` | Recipes, the send, the groups, the search, the sample recipe |
 | `tests/shops.test.js` | Shops and the list by shop |
 | `tests/aisles.test.js` | Aisles, the aisle of an item and the list by aisle |
-| `tests/menu.test.js` | The meals of the week and the fill |
 | `tests/storage.test.js` | Load, save, validation, migration, export, import, the language key and the device preferences |
 | `tests/swipe.test.js` | The settle rule of a row slide |
 | `tests/sw.test.js` | The manifest text that the worker puts in place, with the names of the shortcuts (SW-13) |

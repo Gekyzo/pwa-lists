@@ -44,7 +44,7 @@ Rules of `src/i18n.js`, `src/locales/` and of the language setting in `src/ui/se
 
 ## Not translated
 
-- **LANG-14** The data of the user: the names of items, recipes, products and shops stay as typed.
+- **LANG-14** The data of the user: the names of items, shops and aisles stay as typed.
 - **LANG-15** The order by name uses the Spanish collation in each language (SORT-6).
 - **LANG-16** The name of the app is `Stash` in each language: the short name of
   `manifest.webmanifest` and the subtitle of `Ajustes`. The title of the page is `Stash - Lista

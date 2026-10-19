@@ -1,8 +1,7 @@
 import { PAGES, hasBack, isLast, step, textParts } from '#onboarding';
-import { hasSample, loadSample } from '#recipes';
 import { slideDirection } from '#sections';
 import { saveOnboarded } from '#storage';
-import { $, el, storage, state, ui, t, apply, guardClick } from '#ui/context';
+import { $, el, storage, ui, t, guardClick } from '#ui/context';
 import { icon } from '#ui/controls';
 
 // A part of a page text: plain text, or a key with an optional icon. A key with an icon and no
@@ -17,14 +16,6 @@ const keyNode = ({ text, key, icon: name }) => {
   return node;
 };
 
-const SAMPLE_PRODUCTS = ['tomatoSauce', 'pasta', 'garlic', 'oliveOil', 'salt'];
-
-// The sample recipe in the language of the screen.
-const sampleText = () => ({ name: t('sample.name'), products: SAMPLE_PRODUCTS.map((key) => t(`sample.${key}`)) });
-
-// The switch shows on the last page while the state has no sample recipe (ONB-13).
-const offersSample = () => PAGES[ui.onboarding] === 'sample' && !hasSample(state);
-
 export const renderOnboarding = () => {
   const open = ui.onboarding !== null;
   $('onboarding').hidden = !open;
@@ -34,15 +25,12 @@ export const renderOnboarding = () => {
   });
   if (!open) return;
   const page = PAGES[ui.onboarding];
-  const away = !offersSample();
-  $('onboarding-sample').classList.toggle('away', away);
-  $('onboarding-sample').inert = away;
   // An SVG element has no `hidden` property, so the attribute is set.
   document.querySelectorAll('#onboarding svg[data-page]').forEach((drawing) => {
     drawing.toggleAttribute('hidden', drawing.dataset.page !== page);
   });
   $('onboarding-title').textContent = t(`onboarding.${page}.title`);
-  const names = { active: t('list.active'), name: t('sample.name') };
+  const names = { active: t('list.active') };
   const parts = textParts(t(`onboarding.${page}.text`, names));
   $('onboarding-text').replaceChildren(...parts.map(keyNode));
   $('onboarding-dots').replaceChildren(...PAGES.map((id) => el('span', { className: id === page ? 'onboarding-dot on' : 'onboarding-dot' })));
@@ -55,7 +43,6 @@ export const renderOnboarding = () => {
 
 const openOnboarding = () => {
   ui.onboarding = 0;
-  $('sample-switch').checked = true;
   renderOnboarding();
   // The title takes the focus, not a button: no ring shows on load (ONB-11).
   $('onboarding-title').focus();
@@ -91,8 +78,6 @@ export const bind = () => {
       turnOnboarding(1);
       return;
     }
-    // Only Empezar loads the sample and its products; Saltar and Escape do not (ONB-13).
-    if (offersSample() && $('sample-switch').checked) apply(loadSample(state, sampleText()));
     closeOnboarding();
   });
   $('onboarding-back').addEventListener('click', () => turnOnboarding(-1));

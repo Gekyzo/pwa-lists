@@ -15,14 +15,12 @@ The names of the screen are the Spanish ones, because `src/locales/es.js` is the
 | [03-lists.md](03-lists.md) | Items, the list `Compra`, the trip cycle, the add sheet |
 | [04-arrange.md](04-arrange.md) | Order, groups and the manual move of a row |
 | [05-shops.md](05-shops.md) | The shops of an item and the list by shop |
-| [06-recipes.md](06-recipes.md) | Recipes, the send to `Compra`, the search |
 | [07-screen.md](07-screen.md) | Sections, header, gestures, sheets, messages and undo, the walkthrough |
 | [08-storage.md](08-storage.md) | The stored format, validation, migration, backup |
 | [09-languages.md](09-languages.md) | The seven languages and the rules of the text |
 | [10-offline-version.md](10-offline-version.md) | Service worker, version, deploy, installation |
 | [11-integrations.md](11-integrations.md) | The reminder at the shop, the launcher shortcuts and the voice commands |
 | [12-engineering.md](12-engineering.md) | Modules, code rules, tests and checks |
-| [13-menu.md](13-menu.md) | The menu of the week and the fill of `Compra` |
 | [14-modules.md](14-modules.md) | Removed: the modules that `Ajustes` turned off |
 | [15-design-system.md](15-design-system.md) | The copy of the design system, its exceptions, the parts of the app |
 | [16-install.md](16-install.md) | The install offer and the Install button of `Ajustes` |
@@ -44,14 +42,12 @@ The rules DS-1 to DS-8 and LAY-1 to LAY-4 belong to the design system, `pwa-desi
 | `LIST`, `TRIP`, `ADD` | 03-lists |
 | `SORT`, `GROUP`, `MOVE` | 04-arrange |
 | `SHOP` | 05-shops |
-| `REC` | 06-recipes |
 | `NAV`, `ROW`, `MSG`, `A11Y`, `ONB` | 07-screen |
 | `STORE`, `BACKUP` | 08-storage |
 | `LANG` | 09-languages |
 | `SW`, `VER` | 10-offline-version |
 | `ARR`, `SHORT`, `VOICE` | 11-integrations |
 | `ENG` | 12-engineering |
-| `MENU` | 13-menu |
 | `MOD` | 14-modules |
 | `DSV` | 15-design-system |
 | `INS` | 16-install |
@@ -68,12 +64,9 @@ The rules DS-1 to DS-8 and LAY-1 to LAY-4 belong to the design system, `pwa-desi
 | Recurrent | An item that comes back at each trip |
 | One-time | An item that is not recurrent |
 | Saved | An item that a trip took out of `Compra`; the screen does not show it. List id `saved` |
-| Recipe | A name and a list of product names |
-| Product | A name in a recipe. It is text, not an item |
 | Shop | A name that one item or more have. It has no record of its own |
 | Aisle | A section of a store, such as `Lácteos`. The screen says `Sección`; the code says `aisle`, because a section is a screen of the bottom bar |
-| Section | One of the four screens of the bottom bar |
-| Meal | The lunch or the dinner of one day of the menu |
+| Section | One of the two screens of the bottom bar |
 | Sheet | A panel that comes up from the bottom of the screen |
 | Message | An error or a notice as `{ key, params }`, which the screen turns into text |
 

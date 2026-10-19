@@ -86,8 +86,6 @@ const SHORTCUT_SIZE = 192;
 const GLYPHS = {
   add: { d: 'M2 3h3l2.5 12h11L21 7H6M13 8.5v4M11 10.5h4', circles: [{ cx: 9, cy: 20, r: 1.5 }, { cx: 18, cy: 20, r: 1.5 }] },
   active: { d: 'M2 3h3l2.5 12h11L21 7H6', circles: [{ cx: 9, cy: 20, r: 1.5 }, { cx: 18, cy: 20, r: 1.5 }] },
-  recipes: { d: 'M5 3H18Q19 3 19 4V21H6Q4 21 4 19V4Q4 3 5 3ZM4 17H19M9 8H15' },
-  menu: { d: 'M7 3V21M4 3V8Q4 11 7 11Q10 11 10 8V3M17 21V3Q13 5 13 10V13H17' },
 };
 
 // The glyph is 24 units wide, with a stroke of 2, and fills `scale` of the disc.

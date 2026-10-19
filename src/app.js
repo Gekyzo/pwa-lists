@@ -24,12 +24,10 @@ import {
   debugLog,
 } from '#ui/context';
 import { inList, viewState } from '#ui/view';
-import { rowKeys, bringIn, flash, snapshotRows, animateRows } from '#ui/motion';
+import { snapshotRows, animateRows } from '#ui/motion';
 import { closeEdit, renderEdit, bind as bindEdit } from '#ui/edit';
 import { endReorder, bind as bindDrag } from '#ui/drag';
 import { moveRow } from '#ui/rows';
-import { renderRecipe, closeRecipe, bind as bindRecipe } from '#ui/recipes';
-import { renderMeal, renderMenuMore, closeMeal, closeMenuMore, bind as bindMenu } from '#ui/menu';
 import { renderArrange, closeArrange, bind as bindArrange } from '#ui/arrange';
 import {
   headerOf,
@@ -47,7 +45,7 @@ import {
 } from '#ui/list';
 import { renderSheet, openSheet, closeSheet, bind as bindAdd } from '#ui/add';
 import { closeOnboarding, turnOnboarding, bind as bindOnboarding } from '#ui/onboarding';
-import { renderVersion, renderSample, readVersion, applyLanguage, bind as bindSettings } from '#ui/settings';
+import { renderVersion, readVersion, applyLanguage, bind as bindSettings } from '#ui/settings';
 import { renderInstall, bind as bindInstall } from '#ui/install';
 import { renderAisles, closeAisles, bind as bindAisles } from '#ui/aisles';
 import { bind as bindNav } from '#ui/nav';
@@ -81,7 +79,6 @@ const renderAll = () => {
   endReorder(false);
   // The item of the edit sheet can go while the sheet is open: an undo, or an import.
   if (!state.items.some((item) => item.id === ui.editId)) ui.editId = null;
-  if (!state.recipes.some((recipe) => recipe.id === ui.recipeId)) ui.recipeId = null;
   // A shop list whose chip went shows Todas.
   // A hidden row leaves no list filtered.
   ui.shop = shopLists === 'show' ? shops.validShop(state, ui.shop) : null;
@@ -100,29 +97,21 @@ const renderAll = () => {
 
   renderDock();
   renderList(summary);
-  // Before the focus and the effects below: they also reach the rows of the recipe sheet.
-  renderRecipe();
 
   $('settings').hidden = ui.view !== 'settings';
-  document.querySelector('.icon.corner').hidden = !['active', 'recipes'].includes(ui.view);
+  document.querySelector('.icon.corner').hidden = ui.view !== 'active';
   renderVersion();
-  renderSample();
   renderInstall();
   renderTrip();
-  renderMenuMore();
 
   // An action in the empty state replaces the add button.
-  $('fab').hidden = ['settings', 'menu'].includes(ui.view) || !$('empty-action').hidden || sheetOpen(ui);
-  $('fab').setAttribute('aria-label', t(ui.view === 'recipes' ? 'add.recipe' : 'add.item'));
+  $('fab').hidden = ui.view === 'settings' || !$('empty-action').hidden || sheetOpen(ui);
+  $('fab').setAttribute('aria-label', t('add.item'));
   document.querySelectorAll('.nav-item').forEach((button) => {
     if (button.dataset.view === ui.view) button.setAttribute('aria-current', 'page');
     else button.removeAttribute('aria-current');
   });
 
-  if (ui.focusProduct) $('recipe-products').querySelector('.product-name')?.focus();
-  ui.focusProduct = false;
-  bringIn(ui.bringKeys);
-  ui.bringKeys.clear();
   if (before) animateRows(before);
   $('items').querySelector('.flash')?.scrollIntoView({ block: 'nearest' });
   ui.flashId = null;
@@ -130,7 +119,6 @@ const renderAll = () => {
   renderSheet();
   renderArrange();
   renderEdit();
-  renderMeal();
   renderAisles();
   renderShopPick();
   showDockMatches();
@@ -175,17 +163,13 @@ bindDrag();
 bindList();
 bindArrange();
 bindEdit();
-bindRecipe();
 
 // The open sheet closes by its own close; one sheet is open at a time.
 const closeSheets = () => {
   if (ui.sheetOpen) closeSheet();
   if (ui.arrangeOpen) closeArrange();
   if (ui.editId !== null) closeEdit();
-  if (ui.recipeId !== null) closeRecipe();
-  if (ui.mealOpen !== null) closeMeal();
   if (ui.tripOpen) closeTrip();
-  if (ui.menuMoreOpen) closeMenuMore();
   if (ui.aislesOpen) closeAisles();
   if (ui.shopPickOpen) closeShopPick();
 };
@@ -245,16 +229,12 @@ document.addEventListener('keydown', (event) => {
 
 $('toast-undo').addEventListener('click', () => {
   if (!undoState) return;
-  const keys = rowKeys();
   debugLog('undo');
-  // The render of the commit opens the rows that the undo puts back (animateRows). A recipe or a
-  // product also flashes.
+  // The render of the commit opens the rows that the undo puts back (animateRows).
   commit(undoState);
   hideToast();
-  flash(new Set([...rowKeys()].filter((key) => !keys.has(key))));
 });
 
-bindMenu();
 bindSettings();
 bindInstall();
 bindAisles();
@@ -265,11 +245,8 @@ const SHEET_CLOSE = {
   sheet: closeSheet,
   arrange: closeArrange,
   trip: closeTrip,
-  meal: closeMeal,
-  'menu-more': closeMenuMore,
   edit: closeEdit,
   aisles: closeAisles,
-  recipe: closeRecipe,
   'shop-pick': closeShopPick,
 };
 for (const [id, close] of Object.entries(SHEET_CLOSE)) {

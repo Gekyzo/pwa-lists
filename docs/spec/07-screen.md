@@ -18,11 +18,11 @@ the bottom bar at each width.
 
 ## Sections
 
-- **NAV-1** The bottom bar has four sections, in this order: `Compra`, `Recetas`, `Menú`,
-  `Ajustes`. The app starts in `Compra`. A
+- **NAV-1** The bottom bar has two sections, in this order: `Compra` and `Ajustes`. The app
+  starts in `Compra`. A
   section shows no count.
 - **NAV-2** A tap on the bottom bar changes the section. A change closes each open row, ends an
-  edit, clears the recipe search and closes the search of a list (LIST-24).
+  edit and closes the search of a list (LIST-24).
 - **NAV-3** A horizontal slide changes the section: to the left for the next one, to the right for
   the previous one. The slide is 60 px long at least and its horizontal part is two times its
   vertical part at least. It stops at `Compra` and at `Ajustes`.
@@ -34,28 +34,22 @@ the bottom bar at each width.
 - **NAV-6** `Ajustes` has six groups, each a title above one card of rows: **Copia de seguridad**
   (**Exportar**, **Importar**, **Borrar todos los datos**), **Preferencias** (**Idioma**, **Mano**, **Tema**, **Densidad**),
   **Al terminar la compra** (TRIP-7), **Secciones**, **Aplicación** (**Instalar la aplicación**) and
-  **Ayuda** (**Ver la introducción**, **Borrar la receta de ejemplo**). A row is 56 px high or more.
+  **Ayuda** (**Ver la introducción**). A row is 56 px high or more.
   It has its name at the start. A row that opens something ends with a `›`; **Exportar**,
   **Importar**, **Secciones de la tienda** and **Ver la introducción** do. A row of **Preferencias**
   also shows its current value before the `›`, and a tap on the row opens the picker of the device
   (a `select` laid over the row). **Secciones de la tienda** shows the number of sections.
-  **Borrar la receta de ejemplo** and **Borrar todos los datos** (BACKUP-7) have the colour of
-  danger and no `›`. **Aplicación** is hidden,
+  **Borrar todos los datos** (BACKUP-7) has the colour of danger and no `›`. **Aplicación** is hidden,
   with its title, while the install is not offered (INS-1). The version line is at the end of
   `Ajustes`; while a newer version is deployed, a banner above it says `Versión X disponible` and
   `Tienes la Y.` (the version in use), with the button **Actualizar** across the full width.
-- **NAV-7** An empty section shows a title and a text in the lower half of the list area, and
-  one action as a wide button below them. `Compra` shows no title, as its header already says
-  `La lista está vacía`. It says `Toca + para añadir un artículo.`, with no button: the `+` button
-  is the action. With the sample recipe in the state it says `Añade tu primer artículo, o empieza
-  con la receta «name».`; the button **+ Añadir artículo** opens the add sheet, and a second,
-  outline button **Añadir la receta de ejemplo** below it sends that recipe to `Compra`. `Recetas` says `Aún no hay
-  recetas` and the button **+ Crear receta** opens the add sheet. `Menú` always shows its week
-  (MENU-14). A search with no match says `Ningún artículo
-  coincide con «text».` in `Compra`, with the button **+ Añadir «text»**, which adds the name as
-  the add sheet does and ends the search; in `Recetas` it says `Ninguna receta coincide con
-  «text».` with no button. While the button shows, the `+` button hides.
-- **NAV-18** `Compra` and `Recetas` show a line drawing of the basket of the app icon
+- **NAV-7** An empty `Compra` shows a text in the lower half of the list area. It shows no
+  title, as its header already says `La lista está vacía`. It says `Toca + para añadir un
+  artículo.`, with no button: the `+` button is the action. A search with no match says
+  `Ningún artículo coincide con «text».`, with the button **+ Añadir «text»** below it, which adds
+  the name as the add sheet does and ends the search. While the button shows, the `+` button
+  hides.
+- **NAV-18** `Compra` shows a line drawing of the basket of the app icon
   behind the content, in the bottom corner on the other side of the `+` button (NAV-13). It is
   tilted 30° and at 6 % opacity, and the corner and the bottom bar (the rail from 600px) cut part of it. It takes the
   colour of the text, takes no tap and does not move with the scroll.
@@ -63,8 +57,7 @@ the bottom bar at each width.
 ## Item rows
 
 - **ROW-1** A row of `Compra` has a check mark, the name with its quantity after it in a muted
-  colour, a line below it with the shops, `También en «recipes»` for an item of two recipe groups
-  (GROUP-20) and `↻ cada compra` for a recurrent item (LIST-7), joined by ` · `, and an
+  colour, a line below it with the shops and `↻ cada compra` for a recurrent item (LIST-7), joined by ` · `, and an
   edit button **Editar** at its end. The name keeps two lines, then ends with an ellipsis. A tap on
   the body of the row ticks or unticks the item (LIST-11); the check mark only shows the state. A
   tap on the edit button opens the edit sheet (ROW-7) and does not tick. With **Izquierda**
@@ -98,8 +91,7 @@ the bottom bar at each width.
 - **ROW-9** No row appears or disappears at once. A ticked row closes in 200 ms before it goes to
   `Comprados (N)`. After each
   other change of the state (add, delete, move, untick, **Terminar compra**, `Deshacer`) and each open
-  or close of a section, a new row of `Compra`, `Recetas` or the
-  products of `Receta` opens in 200 ms, and a row that is gone stays in its place and closes in
+  or close of a section, a new row of `Compra` opens in 200 ms, and a row that is gone stays in its place and closes in
   200 ms. A change of the grouping or of the order moves the rows ([04-arrange.md](04-arrange.md)). With
   `prefers-reduced-motion` nothing moves.
 - **ROW-10** A long press of a finger on a row does not open the menu of the browser.
@@ -108,7 +100,7 @@ the bottom bar at each width.
   shorter slide puts the row back. The row slides over a backdrop with the icon of the action,
   which fills with the accent colour once the slide is long enough. At that moment the phone
   vibrates for 10 ms, for a tick and for an untick. A row with its left side open closes it.
-- **ROW-12** A recipe row of `Recetas` slides with the same rules (REC-5).
+- **ROW-12** Removed: the app has no recipe rows.
 - **ROW-13** Removed: a saved item has no row (LIST-35).
 - **ROW-14** The first time `Compra` shows a row, after 600 ms the body of its first row slides
   24 px to the left and back, so the user sees that a row slides. Then `lists.swipeHint` is
@@ -130,30 +122,25 @@ the bottom bar at each width.
   |---|---|
   | Items | Tick, by a tap on the row (ROW-1) or by a slide (ROW-11), delete, an existing item brought by the add sheet, a saved item brought back (LIST-35), a manual move |
   | Trip | **Terminar compra** |
-  | Recipes | Send, delete, removal of a product, save and removal of a link |
-  | Menu | **Llenar cesta**, **Quitar** of a meal, **Vaciar menú** |
   | Backup | Import |
 
 - **MSG-6** These changes have no `Deshacer`: a new item, a rename, the recurrent mark,
-  the removal of a tick, a new recipe, a new product, the shops, the order, the
-  grouping and a recipe put in a meal.
+  the removal of a tick, the shops, the order and the grouping.
 - **MSG-7** A rejected operation shows the text of its error and changes nothing.
 - **MSG-8** When a save fails, the change stays on the screen and the message is `El cambio no se
   ha guardado: el almacenamiento no está disponible.` (STORE-9).
 
 ## Sheets
 
-- **NAV-8** There are nine sheets: add, arrange (with the choice of shop lists, SHOP-25), shop
-  picker (SHOP-27), trip, meal, menu options, edit (ROW-7), aisles (AISLE-10) and recipe (REC-33).
+- **NAV-8** There are six sheets: add, arrange (with the choice of shop lists, SHOP-25), shop
+  picker (SHOP-27), trip, edit (ROW-7) and aisles (AISLE-10).
   One is open at a time. A tap on the
   veil, **Listo** or `Escape` closes it. The `+` button does not show while a sheet is open.
 - **NAV-22** Each sheet has a head: the grab, a title on one line and the button **Listo**. The
-  title of the edit sheet is the name of the item, of the recipe sheet the name of the recipe, of
-  the add sheet `Añadir artículo a la lista` or `Nombre de la receta` by the section. Only the body
-  below the head scrolls. The edit and recipe sheets have a foot: **Eliminar** deletes the item or
-  the recipe with `Deshacer` (the message of a delete from the row) and closes the sheet; `Guardado`
-  shows for 1.2 s after each save that changed the item or the recipe (a field, a shop, the aisle,
-  a product), and not after a loss of focus with no change or an error. A closed sheet shows no
+  title of the edit sheet is the name of the item, of the add sheet `Añadir artículo a la lista`.
+  Only the body below the head scrolls. The edit sheet has a foot: **Eliminar** deletes the item
+  with `Deshacer` (the message of a delete from the row) and closes the sheet; `Guardado` shows for
+  1.2 s after each save that changed the item (a field, a shop, the aisle), and not after a loss of focus with no change or an error. A closed sheet shows no
   `Guardado`.
 - **NAV-23** A drag down of the grab or the head of a sheet closes it when the drag passes 30 % of
   the height of the sheet, or when the release is faster than 0.5 px/ms. A shorter, slower drag
@@ -208,17 +195,16 @@ the bottom bar at each width.
 
 - **NAV-19** **Densidad** of `Ajustes` has two values: `Normal` and `Compacta`. An app with no
   choice uses `Normal`.
-- **NAV-20** `Compacta` is the compact token set of the design system: the rows of `Compra` and of
-  `Recetas` and the `+` button are 48 px high in place of 56 px, the bottom bar 56 px in place of
+- **NAV-20** `Compacta` is the compact token set of the design system: the rows of `Compra` and the `+`
+  button are 48 px high in place of 56 px, the bottom bar 56 px in place of
   64 px and the dock 48 px in place of 56 px, so more rows fit on one screen. A tap target stays
-  48 px at the least. In `Menú` the head of each day is shorter, and a meal is 48 px high at the
-  least. The sheets and `Ajustes` do not change. A change shows at once, with no restart.
+  48 px at the least. The sheets and `Ajustes` do not change. A change shows at once, with no restart.
 - **NAV-21** The choice is stored in `lists.density`. `Normal` removes the key. It is a
   preference of the device, not a part of the state: `Deshacer` and an import do not change it.
 
 ## Onboarding
 
-- **ONB-1** The walkthrough is a layer over the full app, with six pages in this order:
+- **ONB-1** The walkthrough is a layer over the full app, with four pages in this order:
 
   | Page | Title | Teaches |
   |---|---|---|
@@ -226,8 +212,6 @@ the bottom bar at each width.
   | 2 | `Marca lo de siempre` | The recurrent mark and the result of **Terminar compra** |
   | 3 | `Desliza una fila` | The tap on a row (ROW-1) and its two slides (ROW-3, ROW-11) |
   | 4 | `Desliza la pantalla` | The slide between sections (NAV-3), the bottom bar and the `+` button |
-  | 5 | `¿Qué comemos esta semana?` | A recipe and its products, the send to `Compra` (REC-18) and the plan of the week in `Menú` |
-  | 6 | `Una receta para empezar` | The switch that adds the sample recipe (ONB-13) |
 
 - **ONB-2** A page has a drawing, a title and a text. A drawing has no text and does not move.
   A line break in the text of a catalog starts a new line. A text between two backticks, such as
@@ -237,9 +221,9 @@ the bottom bar at each width.
   The app icon shows on page 1 only, above the drawing and inside the page group, 96 px wide, with
   no background (`icons/logo.png`, VER-15). It is decorative (`alt=""`). The title keeps the room
   of two lines and the text the room of five lines, the longest title and text of a page in any
-  language, so the drawing is at the same place on pages 2 to 6.
+  language, so the drawing is at the same place on pages 2 to 4.
 - **ONB-3** The top bar has **Atrás** at the start and **Saltar** at the end, both without a border
-  or a fill. **Atrás** is in accent colour and shows on pages 2 to 6; a tap shows the previous
+  or a fill. **Atrás** is in accent colour and shows on pages 2 to 4; a tap shows the previous
   page. **Saltar** does not show on the last page. The bar keeps out of the top safe-area inset
   and does not follow **Mano**. **Siguiente** takes the full width at the bottom, 56 px high
   (`--tap-l`); on the last page it reads **Empezar**. One dot for each page shows the place of the
@@ -264,18 +248,12 @@ the bottom bar at each width.
   The focus goes to the title of the page when it opens, so no ring shows on load; a change of
   page keeps the focus on the button that was pressed, or moves it to **Siguiente** when that
   button goes away. The dots
-  have the label `Página N de 6`. The title and the text are a live region.
+  have the label `Página N de 4`. The title and the text are a live region.
 - **ONB-12** With `prefers-reduced-motion: reduce` a page changes with no animation. The
   walkthrough keeps out of the safe-area insets. **Mano** changes nothing in the walkthrough.
-- **ONB-13** The last page has the switch **Añadir la receta de ejemplo**, on at each open of the
-  walkthrough. It shows only while the state has no sample recipe (REC-27); on another page, or
-  with the sample there, its room stays empty, so the page does not move. **Empezar** with the
-  switch on adds the sample recipe and sends its products to `Compra`, with no message. **Saltar**, `Escape` and **Empezar** with the
-  switch off add nothing.
-- **ONB-14** `Ajustes` has **Borrar la receta de ejemplo** in the group **Ayuda**, below **Ver la
-  introducción**, while the sample recipe exists. It deletes the recipe as REC-6 does, with the
-  message `toast.sampleDeleted` `Receta de ejemplo borrada.` and `Deshacer`. The focus goes to
-  **Ver la introducción**.
+- **ONB-13** Removed: the walkthrough adds no data. **Saltar**, `Escape` and **Empezar** only
+  close it (ONB-5).
+- **ONB-14** Removed: `Ajustes` has no delete of sample data, because the app has none.
 
 ## Access and display
 
@@ -297,4 +275,4 @@ the bottom bar at each width.
 
 No move of a row with the keyboard, and no keyboard way to open a side menu of an item row. The
 walkthrough has no tour of shops, shop lists, quantities, backup or the settings of `Ajustes`,
-and no marks on the real controls. The sample data is one recipe only: no item and no meal.
+and no marks on the real controls. It adds no sample data.

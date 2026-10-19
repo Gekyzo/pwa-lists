@@ -1,7 +1,7 @@
 # Modules
 
-Removed: `Ajustes` has no group **Módulos**, and `Recetas` and `Menú` are always in the bottom
-bar. The last version with the modules is the tag `archive/settings-modules`.
+Removed: `Ajustes` has no group **Módulos**. The bottom bar has the sections `Compra` and
+`Ajustes` only. The last version with the modules is the tag `archive/settings-modules`.
 
 - **MOD-1** Removed: the group **Módulos** of `Ajustes` is gone.
 - **MOD-2** Removed: the key `lists.modules` is not read or written. A stored key stays, with no effect.

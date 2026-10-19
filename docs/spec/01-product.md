@@ -36,11 +36,9 @@ next trip is almost ready.
 | Add with search, with no duplicate | [03-lists.md](03-lists.md) |
 | Search in `Compra` | [03-lists.md](03-lists.md) |
 | Order by name or custom, with a manual move | [04-arrange.md](04-arrange.md) |
-| Groups by recipe or by shop | [04-arrange.md](04-arrange.md) |
+| Groups by shop or by aisle | [04-arrange.md](04-arrange.md) |
 | Shops of an item | [05-shops.md](05-shops.md) |
 | A list for each shop, in `Compra` | [05-shops.md](05-shops.md) |
-| Recipes that send their products to `Compra` | [06-recipes.md](06-recipes.md) |
-| A menu of the week that fills `Compra` | [13-menu.md](13-menu.md) |
 | Backup to a file and from a file | [08-storage.md](08-storage.md) |
 | Seven languages | [09-languages.md](09-languages.md) |
 | Walkthrough at the first start | [07-screen.md](07-screen.md) |
@@ -55,7 +53,7 @@ These are decisions, not gaps.
 - More than one list for the trip, a list for a later trip, and a history of past trips.
 - A sync between devices, an account, a shared list. Google Tasks as a shared list was rejected.
 - Geolocation in the app and system notifications.
-- Steps, quantities and photos of a recipe.
+- Recipes and a menu of the week.
 - A screen of shops, a rename of a shop for all its items.
 - Right-to-left languages.
 

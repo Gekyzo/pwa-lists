@@ -38,28 +38,25 @@ The `v1` of the key is the version of the key, not of the state. The state has i
   `lists.v1`.
 - **STORE-6** A state is not valid when one of these is true:
   - it is not an object, its `version` is not 1 to 9, or `items` is not a list;
-  - `recipes` is not a list, in version 2 to 9;
   - an item has no string `id`, no name, a `list` that is not `active`, `saved` or the
     old `next` (STORE-8), a flag (`recurrent`, `bought`) that is not a boolean, or an `again` that
     is present and not a boolean;
-  - a recipe has no string `id`, no name, an empty product, a product that is not text, or two
-    products with the same name;
-  - two items or two recipes have the same id or the same name (DATA-2 to DATA-4).
+  - two items have the same id or the same name (DATA-2, DATA-3).
+
+  The recipes, `sent` and the menu of a Bodega state are not checked: STORE-7 drops them.
 - **STORE-7** A valid state is cleaned when it is read. These defects are repaired with no error:
 
   | Field | Repair |
   |---|---|
-  | Names of items, recipes, products, shops | Trimmed |
+  | Names of items, shops | Trimmed |
   | `bought` of an item of `list: 'saved'` | `false` |
   | `quantity` | Not text: `''`. Text: trimmed |
   | `shops` | Not a list: empty. An entry that is not text, is empty or is a duplicate: dropped |
   | `aisles` | Not a list: empty. An entry that is not text, is empty or is a duplicate with no case distinction: dropped. The rest trimmed |
   | `aisle` of an item | Not text, or not an aisle of `aisles`: `''`. An aisle: the spelling of `aisles` |
   | Shop spellings | Each shop gets the spelling of its first use |
-  | `url` of a recipe | Not a valid link (REC-14): `''` |
-  | `sent` | An id that is not text, is unknown or is a duplicate: dropped |
-  | `menu` | Not a list: empty. A meal with an unknown day, meal or recipe, a dish that is not text, is empty, is longer than 80 characters or comes with a recipe, or a second record of one meal: dropped. A dish trimmed. The rest in day and meal order |
-  | `group` | Unknown: from `grouped` (STORE-8) |
+  | `recipes`, `sent`, `menu` of a Bodega state | Dropped, valid or not |
+  | `group` | Not `shop`, `aisle` or `none`, such as the `recipe` of Bodega: `none` when `grouped` is `false` (STORE-8), else `shop` |
   | `sort` | Unknown: `custom` |
   | Unknown fields | Dropped |
 
@@ -68,14 +65,12 @@ The `v1` of the key is the version of the key, not of the state. The state has i
 
   | From | Change |
   |---|---|
-  | Version 1 | `recipes: []`, `sent: []` |
-  | Version 1 or 2 | `group` is `none` when `grouped` is `false`, and `recipe` if not. Each item gets `shops: []`. `sort` is `custom` when absent |
-  | Version 1, 2 or 3 | `menu: []` |
+  | Version 1 or 2 | `group` is `none` when `grouped` is `false`, and `shop` if not. Each item gets `shops: []`. `sort` is `custom` when absent |
   | Version 1 to 4 | Each item gets `quantity: ''` |
   | Version 1 to 5 | No change of the data: version 6 adds `list: 'saved'` |
   | Version 1 to 6 | `aisles: []`, and each item gets `aisle: ''` |
   | Version 1 to 7 | An item of `list: 'next'` goes to `Compra`, not ticked. A ticked one-time item with `again: true` goes to `Compra`, not ticked. Each item loses `again` |
-  | Version 1 to 8 | No change of the data: version 9 adds the dish of a meal |
+  | Version 1 to 8 | No change of the data: version 9 of Bodega adds the dish of a meal, which Stash drops |
 
 ## Failures
 
@@ -93,18 +88,18 @@ The `v1` of the key is the version of the key, not of the state. The state has i
 - **BACKUP-1** **Exportar** downloads the file `stash-YYYY-MM-DD-HHMMSS.json`, with the
   local date and time. Two exports of one day get two names.
   Its content is the state, as JSON with an indent of 2 spaces.
-- **BACKUP-2** The backup holds the items with their shops, the recipes, `sent`, `group`,
-  `sort` and the menu. It does not hold the language, the hand, the theme, the density, **Al terminar la compra** or the flag of the
+- **BACKUP-2** The backup holds the items with their shops, `group`, `sort` and `aisles`. It does not hold the language, the hand, the theme, the density, **Al terminar la compra** or the flag of the
   walkthrough.
 - **BACKUP-3** **Importar** opens a file choice for a JSON file. A file that is not JSON
   gives `error.invalidJson`. A JSON that is not a valid state (STORE-6) gives `error.notBackup`.
 - **BACKUP-4** A valid file is cleaned and migrated as a stored state is (STORE-7, STORE-8). A
-  backup of version 1, 2 or 3 is thus accepted.
+  backup of version 1 to 9 is thus accepted, also a backup of Bodega with recipes and a menu: the
+  import keeps its items, groups, order and aisles only.
 - **BACKUP-5** Before the import the app asks: `¿Sustituir los datos actuales por los de la copia
-  (N artículos y N recetas)?` A yes replaces the full state. It does not merge.
+  (N artículos)?`, with the count of the items only. A yes replaces the full state. It does not merge.
 - **BACKUP-6** The import has `Deshacer`, with the message `Copia importada.`
 - **BACKUP-7** **Borrar todos los datos** asks `¿Borrar todos los datos? Se borran las listas,
-  las recetas, el menú, las secciones y las preferencias. Exporta una copia antes si quieres
+  las secciones y las preferencias. Exporta una copia antes si quieres
   conservarlos.` A yes removes each `localStorage` key of the table above and loads the app again,
   which then starts as a new install, with the walkthrough (ONB-7). It has no `Deshacer`. When the
   removal fails, the message `error.resetFailed` says `No se pudieron borrar los datos.` and nothing

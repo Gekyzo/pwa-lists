@@ -62,7 +62,7 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
   | In `Compra`, not ticked, recurrent | Stays |
   | In `Compra`, not ticked, one-time | Stays in `Compra`, not ticked, with `Aplazar`, or is saved with `Descartar` (TRIP-6) |
 
-- **TRIP-3** **Terminar compra** empties `sent`. `group` and `sort` do not change. The relative
+- **TRIP-3** **Terminar compra** does not change `group` and `sort`. The relative
   order of the items that stay does not change.
 - **TRIP-4** The control shows in two places:
   1. A banner `¿Has terminado?` in `Compra`, when the list has items and all are ticked. Its text
@@ -98,13 +98,12 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 | Section | Title | Subtitle | Ring |
 |---|---|---|---|
 | `Compra` | `Compra de hoy` | `La lista está vacía`, `Todo comprado` or `T de N comprados` (ticked of total) | The count of items to buy, or `✓` when all are bought, filled to the share ticked |
-| `Recetas` | `Recetas` | `N recetas` or `Sin recetas` | The count of recipes |
 | `Ajustes` | `Ajustes` | `Stash` | None: the ring does not show |
 
 ## Add sheet
 
-The `+` button opens the sheet in `Compra` and `Recetas`. In `Recetas` it creates a recipe (see
-[06-recipes.md](06-recipes.md)). The button does not show in `Ajustes` or while a sheet is open.
+The `+` button opens the sheet in `Compra`. The button does not show in `Ajustes` or while a sheet
+is open.
 
 - **ADD-1** The sheet has a name field and the button **Añadir**. It has no target choice: an add
   always goes to `Compra`.
@@ -113,7 +112,7 @@ The `+` button opens the sheet in `Compra` and `Recetas`. In `Recetas` it create
   typed name, then the items whose name contains the text, with no case or accent distinction (the
   exact match first, then the names that start with the text, then the others). The list shows the
   rows upside down, so that the first row sits next to the input. **Añadir** is off while the field
-  is empty. `Recetas` shows no rows.
+  is empty.
 - **ADD-3** Each listed item says where it is and what a tap does:
 
   | State of the item | Text | Effect of the tap |
@@ -168,7 +167,7 @@ The `+` button opens the sheet in `Compra` and `Recetas`. In `Recetas` it create
   A saved item leaves `Compra` and keeps its name, its shops and its quantity. The screen does not
   show it, and has no delete for it: to delete it, bring it back (LIST-32), then **Eliminar**.
 - **LIST-31** A saved item keeps its name (DATA-3). The add sheet finds it (ADD-3), and an add of
-  its name brings it back (ADD-5). A recipe sent to `Compra` brings back a saved product.
+  its name brings it back (ADD-5).
 - **LIST-32** A bring back puts a saved item in `Compra`, not ticked. `recurrent` does not change.
   A saved item cannot be ticked (LIST-10).
 - **LIST-34** Removed: `Compra` has no section of the saved items (LIST-30). The add sheet is the
@@ -181,6 +180,5 @@ The `+` button opens the sheet in `Compra` and `Recetas`. In `Recetas` it create
 ## Limits
 
 One list for the trip: no list for a later trip, and no mark on an item for a later trip. No unit
-and no arithmetic of quantities, no quantity on the products of a recipe, no note. No add of
-several items from one text. No ranking of the results of a list search, and no match by the
-recipe of an item.
+and no arithmetic of quantities, no note. No add of several items from one text. No ranking of the
+results of a list search.

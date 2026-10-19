@@ -18,18 +18,14 @@ const SHELL = [
   './src/ui/drag.js',
   './src/ui/edit.js',
   './src/ui/list.js',
-  './src/ui/menu.js',
   './src/ui/motion.js',
   './src/ui/nav.js',
   './src/ui/onboarding.js',
-  './src/ui/recipes.js',
   './src/ui/rows.js',
   './src/ui/settings.js',
   './src/ui/aisles.js',
   './src/ui/view.js',
   './src/store.js',
-  './src/recipes.js',
-  './src/menu.js',
   './src/shops.js',
   './src/aisles.js',
   './src/swipe.js',
@@ -56,8 +52,6 @@ const SHELL = [
   './icons/logo.png',
   './icons/shortcut-add.png',
   './icons/shortcut-active.png',
-  './icons/shortcut-recipes.png',
-  './icons/shortcut-menu.png',
 ];
 
 // The text of the manifest in the language of the screen, which the page sends (`manifest`

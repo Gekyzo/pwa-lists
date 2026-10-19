@@ -47,9 +47,8 @@ This document holds the rules of the app only.
   so LAY-2 puts the rail at the right with `Derecha` and at the left with `Izquierda`; the toast and
   the `+` button clear it. `body` pads the side of the rail and both safe-area insets (LAY-4). The
   header content and the content of `main` form one column of at most `--content-max`, centred
-  beside the rail. The basket in the corner stands beside the rail. From 840px the recipes of
-  `Recetas` stand in two columns; the app has no list and detail section, so it has no `pane`
-  layout. LAY-3 runs and passes, because it checks the `pane` block of the shared sheet.
+  beside the rail. The basket in the corner stands beside the rail. The app has no list and detail
+  section, so it has no `pane` layout. LAY-3 runs and passes, because it checks the `pane` block of the shared sheet.
 
 ## Parts of the app
 
@@ -58,4 +57,4 @@ The parts of `styles.css`, by layer. The shared parts are in the design system.
 | Layer | Parts |
 |---|---|
 | components | versions of `icon`, `app-header`, `sheet`, `dock`, `item-row`, `group-head` (DSV-3) |
-| screens | list: `shop-lists`, `search`, `hint`, `trip-open` · recipes: `product-form`, `product-add`, `products` · menu: `day`, `meal` · settings: `settings`, `about`, `version-status` · onboarding: `onboarding`, `onboarding-art` |
+| screens | list: `shop-lists`, `search`, `hint`, `trip-open` · settings: `settings`, `about`, `version-status`, `products` (the rows of the aisle sheet) · onboarding: `onboarding`, `onboarding-art` |

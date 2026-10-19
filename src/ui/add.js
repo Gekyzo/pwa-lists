@@ -1,5 +1,4 @@
 import * as store from '#store';
-import * as recipes from '#recipes';
 import * as shops from '#shops';
 import { suggestionRows } from '#suggest';
 import { $, el, state, ui, t, say, textOf, showToast, apply, render } from '#ui/context';
@@ -13,19 +12,14 @@ const whereText = (item) => {
 export const renderSheet = () => {
   $('sheet').hidden = !ui.sheetOpen;
   if (!ui.sheetOpen) return;
-  const forRecipe = ui.view === 'recipes';
-  const label = t(forRecipe ? 'add.recipeName' : 'add.itemLabel');
+  const label = t('add.itemLabel');
   $('add-title').textContent = label;
-  $('add-submit').textContent = t(forRecipe ? 'add.create' : 'add.submit');
+  $('add-submit').textContent = t('add.submit');
   $('add-name').placeholder = label;
   $('add-name').setAttribute('aria-label', label);
-  $('add').setAttribute('aria-label', t(forRecipe ? 'add.recipe' : 'add.item'));
+  $('add').setAttribute('aria-label', t('add.item'));
   const text = $('add-name').value.trim();
   $('add-submit').disabled = !text;
-  if (forRecipe) {
-    $('suggestions').replaceChildren();
-    return;
-  }
   // The array runs from the best row to the worst; the list shows it upside down, so that the
   // first row sits next to the input.
   const rows = suggestionRows(state, text).map((row) => el('li', {}, [
@@ -85,25 +79,7 @@ const useExisting = (item) => {
   $('add-name').focus();
 };
 
-const submitRecipe = () => {
-  const input = $('add-name');
-  const result = recipes.addRecipe(state, input.value);
-  if (result.error) {
-    showToast(textOf(result.error));
-    input.focus();
-    return;
-  }
-  // The new recipe opens its sheet, with the cursor in its product field.
-  Object.assign(ui, { sheetOpen: false, recipeId: result.id, focusProduct: true, query: '' });
-  ui.bringKeys.add(`recipe:${result.id}`);
-  apply(result);
-};
-
 const submitAdd = () => {
-  if (ui.view === 'recipes') {
-    submitRecipe();
-    return;
-  }
   const input = $('add-name');
   const existing = store.findByName(state, input.value);
   if (existing) {

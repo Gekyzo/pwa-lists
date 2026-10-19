@@ -202,7 +202,7 @@
     }
   }
 
-  /* A field beside a button, as the link of a recipe beside its open button, takes the room that is left. */
+  /* A field beside a button, as the name of an aisle beside its buttons, takes the room that is left. */
   .input-row > .field {
     flex: 1;
   }
@@ -219,18 +219,7 @@
   }
 
   /* @extends item-row
-     @variant recipe              A recipe: its name and its meta line, then its send button.
      @state bought    A ticked item of Actual. */
-
-  /* From 840px the recipes stand in two columns, so more of them fit on the screen of a tablet. An
-     unfolded phone keeps one column. The gap shows the page between the columns. */
-  @media (min-width: 840px) {
-    .item-list:has(> .item-row.recipe) {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      column-gap: var(--space-2);
-    }
-  }
 
   .item-row.bought .item-row-name {
     color: var(--muted);
@@ -321,20 +310,11 @@
 
   /* @component search
      @scope list
-     @summary The search box of Actual and Recetas, below the header.
+     @summary The search box of Actual, below the header.
      @example <div class="search"><input class="input raised" type="search" placeholder="Buscar"></div> */
   .search {
     padding: var(--space-2) var(--space-3);
     border-bottom: 1px solid var(--line);
-  }
-
-  /* @component product-form
-     @scope recipes
-     @summary The row that adds a product to a recipe, in the recipe sheet.
-     @part product-name  Its input, which takes the focus after an add.
-     @example <form class="input-row product-form"><input class="input product-name" type="text" placeholder="Añadir producto"><button class="button primary" type="submit">Añadir</button></form> */
-  .product-form {
-    padding: var(--space-3) 0 var(--space-2);
   }
 
   /* @component hint
@@ -346,14 +326,6 @@
     padding: var(--space-3) var(--space-4);
     color: var(--muted);
     font-size: var(--text-s);
-  }
-
-  /* @component product-add
-     @scope recipes
-     @summary The add row of a recipe with the suggestions below it.
-     @example <div class="product-add" style="width: 100%"><ul class="list-group plain"><li><button class="list-row" type="button">Huevos</button></li></ul></div> */
-  .product-add > .list-group {
-    padding-bottom: var(--space-2);
   }
 
   /* @component version-status
@@ -411,190 +383,11 @@
     }
   }
 
-  /* @component day
-     @scope menu
-     @summary One day of the menu: its name, then its two meals side by side.
-     @part day-title  The name of the day.
-     @part day-long   The long name of the day.
-     @part day-short  The short name of the day: it shows instead of the long one in the compact density below 600px.
-     @part meals      The two meals.
-     @example <ul class="item-list" style="width: 100%"><li class="day"><h3 class="day-title"><span class="day-long">Lunes</span><span class="day-short">lun</span></h3><div class="meals"><button class="meal" type="button"><small class="meal-label">Comida</small><span class="meal-name">Tortilla</span></button><button class="meal free" type="button"><small class="meal-label">Cena</small><span class="meal-name">Elegir receta</span></button></div></li></ul> */
-  .day {
-    padding: var(--space-2) var(--space-3) var(--space-3);
-    border-bottom: 1px solid var(--line);
-    background: var(--surface);
-  }
-
-  .day-title {
-    margin: 0 0 var(--space-2);
-    color: var(--muted);
-    font-size: var(--text-xs);
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-  }
-
-  .day:not(:has(.meal.free)) .day-title {
-    color: var(--accent);
-  }
-
-  .meals {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: var(--space-2);
-  }
-
-  /* From 600px the name of the day stands at the start of its row, so the week fits on the screen
-     of a tablet or an unfolded phone. A subgrid gives each name the width of the longest one, in
-     any language. */
-  @media (min-width: 600px) {
-    .item-list:has(> .day) {
-      display: grid;
-      grid-template-columns: max-content minmax(0, 1fr);
-    }
-
-    .day {
-      display: grid;
-      grid-column: 1 / -1;
-      grid-template-columns: subgrid;
-      align-items: center;
-      column-gap: var(--space-3);
-      padding-block: var(--space-2);
-    }
-
-    .day-title {
-      margin: 0;
-    }
-  }
-
-  /* Densidad Compacta (NAV-20), below 600px: the day head stays above its meals, with the short name
-     of the day, and the name of a meal takes two lines. From 600px the long name stands beside the
-     meals again. */
-  .day-short {
-    display: none;
-  }
-
-  :root[data-density="compact"] .day {
-    padding-block: var(--space-1) var(--space-2);
-  }
-
-  :root[data-density="compact"] .day-long {
-    display: none;
-  }
-
-  :root[data-density="compact"] .day-short {
-    display: inline;
-    text-transform: uppercase;
-  }
-
-  :root[data-density="compact"] .day-title {
-    margin-bottom: var(--space-1);
-    text-transform: none;
-  }
-
-  :root[data-density="compact"] .meal {
-    min-height: var(--tap);
-    padding-block: var(--space-1);
-  }
-
-  :root[data-density="compact"] .meal-name {
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-    line-height: 1.25;
-    white-space: normal;
-    overflow-wrap: anywhere;
-  }
-
-  @media (min-width: 600px) {
-    :root[data-density="compact"] .day {
-      padding-block: var(--space-1);
-    }
-
-    :root[data-density="compact"] .day-long {
-      display: inline;
-    }
-
-    :root[data-density="compact"] .day-short {
-      display: none;
-    }
-
-    :root[data-density="compact"] .day-title {
-      margin-bottom: 0;
-      text-transform: uppercase;
-    }
-  }
-
-  /* @component meal
-     @scope menu
-     @summary One meal of a day: its label, then its recipe or the call to choose one.
-     @variant free   A meal with no recipe and no dish.
-     @variant dish   A meal with a dish that has no recipe.
-     @part meal-label  Comida or Cena.
-     @part meal-name   The recipe, cut with an ellipsis.
-     @example <button class="meal" type="button"><small class="meal-label">Comida</small><span class="meal-name">Tortilla</span></button> */
-  .meal {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    min-width: 0;
-    padding: var(--space-2) var(--space-3);
-    border: 1px solid var(--accent);
-    background: var(--bg);
-    text-align: left;
-  }
-
-  .meal.free {
-    border: 1px dashed var(--muted);
-  }
-
-  .meal.dish {
-    border-color: var(--muted);
-  }
-
-  /* @component meal-actions
-     @scope menu
-     @summary The buttons of the meal sheet, on a split: Crear receta and Quitar side by side, or
-              Quitar alone across the full width.
-     @example <div class="split meal-actions" style="width: 100%"><button class="button primary hand-side" type="button">Crear receta</button><button class="button outline danger" type="button">Quitar</button></div> */
-  .meal-actions:has(> [hidden]) > :not([hidden]) {
-    grid-column: 1 / -1;
-  }
-
-  .meal-label {
-    color: var(--muted);
-    font-size: var(--text-xs);
-  }
-
-  .meal-name {
-    max-width: 100%;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .meal:not(.free, .dish) .meal-label {
-    color: var(--accent);
-  }
-
-  .meal.free .meal-name {
-    color: var(--muted);
-  }
-
-  /* The bar of Menú sticks to the bottom edge of `main`, below its bottom padding (the room that
-     the add button takes in the other sections). */
-  .item-list ~ .action-bar {
-    bottom: calc((var(--tap-l) + var(--space-4) * 2) * -1);
-  }
-
   /* @component products
-     @scope recipes
-     @summary The products of a recipe in the recipe sheet, each with its remove button.
-     @part product       One product.
-     @part product-text  Its name.
-     @state leaving  On product: a row that closes before it leaves.
-     @state flash    On product: a row that has just come: it flashes.
-     @example <ul class="products" style="width: 100%"><li class="product"><span class="product-text">Patatas</span><button class="button icon" type="button" aria-label="Quitar">✕</button></li></ul> */
+     @scope settings
+     @summary The rows of the aisle sheet, each a name field with its move and remove buttons.
+     @part product       One row.
+     @example <ul class="products" style="width: 100%"><li class="product"><div class="input-row"><input class="input" type="text" value="Lácteos"><button class="button icon" type="button" aria-label="Quitar">✕</button></div></li></ul> */
   .products {
     margin: var(--space-2) 0 0;
     padding: 0;
@@ -606,23 +399,6 @@
     align-items: center;
     min-height: var(--tap);
     border-top: 1px solid var(--line);
-  }
-
-  .product-text {
-    flex: 1;
-    min-width: 0;
-    overflow-wrap: anywhere;
-  }
-
-  .products > .leaving {
-    overflow: hidden;
-    min-height: 0;
-    opacity: 0;
-    transition: height var(--motion) ease-out, opacity var(--motion) ease-out;
-  }
-
-  .product.flash {
-    animation: flash var(--motion-slow) ease-out;
   }
 
   /* @component settings
@@ -692,8 +468,6 @@
      @part onboarding-key      A control named in a text, such as + or an icon: its icon and its name in bold accent text, with no box.
      @part onboarding-dots     One dot for each page.
      @part onboarding-dot      One dot.
-     @part onboarding-switch   The switch of the sample data on the last page. It keeps its room on each page.
-     @state away               On onboarding-switch: a page with no switch. The room stays, so nothing moves.
      @state on                 On onboarding-dot: the page in view.
      @state enter-next         On onboarding-page: it comes in from the right.
      @state enter-previous     On onboarding-page: it comes in from the left.
@@ -791,16 +565,6 @@
     min-height: 5lh;
     margin: 0;
     color: var(--muted);
-  }
-
-  .onboarding-switch {
-    align-self: stretch;
-    border-radius: var(--radius-l);
-    background: var(--surface);
-  }
-
-  .onboarding-switch.away {
-    visibility: hidden;
   }
 
   .onboarding-key {

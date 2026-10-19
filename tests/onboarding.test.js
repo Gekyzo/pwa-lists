@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { PAGES, hasBack, isLast, shouldShow, step, textParts } from '#onboarding';
 
 test('PAGES has the six pages in their order, each one time', () => {
-  assert.deepEqual(PAGES, ['lists', 'trip', 'row', 'sections', 'recipes', 'sample']);
+  assert.deepEqual(PAGES, ['lists', 'trip', 'row', 'sections']);
   assert.equal(new Set(PAGES).size, PAGES.length);
 });
 

@@ -51,5 +51,5 @@ bottom bar (NAV-1).
 
 ## Limits
 
-No aisle on the products of a recipe, and no aisle field in the add sheet. One order of the aisles
+No aisle field in the add sheet. One order of the aisles
 for all shops.

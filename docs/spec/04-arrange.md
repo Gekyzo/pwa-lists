@@ -1,7 +1,7 @@
 # Order, groups and the manual move
 
 Rules of `setSort`, `setGroup`, `reorderItems` and `sortItems` in `src/store.js`, of
-`recipeGroups` in `src/recipes.js`, of `shopGroups` in `src/shops.js`, of `aisleGroups` in `src/aisles.js`, of `src/reorder.js`, and of
+`shopGroups` in `src/shops.js`, of `aisleGroups` in `src/aisles.js`, of `src/reorder.js`, and of
 the arrange sheet in `src/ui/arrange.js`.
 
 ## Arrange sheet
@@ -22,17 +22,15 @@ the arrange sheet in `src/ui/arrange.js`.
 - **SORT-6** **Nombre** is alphabetical with no case and no accent distinction. It does not change
   `items`.
 - **SORT-7** In `Compra` the items to buy come before the ticked items in each order.
-- **SORT-8** The order also applies inside each group. The recipes and their products have no
-  order choice.
+- **SORT-8** The order also applies inside each group.
 - **SORT-9** A change of order has no message and no `Deshacer`. The rows move to their new places
   with an animation.
 
 ## Groups
 
-- **GROUP-1** **Agrupar por** has **Recetas**, **Tiendas**, **Secciones** and **Nada**. One choice, `group`,
-  applies to `Compra`. The default is `recipe`.
+- **GROUP-1** **Agrupar por** has **Tiendas**, **Secciones** and **Nada**. One choice, `group`,
+  applies to `Compra`. The default is `shop`.
 - **GROUP-2** A choice shows only when the view can show it:
-  - **Recetas**: when one recipe group exists at least (GROUP-5).
   - **Tiendas**: when an item of the view has a shop, and not in a shop list (SHOP-19).
   - **Secciones**: when an item of the view has an aisle, also in a shop list (GROUP-17).
   - **Nada**: each time that one of the others shows.
@@ -44,28 +42,23 @@ the arrange sheet in `src/ui/arrange.js`.
   item with a shop, `Compra` is flat.
 - **GROUP-4** A tap on the choice that the view shows already changes nothing. Thus a tap on
   **Nada** in a view that is flat by GROUP-3 keeps the stored grouping.
-
-### By recipe
-
-- **GROUP-5** The groups of `Compra` are, in this order:
-  1. each recipe of `sent`, in send order;
-  2. each other recipe that has products and whose products are all in `Compra`, ticked or not.
-- **GROUP-6** The members of a group are the items of `Compra` whose name is a product of the
-  recipe, with no case distinction. A group with no member does not show.
-- **GROUP-7** An item of two recipes shows in the two groups. One tick takes it out of both.
-- **GROUP-20** A row of an item to buy that shows in two recipe groups or more adds
-  `También en «recipes»` below its name: the names of the other groups, in group order, joined by
-  `, `. So two rows read as one product. The groups count before a search, so a search keeps the
-  text.
-- **GROUP-8** The head of a group shows the name of the recipe and `ticked/total`, or `✓` when all
-  its members are ticked. The group lists only the members to buy.
-- **GROUP-9** The items to buy that are in no group show below the head `Otros`.
 - **GROUP-10** The ticked items show one time each in `Comprados (N)`, with no group.
+
+### Removed: by recipe
+
+- **GROUP-5** Removed: the app has no recipes, so it has no recipe groups.
+- **GROUP-6** Removed: the app has no recipes, so it has no recipe groups.
+- **GROUP-7** Removed: the app has no recipes, so it has no recipe groups.
+- **GROUP-20** Removed: the app has no recipes, so a row has no `También en` line.
+- **GROUP-8** Removed: the app has no recipes, so it has no recipe groups. GROUP-11 gives the
+  count of a group head.
+- **GROUP-9** Removed: the head `Otros` was the rest of the recipe groups.
 
 ### By shop
 
 - **GROUP-11** The groups are the shops of the items of the view, in name order. The head of a
-  group has the count of GROUP-8.
+  group shows the name of the shop and `ticked/total`, or `✓` when all its members are ticked. The
+  group lists only the members to buy.
 - **GROUP-12** An item of two shops shows in the two groups.
 - **GROUP-13** The items with no shop show below the head `Sin tienda`.
 - **GROUP-14** A row in a list by shop does not show the shops of the item below its name.
@@ -84,7 +77,7 @@ the arrange sheet in `src/ui/arrange.js`.
 - **GROUP-15** When a grouping opens, the heads and the extra rows open and the other rows move.
   When the choice goes to **Nada**, the groups close first and then the list becomes flat. A tap
   on a grouping while the groups close keeps them.
-- **GROUP-16** A tap on the head of a group (a recipe, `Otros`, a shop, `Sin tienda`, an aisle or `Sin sección`) closes the
+- **GROUP-16** A tap on the head of a group (a shop, `Sin tienda`, an aisle or `Sin sección`) closes the
   rows of the group in 200 ms. The head stays, with its count and the chevron `▸`; a second tap opens
   the rows again in 200 ms. The list keeps its closed groups until the app starts again. A search
   shows each group open and disables its head (LIST-25).
@@ -100,7 +93,7 @@ the arrange sheet in `src/ui/arrange.js`.
   | View | Rows that move | Scope |
   |---|---|---|
   | `Compra`, flat | Items to buy | The items to buy |
-  | `Compra`, grouped | Items to buy | The group of the row, or `Otros` / `Sin tienda` / `Sin sección` |
+  | `Compra`, grouped | Items to buy | The group of the row, or `Sin tienda` / `Sin sección` |
 
 - **MOVE-4** A ticked row does not move. A row does not move while its side
   menu is open or its name is in edit. A scope of one row does not move. No row moves while the
@@ -121,5 +114,4 @@ the arrange sheet in `src/ui/arrange.js`.
 
 ## Limits
 
-No move between groups, no move of a ticked row, no order of the shops, no order of recipes or
-products, no move with the keyboard.
+No move between groups, no move of a ticked row, no order of the shops, no move with the keyboard.

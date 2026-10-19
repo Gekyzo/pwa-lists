@@ -34,19 +34,12 @@ for (const rule of RULES) test(rule.title, { skip: SKIP[rule.id] ?? false }, () 
 
 test('the parts of the app are documented in styles.css (DSV-3)', () => {
   const names = parseCatalog({ css: read('styles.css'), sprite: files.sprite }).components.map((part) => part.name);
-  for (const name of ['shop-lists', 'search', 'product-form', 'hint']) assert.ok(names.includes(name), name);
+  for (const name of ['shop-lists', 'search', 'hint']) assert.ok(names.includes(name), name);
 });
 
 test('the design test reads the classes of the item rows, states included', () => {
   const rows = classesInScript(read('src/ui/rows.js'));
   for (const name of ['item-row', 'bought', 'flash', 'gone', 'item-row-swipe', 'open', 'item-row-end', 'item-row-label', 'tick']) assert.ok(rows.includes(name), name);
-});
-
-test('a recipe row has one send button in the end slot and no mark', () => {
-  const script = read('src/ui/recipes.js');
-  assert.ok(!script.includes('recipe-mark'));
-  assert.ok(!read('styles.css').includes('recipe-mark'));
-  for (const name of ['item-row-end', 'item-row-label']) assert.ok(classesInScript(script).includes(name), name);
 });
 
 test('styles.css leaves the rail to the design system (LAY-2)', () => {

@@ -1,7 +1,6 @@
 import { exportJson, exportFilename, importJson, resetAll } from '#storage';
 import { parseVersion, versionStatus } from '#version';
 import { LANGUAGES, LANGUAGE_NAMES, intlTag } from '#i18n';
-import { SAMPLE_ID, hasSample, deleteRecipe } from '#recipes';
 import { SHORTCUTS } from '#sections';
 import {
   REFRESH_MS,
@@ -36,11 +35,6 @@ const renderValues = () => {
     const select = $(id);
     $(`${id}-value`).textContent = select.selectedOptions[0]?.textContent ?? '';
   }
-};
-
-// Borrar datos de ejemplo shows while the sample recipe exists (ONB-14).
-export const renderSample = () => {
-  $('delete-sample').hidden = !hasSample(state);
 };
 
 const VERSION_KEYS = { current: 'version.current', unknown: 'version.unknown' };
@@ -104,7 +98,7 @@ const refreshShell = () =>
   });
 
 // The text of each shortcut of the launcher (SHORT-3).
-const SHORTCUT_KEYS = { add: 'add.item', active: 'list.active', recipes: 'nav.recipes', menu: 'nav.menu' };
+const SHORTCUT_KEYS = { add: 'add.item', active: 'list.active' };
 
 // Writes the fixed text of the page, then the text that a render builds.
 export const applyLanguage = () => {
@@ -162,11 +156,6 @@ export const bind = () => {
   });
 
   $('import').addEventListener('click', () => $('import-file').click());
-  $('delete-sample').addEventListener('click', () => {
-    // The button goes with the recipe, so the focus goes to the button above it.
-    $('show-onboarding').focus();
-    apply(deleteRecipe(state, SAMPLE_ID), { undoText: t('toast.sampleDeleted') });
-  });
   // The app starts again as a new install, with the walkthrough (BACKUP-7). With no storage the data is
   // only in memory, so the reload alone clears it.
   $('reset').addEventListener('click', () => {
@@ -216,10 +205,7 @@ export const bind = () => {
       showToast(textOf(result.error));
       return;
     }
-    const found = {
-      items: t('count.items', { count: result.state.items.length }),
-      recipes: t('count.recipes', { count: result.state.recipes.length }),
-    };
+    const found = { items: t('count.items', { count: result.state.items.length }) };
     if (!window.confirm(t('import.confirm', found))) return;
     apply(result, { undoText: t('toast.imported') });
   });
