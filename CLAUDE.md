@@ -1,8 +1,10 @@
-# shopping
+# lists
 
-An offline shopping list PWA for one Android phone, with an `Active` list for the
-current trip and a `Next` list for the next trip. Plain HTML, CSS and ES modules; no
-build step and no dependencies.
+Stash: an offline shopping list PWA for one Android phone, by store. One list, `Compra`,
+holds the items of the trip; each item has its shops, `Compra` has a list for each shop,
+and the aisles of the store group it by section. A fork of Bodega (`../pwa-shopping-list`)
+with no recipes, no menu of the week and no recurrent items. Plain HTML, CSS and ES modules;
+no build step and no dependencies. `docs/spec/` is the specification.
 
 ## Commands
 

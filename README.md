@@ -1,9 +1,15 @@
 # Stash
 
-An offline shopping list PWA for one Android phone. It has one list for the trip, which keeps the
-recurrent items and the items not bought for the next trip, recipes, a menu of the week that fills
-the basket, and shops, in seven languages. A new install starts with a walkthrough of six pages. Plain HTML, CSS and ES modules, with no build step and no dependencies. The data stays
-in the `localStorage` of the browser.
+An offline shopping list PWA for one Android phone, by store. One list, `Compra`, holds the items
+of the trip. Each item has its shops, and `Compra` has a list for each shop. The aisles of the
+store group the list by section. The app has seven languages, and a new install starts with a
+walkthrough of four pages. Plain HTML, CSS and ES modules, with no build step and no dependencies.
+The data stays in the `localStorage` of the browser.
+
+Stash shares the origin `gekyzo.github.io` with Bodega, the app it is a fork of. It keeps its own
+`lists.` storage keys and its own `lists-` caches, so the two apps do not touch the data of the
+other. **Importar** reads a Bodega backup: it keeps the items, their shops and aisles, and drops
+the recipes, the menu and the recurrent marks.
 
 - App: https://gekyzo.github.io/pwa-lists/
 - Specification: [`docs/spec/`](docs/spec/README.md), with one identifier for each rule.
@@ -61,16 +67,26 @@ changes under `Unreleased` in `CHANGELOG.md`, and tags it `vX.Y.Z`. The push of 
 `.github/workflows/pages.yml`, which publishes the tagged commit to GitHub Pages. The `pre-push`
 hook stops a tag whose `version.json` has another version.
 
+### First release
+
+`version.json` starts at `0.0.0`. Make the first release with `npm run release -- major`, so that
+the first version is `1.0.0`. Before the first deploy, set two things in the settings of the
+GitHub repository:
+
+1. **Pages → Source**: `GitHub Actions`.
+2. **Environments → github-pages**: allow the tags `v*` to deploy.
+
 ## Where to read
 
 | Subject | Document |
 |---|---|
 | What the app does, and what it does not do | [01-product](docs/spec/01-product.md) |
 | The lists, the trip and the add sheet | [03-lists](docs/spec/03-lists.md) |
-| Order, groups, shops and recipes | [04-arrange](docs/spec/04-arrange.md), [05-shops](docs/spec/05-shops.md), [06-recipes](docs/spec/06-recipes.md) |
-| Gestures, messages and undo | [07-screen](docs/spec/07-screen.md) |
+| Order, groups and shops | [04-arrange](docs/spec/04-arrange.md), [05-shops](docs/spec/05-shops.md) |
+| The aisles of the store | [17-aisles](docs/spec/17-aisles.md) |
+| Gestures, messages, undo and the walkthrough | [07-screen](docs/spec/07-screen.md) |
 | The stored format and the backup | [02-data-model](docs/spec/02-data-model.md), [08-storage](docs/spec/08-storage.md) |
 | Languages and the rules of the text | [09-languages](docs/spec/09-languages.md) |
-| Offline use, version, deploy and installation | [10-offline-version](docs/spec/10-offline-version.md) |
-| The reminder at the shop | [11-integrations](docs/spec/11-integrations.md) |
+| Offline use, version, deploy and installation | [10-offline-version](docs/spec/10-offline-version.md), [16-install](docs/spec/16-install.md) |
+| The reminder at the shop, the shortcuts and the voice commands | [11-integrations](docs/spec/11-integrations.md) |
 | Modules, code rules and tests | [12-engineering](docs/spec/12-engineering.md) |
