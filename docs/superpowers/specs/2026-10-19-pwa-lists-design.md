@@ -36,7 +36,7 @@ questions; every choice below that the user did not state is marked **(call)**.
 
 ### Name and identity
 
-- **(call)** Working name `Listas`, short name `Listas`, until the user chooses one. It replaces
+- Name `Stash`, short name `Stash`. It replaces
   `Bodega` in `index.html`, the manifest, `app.title` and `header.settingsSubtitle` of each locale,
   the README and the tests.
 - Manifest `id` `/pwa-lists/`. Deploy URL `https://gekyzo.github.io/pwa-lists/`.
@@ -49,7 +49,7 @@ questions; every choice below that the user did not state is marked **(call)**.
   `lists.density`, `lists.onboarded`, `lists.swipeHint`.
 - Cache names `lists-shell-v1` and `lists-manifest`.
 - The activate of `sw.js` deletes only the caches whose name starts with `lists-`.
-- Export file name `listas-YYYY-MM-DD.json` **(call)**.
+- Export file name `stash-YYYY-MM-DD.json`.
 - The dev log `window.listsLog` with the prefix `[lists]`.
 - Bodega's `sw.js` deletes each cache that is not its own, so it deletes the caches of
   pwa-lists. The fix is in Bodega, another repository. It is not part of this work until the user
