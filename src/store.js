@@ -25,12 +25,12 @@ const nameError = (state, name, ownId) => {
   return duplicate ? ['error.duplicateItem', { name: duplicate.name, list: duplicate.list }] : null;
 };
 
-// A new item is one-time and goes to Compra.
+// A new item goes to Compra.
 export const addItem = (state, rawName, newId = () => crypto.randomUUID()) => {
   const name = String(rawName ?? '').trim();
   const error = nameError(state, name);
   if (error) return reject(state, ...error);
-  const item = { id: newId(), name, recurrent: false, list: 'active', bought: false, shops: [], quantity: '', aisle: '' };
+  const item = { id: newId(), name, list: 'active', bought: false, shops: [], quantity: '', aisle: '' };
   return { state: { ...state, items: [...state.items, item] } };
 };
 
@@ -49,12 +49,6 @@ export const setQuantity = (state, id, rawQuantity) => {
   return quantity === item.quantity ? { state } : patchItem(state, id, { quantity });
 };
 
-export const toggleRecurrent = (state, id) => {
-  const item = findItem(state, id);
-  if (!item) return reject(state, 'error.itemNotFound');
-  return patchItem(state, id, { recurrent: !item.recurrent });
-};
-
 export const toggleBought = (state, id) => {
   const item = findItem(state, id);
   if (!item) return reject(state, 'error.itemNotFound');
@@ -67,9 +61,9 @@ export const deleteItem = (state, id) => {
   return { state: { ...state, items: state.items.filter((item) => item.id !== id) } };
 };
 
-// The one-time items of Active that are not ticked: Terminar compra saves each one, or keeps it in
-// Active when the user chose Aplazar (TRIP-6).
-const isOpen = (item) => item.list === 'active' && !item.bought && !item.recurrent;
+// The items of Active that are not ticked: Terminar compra saves each one, or keeps it in Active
+// when the user chose Aplazar (TRIP-6).
+const isOpen = (item) => item.list === 'active' && !item.bought;
 export const openItems = (state) => sortItems(state, state.items.filter(isOpen));
 
 export const canStartNewShopping = (state) =>
@@ -85,12 +79,10 @@ const keptIds = (state, keep) => {
 export const startNewShopping = (state, keep = []) => {
   if (!canStartNewShopping(state)) return reject(state, 'error.nothingToStart');
   const kept = keptIds(state, keep);
-  // A one-time item of Active, ticked or not, is saved, not kept for the next trip: only a
-  // recurrent item and a kept open item are in Active at the next trip.
+  // An item of Active, ticked or not, is saved: only a kept open item is in Active at the next trip.
   const items = state.items.map((item) => {
     if (item.list === 'saved') return item;
-    const saved = !item.recurrent && !kept.has(item.id);
-    return { ...item, list: saved ? 'saved' : 'active', bought: false };
+    return { ...item, list: kept.has(item.id) ? 'active' : 'saved', bought: false };
   });
   return { state: { ...state, items } };
 };
@@ -187,32 +179,30 @@ export const bringToList = (state, id) => {
   return { state, changed: false };
 };
 
-// Figures for the header and for the preview of `startNewShopping`: `back` recurrent items and
-// kept open items stay for the next trip, `saved` one-time items of Active are saved. `keep` is the
-// parameter of `startNewShopping`.
+// Figures for the header and for the preview of `startNewShopping`: `back` kept open items stay for
+// the next trip, `saved` the other items of Active are saved. `keep` is the parameter of
+// `startNewShopping`.
 export const tripSummary = (state, keep = []) => {
   const active = state.items.filter((item) => item.list === 'active');
   const bought = active.filter((item) => item.bought);
   const kept = keptIds(state, keep).size;
-  const back = active.filter((item) => item.recurrent).length + kept;
   return {
     total: active.length,
     left: active.length - bought.length,
-    back,
-    saved: active.filter((item) => !item.recurrent).length - kept,
+    back: kept,
+    saved: active.length - kept,
   };
 };
 
-// Where each item of Active goes at `startNewShopping`, for the trip sheet: `recurrent` items come
-// back, `kept` open items stay, `open` items and `bought` one-time items are saved.
+// Where each item of Active goes at `startNewShopping`, for the trip sheet: `kept` open items stay,
+// `open` items and `bought` items are saved.
 export const tripOutcome = (state, keep = []) => {
   const active = state.items.filter((item) => item.list === 'active');
   const kept = keptIds(state, keep).size;
   return {
-    recurrent: active.filter((item) => item.recurrent).length,
     kept,
     open: active.filter(isOpen).length - kept,
-    bought: active.filter((item) => item.bought && !item.recurrent).length,
+    bought: active.filter((item) => item.bought).length,
   };
 };
 

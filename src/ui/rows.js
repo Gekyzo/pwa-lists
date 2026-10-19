@@ -9,22 +9,18 @@ import { openEdit } from '#ui/edit';
 import { reorder, bindReorder } from '#ui/drag';
 
 // The name of a row, with its quantity after it, and below it the shops of the item when the list
-// is not by shop and the mark of a recurrent item.
+// is not by shop.
 const nameParts = (item) => {
   const quantity = item.quantity ? [' ', el('span', { className: 'item-row-qty', textContent: item.quantity })] : [];
   const parts = [el('span', { className: 'item-row-label' }, [item.name, ...quantity])];
   const meta = [
     ...(item.shops.length && shownGroup() !== 'shop' ? [item.shops.join(' · ')] : []),
-    ...(item.recurrent ? [t('row.repeats')] : []),
   ];
   if (meta.length) parts.push(el('small', { className: 'item-row-meta', textContent: meta.join(' · ') }));
   return parts;
 };
 
 const editAction = (item) => iconButton('edit', t('row.edit'), () => openEdit(item), { variant: 'neutral', labelled: true });
-
-const repeatAction = (item) =>
-  iconButton('repeat', t(item.recurrent ? 'row.noRepeat' : 'row.repeat'), () => apply(store.toggleRecurrent(state, item.id)), { labelled: true });
 
 // Its visible name is Eliminar; a screen reader also hears the name of the item.
 const deleteAction = (item) => {
@@ -72,7 +68,7 @@ const itemRow = (item) => {
   const row = [check, name, el('div', { className: 'item-row-end' }, [editButton(item)])];
   return {
     row,
-    end: [editAction(item), repeatAction(item), deleteAction(item)],
+    end: [editAction(item), deleteAction(item)],
     right: { run: toggle, icon: item.bought ? 'undo' : 'check' },
     tap: toggle,
   };

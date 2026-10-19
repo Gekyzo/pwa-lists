@@ -82,8 +82,8 @@ const sample = () => {
     ...rest,
     version: 9,
     items: [
-      { id: 'a', name: 'Bread', recurrent: false, list: 'active', bought: true, shops: ['Lidl', 'Market'], quantity: '2', aisle: 'Bakery' },
-      { id: 'b', name: 'Milk', recurrent: true, list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
+      { id: 'a', name: 'Bread', list: 'active', bought: true, shops: ['Lidl', 'Market'], quantity: '2', aisle: 'Bakery' },
+      { id: 'b', name: 'Milk', list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
     ],
     group: 'shop',
     aisles: ['Bakery', 'Dairy'],
@@ -95,8 +95,8 @@ const sampleV3 = () => ({ ...sample(), version: 3 });
 // The items of sampleV1 and sampleV2, as a version 9 state has them: the item of Next and the
 // ticked item with again are both in Actual, not ticked, with no again field.
 const migratedItems = () => [
-  { id: 'a', name: 'Bread', recurrent: false, list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
-  { id: 'b', name: 'Milk', recurrent: true, list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
+  { id: 'a', name: 'Bread', list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
+  { id: 'b', name: 'Milk', list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
 ];
 
 test('save then load returns the same state', () => {
@@ -181,8 +181,8 @@ test('importJson drops unknown fields, moves Next to Actual and drops again', ()
     state: {
       version: 9,
       items: [
-        { id: 'a', name: 'Milk', recurrent: true, list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
-        { id: 'b', name: 'Soap', recurrent: false, list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
+        { id: 'a', name: 'Milk', list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
+        { id: 'b', name: 'Soap', list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
       ],
       group: 'shop',
       sort: 'custom',
@@ -604,17 +604,17 @@ test('load migrates a version 7 state with an item of Next and a ticked item wit
   const state = load(storage);
   assert.equal(state.version, 9);
   assert.deepEqual(state.items, [
-    { id: 'a', name: 'Bread', recurrent: false, list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
-    { id: 'b', name: 'Soap', recurrent: false, list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
-    { id: 'c', name: 'Salt', recurrent: false, list: 'active', bought: true, shops: [], quantity: '', aisle: '' },
-    { id: 'd', name: 'Rice', recurrent: false, list: 'saved', bought: false, shops: [], quantity: '', aisle: '' },
+    { id: 'a', name: 'Bread', list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
+    { id: 'b', name: 'Soap', list: 'active', bought: false, shops: [], quantity: '', aisle: '' },
+    { id: 'c', name: 'Salt', list: 'active', bought: true, shops: [], quantity: '', aisle: '' },
+    { id: 'd', name: 'Rice', list: 'saved', bought: false, shops: [], quantity: '', aisle: '' },
   ]);
   state.items.forEach((item) => assert.equal('again' in item, false, item.name));
   assert.equal(storage.getItem(CORRUPT_KEY), null);
 });
 
 test('a ticked recurrent item with again keeps its tick when a version 7 state loads', () => {
-  const v7 = { ...sample(), version: 7, items: [{ ...sample().items[1], bought: true, again: true }] };
+  const v7 = { ...sample(), version: 7, items: [{ ...sample().items[1], recurrent: true, bought: true, again: true }] };
   const [item] = importJson(JSON.stringify(v7)).state.items;
   assert.equal(item.bought, true);
   assert.equal('again' in item, false);
@@ -685,4 +685,17 @@ test('resetAll fails for a storage that throws', () => {
 
 test('each key of the app starts with lists., apart from the keys of Bodega on the same origin', () => {
   for (const key of APP_KEYS) assert.ok(key.startsWith('lists.'), key);
+});
+
+test('a recurrent item of a Bodega state loads as a plain item, with no recurrent key', () => {
+  for (const recurrent of [true, false]) {
+    const data = { ...sample(), items: sample().items.map((item) => ({ ...item, recurrent })) };
+    assert.deepEqual(importJson(JSON.stringify(data)).state, sample());
+  }
+});
+
+test('an item with no recurrent key is valid, and a recurrent key that is not a boolean is ignored', () => {
+  assert.deepEqual(importJson(JSON.stringify(sample())).state, sample());
+  const data = { ...sample(), items: sample().items.map((item) => ({ ...item, recurrent: 'yes' })) };
+  assert.deepEqual(importJson(JSON.stringify(data)).state, sample());
 });

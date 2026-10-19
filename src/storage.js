@@ -37,14 +37,15 @@ const normalizeItem = (item) => {
     typeof name === 'string' &&
     name.trim() !== '' &&
     [...LISTS, ...OLD_LISTS].includes(list) &&
-    [recurrent, bought].every((flag) => typeof flag === 'boolean') &&
+    typeof bought === 'boolean' &&
     (again === undefined || typeof again === 'boolean');
   if (!valid) return null;
-  const comesBack = list === 'next' || (list === 'active' && bought && !recurrent && again === true);
+  // `recurrent` is a mark of Bodega: Stash drops it. A ticked recurrent item of Bodega with `again`
+  // keeps its tick, as Bodega kept it.
+  const comesBack = list === 'next' || (list === 'active' && bought && recurrent !== true && again === true);
   return {
     id,
     name: name.trim(),
-    recurrent,
     list: list === 'saved' ? 'saved' : 'active',
     bought: list === 'active' && bought && !comesBack,
     shops: normalizeShops(shops),

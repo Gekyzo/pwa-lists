@@ -57,7 +57,7 @@ the bottom bar at each width.
 ## Item rows
 
 - **ROW-1** A row of `Compra` has a check mark, the name with its quantity after it in a muted
-  colour, a line below it with the shops and `↻ cada compra` for a recurrent item (LIST-7), joined by ` · `, and an
+  colour, a line below it with the shops (SHOP-7) when the list is not by shop (GROUP-14), and an
   edit button **Editar** at its end. The name keeps two lines, then ends with an ellipsis. A tap on
   the body of the row ticks or unticks the item (LIST-11); the check mark only shows the state. A
   tap on the edit button opens the edit sheet (ROW-7) and does not tick. With **Izquierda**
@@ -69,7 +69,7 @@ the bottom bar at each width.
 
   | Row | Slide to the left |
   |---|---|
-  | `Compra` | **Editar**, **Repetir** (`No repetir` for a recurrent item, LIST-7), **Eliminar** |
+  | `Compra` | **Editar**, **Eliminar** |
 
 - **ROW-4** A drag becomes a slide after 10 px of horizontal move. A drag that is first vertical
   scrolls the list.
@@ -80,7 +80,7 @@ the bottom bar at each width.
   does its own work. A tap on the body of the open row only closes it. An action closes the row,
   then runs.
 - **ROW-7** The edit sheet `Editar` has the field **Nombre**, 80 characters at most, the field
-  **Cantidad**, 20 characters at most (LIST-27), the switch **Repetir en cada compra** (LIST-7), then the shops (SHOP-9 to SHOP-15). The name of
+  **Cantidad**, 20 characters at most (LIST-27), then the titled part **Tiendas** (SHOP-8 to SHOP-15). The name of
   a field shows inside it while it is empty, and moves onto its top border when it has a value or
   the focus. `Enter` or a
   loss of focus saves a field (LIST-5); an error shows its message and the field shows the old
@@ -124,7 +124,7 @@ the bottom bar at each width.
   | Trip | **Terminar compra** |
   | Backup | Import |
 
-- **MSG-6** These changes have no `Deshacer`: a new item, a rename, the recurrent mark,
+- **MSG-6** These changes have no `Deshacer`: a new item, a rename,
   the removal of a tick, the shops, the order and the grouping.
 - **MSG-7** A rejected operation shows the text of its error and changes nothing.
 - **MSG-8** When a save fails, the change stays on the screen and the message is `El cambio no se
@@ -215,7 +215,7 @@ the bottom bar at each width.
 
 - **ONB-2** A page has a drawing, a title and a text. A drawing has no text and does not move.
   A line break in the text of a catalog starts a new line. A text between two backticks, such as
-  `↻` or `+`, names a control and shows as a key: its icon and its text in bold accent colour, with no border, box or monospace font.
+  `←` or `+`, names a control and shows as a key: its icon and its text in bold accent colour, with no border, box or monospace font.
   A key that starts with `#name` shows the icon `name` of `icons.svg`, then the rest of its text.
   A key with an icon and no text has the label `onboarding.icon.<name>`.
   The app icon shows on page 1 only, above the drawing and inside the page group, 96 px wide, with

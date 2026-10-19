@@ -61,8 +61,7 @@ The rules DS-1 to DS-8 and LAY-1 to LAY-4 belong to the design system, `pwa-desi
 | `Compra` | The list of the current trip. List id `active` |
 | Trip | The time from one **Terminar compra** to the next |
 | Ticked | An item of `Compra` with `bought: true` |
-| Recurrent | An item that comes back at each trip |
-| One-time | An item that is not recurrent |
+| Open | An item of `Compra` that is not ticked (TRIP-6) |
 | Saved | An item that a trip took out of `Compra`; the screen does not show it. List id `saved` |
 | Shop | A name that one item or more have. It has no record of its own |
 | Aisle | A section of a store, such as `Lácteos`. The screen says `Sección`; the code says `aisle`, because a section is a screen of the bottom bar |

@@ -169,7 +169,7 @@ test('aisleGroups uses the order of the user and leaves out the saved items', ()
     ['Dairy'],
     ['Yogurt', 'active', { aisle: 'Dairy' }],
     ['Cheese', 'active', { aisle: 'Dairy' }],
-    ['Milk', 'active', { aisle: 'Dairy', bought: true, recurrent: true }],
+    ['Milk', 'active', { aisle: 'Dairy', bought: true }],
     ['Butter', 'saved', { aisle: 'Dairy' }],
     ['Salt', 'active'],
   );

@@ -6,7 +6,7 @@ import { inList, endSearch } from '#ui/view';
 
 const whereText = (item) => {
   if (item.list === 'saved') return t('where.saved');
-  return t(item.bought ? 'where.boughtRepeat' : 'where.inList');
+  return t(item.bought ? 'where.bought' : 'where.inList');
 };
 
 export const renderSheet = () => {

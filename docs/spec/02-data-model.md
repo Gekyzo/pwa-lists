@@ -22,7 +22,6 @@ The empty state is `{ version: 9, items: [], group: 'shop', sort: 'custom', aisl
 {
   id: string,         // crypto.randomUUID()
   name: string,       // trimmed, not empty
-  recurrent: boolean, // comes back at each trip
   list: 'active' | 'saved', // 'saved': kept after a trip, out of Compra
   bought: boolean,    // ticked
   shops: [string],    // shop names
@@ -59,17 +58,16 @@ No view is stored.
 |---|---|---|
 | `Compra` | `activeItems` | The items of `list: 'active'`, those to buy first, then those ticked |
 | Trip figures | `tripSummary` | `total`, `left`, `back`, `saved` |
-| Trip outcome | `tripOutcome` | `recurrent`, `kept`, `open`, `bought` |
+| Trip outcome | `tripOutcome` | `kept`, `open`, `bought` |
 | Shop groups | `shopGroups` | `Compra` by shop |
 | Shops in use | `shopNames` | Each shop of an item, in name order |
 | Aisle groups | `aisleGroups` | `Compra` by aisle, in the order of `aisles` |
 
-`tripSummary` gives: `total`, the items of `Compra`; `left`, those not ticked; `back`, the
-recurrent items, ticked or not, and the open items kept with `Aplazar` (TRIP-6); `saved`, the
-other one-time items of `Compra`, ticked or not. `tripOutcome` splits the items of `Compra` by
-where each one goes (TRIP-4): `recurrent` come back; `kept`, open items kept with `Aplazar`;
-`open`, the other open items, saved; `bought`, ticked one-time items, saved. The four add up to
-`total`.
+`tripSummary` gives: `total`, the items of `Compra`; `left`, those not ticked; `back`, the open
+items kept with `Aplazar` (TRIP-6); `saved`, the other items of `Compra`, ticked or not:
+`total` − `back`. `tripOutcome` splits the items of `Compra` by where each one goes (TRIP-4):
+`kept`, open items kept with `Aplazar`; `open`, the other open items, saved; `bought`, ticked
+items, saved. The three add up to `total`.
 
 ## Name rules
 

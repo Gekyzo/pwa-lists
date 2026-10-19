@@ -8,15 +8,13 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
   `error.nameRequired`.
 - **LIST-2** A name that an item has already, in `Compra` or saved, gives `error.duplicateItem` with
   the name and the list of that item (DATA-3).
-- **LIST-3** A new item is one-time and goes to `Compra`.
+- **LIST-3** A new item goes to `Compra`.
 - **LIST-4** A new item goes to the end of `items`, with no shop, no quantity, not ticked.
 - **LIST-5** A rename has the rules LIST-1 and LIST-2. The item keeps its own name without an
   error. A rename to the same text changes nothing.
 - **LIST-6** A name field of the screen takes 80 characters at most. The store has no limit.
-- **LIST-7** A recurrent item of `Compra` shows `↻ cada compra` below its name. The action
-  **Repetir** of the slide to the left (ROW-3) changes `recurrent`; on a recurrent item it is
-  `No repetir`. The switch **Repetir en cada compra** of the edit sheet (ROW-7) changes it too, and
-  shows `Guardado`.
+- **LIST-7** Removed: an item has no recurrent mark. Only `Aplazar` keeps an item in `Compra` for
+  the next trip (TRIP-6).
 - **LIST-8** A delete removes the item. Its shops go with it.
 - **LIST-9** Removed: `Compra` is the only list, so an item has no other list to move to.
 
@@ -37,8 +35,8 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
   end of `Compra`, which is closed at first. A tap on that row opens and closes it.
 - **LIST-13** A tick has `Deshacer`, because the row leaves the place where the finger is. A tap
   on a ticked item removes the tick with no `Deshacer`.
-- **LIST-14** Removed: a ticked one-time item has no mark that keeps it for the next trip. `↻`
-  and `Aplazar` do that.
+- **LIST-14** Removed: a ticked item has no mark that keeps it for the next trip. Only `Aplazar`
+  keeps an item, and only an open item (TRIP-6).
 
 ## Removed: the second list
 
@@ -50,17 +48,15 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 
 ## Trip
 
-- **TRIP-1** **Terminar compra** is available when an item is ticked or an item is open (TRIP-6).
+- **TRIP-1** **Terminar compra** is available when `Compra` has an item, ticked or open (TRIP-6).
   If not, the operation gives `error.nothingToStart`.
 - **TRIP-2** **Terminar compra** does this to each item:
 
   | Item | Result |
   |---|---|
-  | Ticked, recurrent | Stays in `Compra`, not ticked |
-  | Ticked, one-time | Saved: `list: 'saved'`, not ticked (LIST-30) |
+  | Ticked | Saved: `list: 'saved'`, not ticked (LIST-30) |
   | Saved | Does not change |
-  | In `Compra`, not ticked, recurrent | Stays |
-  | In `Compra`, not ticked, one-time | Stays in `Compra`, not ticked, with `Aplazar`, or is saved with `Descartar` (TRIP-6) |
+  | In `Compra`, not ticked | Stays in `Compra`, not ticked, with `Aplazar`, or is saved with `Descartar` (TRIP-6) |
 
 - **TRIP-3** **Terminar compra** does not change `group` and `sort`. The relative
   order of the items that stay does not change.
@@ -69,15 +65,15 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
      is the outcome parts of the trip sheet, joined by ` · `.
   2. The trip sheet of `Compra` (NAV-9). Its title is the question `¿Terminar la compra?`. It lists
      the items of `Compra` by where each one goes, one row for each outcome with an icon and its
-     count: recurrent items that come back (icon `repeat`, `2 con ↻ vuelven`), open items kept with
-     `Aplazar` (`cart`, `1 sin comprar se aplaza`), open items saved with `Descartar` (`download`,
-     `1 sin comprar se guarda`) and ticked one-time items (`check`, `4 comprados salen de la lista`). An outcome with no item has no row.
+     count: open items kept with `Aplazar` (icon `cart`, `1 sin comprar se aplaza`), open items
+     saved with `Descartar` (`download`, `1 sin comprar se guarda`) and ticked items (`check`,
+     `4 comprados salen de la lista`). An outcome with no item has no row.
      The banner and the sheet use the same text for each outcome. Below the rows, the primary
      button **Terminar compra** is disabled when TRIP-1 does not hold, and the secondary button
      **Seguir comprando** closes the sheet.
 - **TRIP-5** After **Terminar compra** the screen shows `Compra`. `Deshacer` restores the full
   state of before.
-- **TRIP-6** An open item is an item of `Compra`, not ticked and not recurrent. **Terminar compra**
+- **TRIP-6** An open item is an item of `Compra` that is not ticked. **Terminar compra**
   keeps the open items in `Compra`, not ticked, when the choice of TRIP-7 is `Aplazar`. It saves
   them (LIST-30) when the choice is `Descartar`. The button of the trip sheet finishes at once.
   When an item is open, a line above the button says `Puedes cambiar qué pasa con lo no comprado
@@ -117,7 +113,7 @@ is open.
 
   | State of the item | Text | Effect of the tap |
   |---|---|---|
-  | Ticked | `ya comprado · repetir` | Removes the tick |
+  | Ticked | `ya comprado · desmarcar` | Removes the tick |
   | To buy in `Compra` | `ya en la lista` | Nothing |
   | Saved | `comprado antes · añadir` | Goes to `Compra`, not ticked (LIST-32) |
 
@@ -162,13 +158,14 @@ is open.
 
 ## Saved items
 
-- **LIST-30** **Terminar compra** saves each one-time item of `Compra` that is ticked, and each open
-  item with `Descartar`: only `↻` (LIST-7) and `Aplazar` (TRIP-6) keep an item for the next trip.
+- **LIST-30** **Terminar compra** saves each item of `Compra` that is ticked, and each open item
+  with `Descartar`: only `Aplazar` (TRIP-6) keeps an item for the next trip.
   A saved item leaves `Compra` and keeps its name, its shops and its quantity. The screen does not
   show it, and has no delete for it: to delete it, bring it back (LIST-32), then **Eliminar**.
 - **LIST-31** A saved item keeps its name (DATA-3). The add sheet finds it (ADD-3), and an add of
   its name brings it back (ADD-5).
-- **LIST-32** A bring back puts a saved item in `Compra`, not ticked. `recurrent` does not change.
+- **LIST-32** A bring back puts a saved item in `Compra`, not ticked. Its name, shops, quantity and
+  aisle do not change.
   A saved item cannot be ticked (LIST-10).
 - **LIST-34** Removed: `Compra` has no section of the saved items (LIST-30). The add sheet is the
   only way to them (LIST-31).

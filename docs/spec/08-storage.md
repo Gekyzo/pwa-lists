@@ -39,11 +39,12 @@ The `v1` of the key is the version of the key, not of the state. The state has i
 - **STORE-6** A state is not valid when one of these is true:
   - it is not an object, its `version` is not 1 to 9, or `items` is not a list;
   - an item has no string `id`, no name, a `list` that is not `active`, `saved` or the
-    old `next` (STORE-8), a flag (`recurrent`, `bought`) that is not a boolean, or an `again` that
-    is present and not a boolean;
+    old `next` (STORE-8), a `bought` that is not a boolean, or an `again` that is present and not
+    a boolean;
   - two items have the same id or the same name (DATA-2, DATA-3).
 
-  The recipes, `sent` and the menu of a Bodega state are not checked: STORE-7 drops them.
+  The recipes, `sent` and the menu of a Bodega state are not checked: STORE-7 drops them. The
+  `recurrent` of a Bodega item is not checked: STORE-8 reads it, then drops it.
 - **STORE-7** A valid state is cleaned when it is read. These defects are repaired with no error:
 
   | Field | Repair |
@@ -56,6 +57,7 @@ The `v1` of the key is the version of the key, not of the state. The state has i
   | `aisle` of an item | Not text, or not an aisle of `aisles`: `''`. An aisle: the spelling of `aisles` |
   | Shop spellings | Each shop gets the spelling of its first use |
   | `recipes`, `sent`, `menu` of a Bodega state | Dropped, valid or not |
+  | `recurrent` of a Bodega item | Read for `again` (STORE-8), then dropped, valid or not |
   | `group` | Not `shop`, `aisle` or `none`, such as the `recipe` of Bodega: `none` when `grouped` is `false` (STORE-8), else `shop` |
   | `sort` | Unknown: `custom` |
   | Unknown fields | Dropped |
@@ -69,7 +71,7 @@ The `v1` of the key is the version of the key, not of the state. The state has i
   | Version 1 to 4 | Each item gets `quantity: ''` |
   | Version 1 to 5 | No change of the data: version 6 adds `list: 'saved'` |
   | Version 1 to 6 | `aisles: []`, and each item gets `aisle: ''` |
-  | Version 1 to 7 | An item of `list: 'next'` goes to `Compra`, not ticked. A ticked one-time item with `again: true` goes to `Compra`, not ticked. Each item loses `again` |
+  | Version 1 to 7 | An item of `list: 'next'` goes to `Compra`, not ticked. A ticked item of `Compra` with `again: true` loses its tick, except a recurrent item (`recurrent: true`), which keeps it. A `recurrent` that is not a boolean counts as not recurrent. Each item loses `again` |
   | Version 1 to 8 | No change of the data: version 9 of Bodega adds the dish of a meal, which Stash drops |
 
 ## Failures
@@ -88,7 +90,8 @@ The `v1` of the key is the version of the key, not of the state. The state has i
 - **BACKUP-1** **Exportar** downloads the file `stash-YYYY-MM-DD-HHMMSS.json`, with the
   local date and time. Two exports of one day get two names.
   Its content is the state, as JSON with an indent of 2 spaces.
-- **BACKUP-2** The backup holds the items with their shops, `group`, `sort` and `aisles`. It does not hold the language, the hand, the theme, the density, **Al terminar la compra** or the flag of the
+- **BACKUP-2** The backup holds the items (`id`, `name`, `list`, `bought`, `shops`, `quantity`,
+  `aisle`), `group`, `sort` and `aisles`. It does not hold the language, the hand, the theme, the density, **Al terminar la compra** or the flag of the
   walkthrough.
 - **BACKUP-3** **Importar** opens a file choice for a JSON file. A file that is not JSON
   gives `error.invalidJson`. A JSON that is not a valid state (STORE-6) gives `error.notBackup`.

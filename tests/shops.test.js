@@ -136,10 +136,10 @@ test('shopGroups uses the order of the list inside a group', () => {
   assert.deepEqual(names(shopGroups(sorted).groups[0].items), ['Bread', 'Milk']);
 });
 
-test('shopGroups counts a ticked recurrent item in the total and leaves it out of the items', () => {
+test('shopGroups counts a ticked item in the total and leaves it out of the items', () => {
   const state = build(
     ['Milk', 'active', { shops: ['Lidl'] }],
-    ['Soap', 'active', { bought: true, recurrent: true, shops: ['Lidl', 'Market'] }],
+    ['Soap', 'active', { bought: true, shops: ['Lidl', 'Market'] }],
     ['Salt', 'active'],
   );
   assert.deepEqual(shape(shopGroups(state)), {
