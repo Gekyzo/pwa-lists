@@ -167,8 +167,6 @@ export default {
   'error.nameRequired': 'Scrivi un nome.',
   'error.duplicateItem': '«{name}» è già in {list}.',
   'error.itemNotFound': 'Articolo non trovato.',
-  'error.onlyActiveTick': 'Si possono spuntare solo gli articoli di {list}.',
-  'error.nothingToStart': 'Niente da terminare: spunta un articolo o aggiungine uno.',
   'error.unknownSort': 'Ordine sconosciuto.',
   'error.unknownGroup': 'Raggruppamento sconosciuto.',
   'error.invalidOrder': 'Ordine non valido.',

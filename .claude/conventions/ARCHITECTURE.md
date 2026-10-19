@@ -9,10 +9,10 @@ description: The shape of this component - its boundaries, its seams, and what i
 # Architecture
 
 Stash: an offline shopping list PWA for one Android phone, by store. One list, `Compra`,
-holds the items of the trip. Each item has its shops, and `Compra` has a list for each
-shop. The aisles of the store group the list by section. A trip moves the items that it
-does not keep to `saved`, from which the add sheet brings them back. Stash is a fork of
-Bodega (`../pwa-shopping-list`) with no recipes, no menu of the week and no recurrent items.
+holds the items to buy. Each item has its shops, and `Compra` has a list for each
+shop. The aisles of the store group the list by section. A tick deletes the item: there is no
+trip, no saved item and no bought item. Stash is a fork of Bodega (`../pwa-shopping-list`) with
+no recipes, no menu of the week, no recurrent items and no trip cycle.
 
 **Stack:** plain HTML, CSS and ES modules. No build step and no dependencies.
 `node:test` for unit tests (Node 20 or later). A static HTTPS host serves the
@@ -64,20 +64,20 @@ against the imports of each module.
 ## Boundaries
 
 - **`localStorage`**, key `lists.v1`: the only data store. The state is
-  `{ version: 10, items, group, sort, aisles }`. Versions 1 to 9 are the states of Bodega; such a
-  state is migrated when it is read, and its recipes, sent recipes, menu and recurrent marks are
-  dropped. Invalid content is kept under `lists.v1.corrupt`.
+  `{ version: 11, items, group, sort, aisles }`. Versions 1 to 9 are the states of Bodega and
+  version 10 the first of Stash; such a state is migrated when it is read, and its recipes, sent
+  recipes, menu, recurrent marks, saved items and ticked items are dropped. Invalid content is kept under `lists.v1.corrupt`.
 - **`localStorage`**, key `lists.lang`: the language that the user chose in `Ajustes`, one of
   `ca`, `de`, `en`, `es`, `fr`, `it`, `pt`. No key means that the app follows `navigator.languages`,
   with `en` as the fallback.
-- **`localStorage`**, keys `lists.hand`, `lists.theme`, `lists.density`, `lists.tripEnd` and
-  `lists.shopLists`: the device preferences of `Ajustes` and of the list.
+- **`localStorage`**, keys `lists.hand`, `lists.theme`, `lists.density` and `lists.shopLists`: the
+  device preferences of `Ajustes` and of the list.
 - **`localStorage`**, key `lists.onboarded`: `1` after the walkthrough of the first start closed. No
   key and no `lists.v1` means a new install, which shows the walkthrough.
 - **`localStorage`**, key `lists.swipeHint`: `1` after `Compra` showed the slide of a row one
   time (ROW-14).
 - The keys other than `lists.v1` are not part of the state and not part of the backup.
-- **Cache API**, cache `lists-shell-v1`: the app shell, served stale-while-revalidate. A request
+- **Cache API**, cache `lists-shell-v2`: the app shell, served stale-while-revalidate. A request
   with the `latest` parameter goes to the network only. The message `{ type: 'refresh' }` loads
   the full shell again and answers `{ ok }` on the message port. Cache `lists-manifest`: the
   manifest in the language of the screen (SW-13). The worker deletes only stale `lists-` caches.

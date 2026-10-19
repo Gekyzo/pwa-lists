@@ -45,7 +45,7 @@ apply in it.
 - **SHOP-17** The row shows when an item of the view has a shop. **Sin tienda** shows when an item
   of the view has no shop. The row scrolls horizontally, and a slide on it does not change the
   section (NAV-4). `Izquierda` does not change the row.
-- **SHOP-18** A chip shows the count of its items to buy, or `✓` for none.
+- **SHOP-18** A chip shows the count of its items. A list with no item has no chip (SHOP-17).
 - **SHOP-19** A shop list shows the items that have the shop. **Sin tienda** shows the items with
   no shop. An item of two shops shows in the two lists, and one tick is a tick in each. The search,
   the order and the groups by aisle apply in the list. **Tiendas** is not a choice there
@@ -61,8 +61,7 @@ apply in it.
 - **SHOP-23** A shop list of `Compra` with no item to buy, while items of `Compra` are still to
   buy, shows an end card: the title `<shop>: todo comprado`, the primary button `Siguiente: <shop>
   (<count>) →` and the button `Ver todas las tiendas`. The next list is the one after the shop in
-  chip order, from the start after the end, that has an item to buy (`nextShop`); its count is the
-  items to buy there. With no such list the primary button does not show. A tap on it shows the
+  chip order, from the start after the end (`nextShop`); its count is the items there. With no other list the primary button does not show. A tap on it shows the
   next list. A tap on `Ver todas las tiendas` shows **Todas**. A search hides the card.
 - **SHOP-24** The add sheet opened from a shop list puts that shop on the item that it creates or
   brings (SHOP-4), so the row shows in the list. An item that the sheet finds in its list already
@@ -71,8 +70,8 @@ apply in it.
 - **SHOP-26** Below 600px wide a dock stands above the bottom bar while `Compra` has an item, in
   thumb reach. It holds `‹`, a chip with the name of the list in view, its count of items to buy
   (`✓` for none) and `▾`, then `›`, then the search button (LIST-37). `›` shows the next list after
-  the one in view, in chip order and from the start after the end, that has an item to buy
-  (`nextShop`); `‹` the one before it (`previousShop`). An arrow with no such list is off. With no
+  the one in view, in chip order and from the start after the end (`nextShop`); `‹` the one before
+  it (`previousShop`). An arrow with no other list is off. With no
   chip (SHOP-17) or with the row hidden (SHOP-25) the dock holds only the search button. A slide on
   the dock does not change the section (NAV-4). With `Izquierda` the search button is at the left,
   and `‹` stays before the chip.

@@ -8,8 +8,6 @@ import {
   saveHand,
   loadShopLists,
   saveShopLists,
-  loadTripEnd,
-  saveTripEnd,
   loadTheme,
   saveTheme,
   loadDensity,
@@ -79,7 +77,7 @@ export let theme = storage ? loadTheme(storage) : 'system';
 // `hide` takes the row of shop lists away from Compra.
 export let shopLists = storage ? loadShopLists(storage) : 'show';
 // `save` makes Descartar the first choice of an item not bought at Terminar compra (TRIP-7).
-export let tripEnd = storage ? loadTripEnd(storage) : 'keep';
+export let tripEnd = 'keep';
 document.documentElement.dataset.theme = theme;
 // `compact` takes space out of the rows of a list, in styles.css.
 export let density = storage ? loadDensity(storage) : 'normal';
@@ -254,5 +252,4 @@ export const setShopLists = (choice) => {
 
 export const setTripEnd = (choice) => {
   tripEnd = choice === 'save' ? 'save' : 'keep';
-  if (storage) saveTripEnd(storage, tripEnd);
 };

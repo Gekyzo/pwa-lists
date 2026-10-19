@@ -80,16 +80,15 @@ export const addDefaultAisles = (state, names) => {
   return { state: next.aisles.length === state.aisles.length ? state : next };
 };
 
-// A list by aisle, with the aisles in the order of the walk. `items` are the members still to buy
-// and `total` counts the ticked members too. `rest` holds the items with no aisle.
+// A list by aisle, with the aisles in the order of the walk. `total` is the count of `items`. An
+// aisle with no item has no group. `rest` holds the items with no aisle.
 export const aisleGroups = (state) => {
   const source = activeItems(state);
-  const shown = (item) => !item.bought;
   const groups = state.aisles
     .map((aisle) => {
-      const members = source.filter((item) => item.aisle === aisle);
-      return { aisle, items: members.filter(shown), total: members.length };
+      const items = source.filter((item) => item.aisle === aisle);
+      return { aisle, items, total: items.length };
     })
     .filter((group) => group.total > 0);
-  return { groups, rest: source.filter((item) => shown(item) && !item.aisle) };
+  return { groups, rest: source.filter((item) => !item.aisle) };
 };

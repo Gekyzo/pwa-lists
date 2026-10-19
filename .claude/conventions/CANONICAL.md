@@ -32,8 +32,8 @@ for that kind, use it — the template is the exemplar made executable.
   `src/ui/context.js`, which saves, then builds the screen again from the state. The DOM holds no data of its own.
 - **Derived views.** The items of `Compra` are computed by `activeItems`. The groups by shop are
   computed by `shopGroups`, and the groups by aisle by `aisleGroups`. The name order is computed by
-  `sortItems`; `items` keeps the insertion order. An item is one record, in `Compra` or saved, and
-  is never copied between lists.
+  `sortItems`; `items` keeps the insertion order. An item is one record, in `Compra` while it is to
+  buy, and is never copied.
 - **Text only.** DOM nodes get user text through `textContent`, never `innerHTML`.
 
 ## Do not copy
@@ -44,6 +44,6 @@ No module imports `src/app.js`, and no pure module imports a view.
 ## Naming
 
 - Files: lower case, one word where possible (`store.js`, `storage.js`).
-- Exports: camelCase verbs for operations (`toggleBought`), nouns for views
+- Exports: camelCase verbs for operations (`tickItem`), nouns for views
   (`activeItems`), upper case for constants (`STORAGE_KEY`).
 - Tests: `tests/<module>.test.js`.

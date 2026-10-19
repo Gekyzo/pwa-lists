@@ -45,16 +45,14 @@ export const removeItemShop = (state, id, name) => {
 };
 
 // A list by shop, with the shops in name order. An item of two shops is in the two groups.
-// `items` are the members still to buy and `total` counts the ticked members too. `rest` holds
-// the items with no shop.
+// `total` is the count of `items`. `rest` holds the items with no shop.
 export const shopGroups = (state) => {
   const source = activeItems(state);
-  const shown = (item) => !item.bought;
   const groups = namesOf(source).map((shop) => {
-    const members = source.filter((item) => hasShop(item, shop));
-    return { shop, items: members.filter(shown), total: members.length };
+    const items = source.filter((item) => hasShop(item, shop));
+    return { shop, items, total: items.length };
   });
-  return { groups, rest: source.filter((item) => shown(item) && item.shops.length === 0) };
+  return { groups, rest: source.filter((item) => item.shops.length === 0) };
 };
 
 // The shop lists: `null` is `Todas`, `''` is `Sin tienda`, a name is a shop.
@@ -64,17 +62,13 @@ export const inShop = (item, shop) => (shop === null ? true : shop === '' ? item
 export const shopState = (state, shop) =>
   shop === null ? state : { ...state, items: state.items.filter((item) => inShop(item, shop)) };
 
-// The chips of the shop lists of Active: Todas, each shop in name order, then Sin tienda when an
-// item has no shop. `count` is the items to buy. No chip when no item has a shop.
+// The chips of the shop lists of Compra: Todas, each shop in name order, then Sin tienda when an
+// item has no shop. `count` is the items of the list. No chip when no item has a shop.
 export const shopChips = (state) => {
-  const source = activeItems(state);
-  const names = namesOf(source);
+  const names = namesOf(state.items);
   if (!names.length) return [];
-  const chip = (shop) => {
-    const members = source.filter((item) => inShop(item, shop));
-    return { shop, count: members.filter((item) => !item.bought).length };
-  };
-  const none = source.some((item) => item.shops.length === 0) ? [chip('')] : [];
+  const chip = (shop) => ({ shop, count: state.items.filter((item) => inShop(item, shop)).length });
+  const none = state.items.some((item) => item.shops.length === 0) ? [chip('')] : [];
   return [chip(null), ...names.map(chip), ...none];
 };
 
@@ -85,22 +79,22 @@ export const validShop = (state, shop) => {
   return chip ? chip.shop : null;
 };
 
-// The shop list of Active after `shop`, in chip order and from the start after the end, that has an
-// item to buy: `{ shop, count }`. Null when no other shop list has one.
+// The shop list of Compra after `shop`, in chip order and from the start after the end:
+// `{ shop, count }`. Null when no other shop list has an item.
 export const nextShop = (state, shop) => {
   const chips = shopChips(state).filter((chip) => chip.shop !== null);
   const at = chips.findIndex((chip) => chip.shop === shop);
   const order = [...chips.slice(at + 1), ...chips.slice(0, at + 1)];
-  return order.find((chip) => chip.shop !== shop && chip.count > 0) ?? null;
+  return order.find((chip) => chip.shop !== shop) ?? null;
 };
 
-// The shop list of Active before `shop`, in chip order and from the end after the start, that has an
-// item to buy: `{ shop, count }`. Null when no other shop list has one.
+// The shop list of Compra before `shop`, in chip order and from the end after the start:
+// `{ shop, count }`. Null when no other shop list has an item.
 export const previousShop = (state, shop) => {
   const chips = shopChips(state).filter((chip) => chip.shop !== null);
   const at = chips.findIndex((chip) => chip.shop === shop);
   const order = at < 0 ? chips : [...chips.slice(at + 1), ...chips.slice(0, at)];
-  return order.reverse().find((chip) => chip.shop !== shop && chip.count > 0) ?? null;
+  return order.reverse().find((chip) => chip.shop !== shop) ?? null;
 };
 
 // An add from a shop list puts its shop on the item. Todas, Sin tienda and an error change nothing.

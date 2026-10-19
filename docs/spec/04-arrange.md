@@ -21,7 +21,7 @@ the arrange sheet in `src/ui/arrange.js`.
   of the user. A new item goes to the end.
 - **SORT-6** **Nombre** is alphabetical with no case and no accent distinction. It does not change
   `items`.
-- **SORT-7** In `Compra` the items to buy come before the ticked items in each order.
+- **SORT-7** Removed: `Compra` has no ticked items (LIST-12).
 - **SORT-8** The order also applies inside each group.
 - **SORT-9** A change of order has no message and no `Deshacer`. The rows move to their new places
   with an animation.

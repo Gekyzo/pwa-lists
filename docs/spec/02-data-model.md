@@ -6,7 +6,7 @@ The app has one state object. Each operation returns a new object and never chan
 
 ```js
 {
-  version: 10,
+  version: 11,
   items: [Item],      // insertion order, changed only by a manual move
   group: 'shop',      // 'shop' | 'aisle' | 'none'
   sort: 'custom',     // 'custom' | 'name'
@@ -14,7 +14,7 @@ The app has one state object. Each operation returns a new object and never chan
 }
 ```
 
-The empty state is `{ version: 10, items: [], group: 'shop', sort: 'custom', aisles: [] }`.
+The empty state is `{ version: 11, items: [], group: 'shop', sort: 'custom', aisles: [] }`.
 
 ## Item
 
@@ -22,8 +22,6 @@ The empty state is `{ version: 10, items: [], group: 'shop', sort: 'custom', ais
 {
   id: string,         // crypto.randomUUID()
   name: string,       // trimmed, not empty
-  list: 'active' | 'saved', // 'saved': kept after a trip, out of Compra
-  bought: boolean,    // ticked
   shops: [string],    // shop names
   quantity: string,   // free text, such as '2' or '1 kg'; trimmed; '' for none
   aisle: string,      // one name of `aisles`, or '' for none
@@ -34,11 +32,12 @@ The empty state is `{ version: 10, items: [], group: 'shop', sort: 'custom', ais
 
 - **DATA-1** An item is one record. It is never copied; a view computes where it shows.
 - **DATA-2** Item ids are unique.
-- **DATA-3** Item names are unique with no case distinction, in `Compra` and saved. `Leche` and
-  `leche` are one name; `Cafe` and `Café` are two.
+- **DATA-3** Item names are unique with no case distinction. `Leche` and `leche` are one name;
+  `Cafe` and `Café` are two.
 - **DATA-4** Removed: the state has no recipes.
 - **DATA-5** Removed: the state has no recipes.
-- **DATA-6** `bought` is true only for an item of `list: 'active'`. A saved item is never ticked.
+- **DATA-6** Removed: an item has no `list` and no `bought`. An item exists while it is to buy: a
+  tick deletes it (LIST-12).
 - **DATA-7** Removed: an item has no `again` field (STORE-8).
 - **DATA-8** The shops of one item are unique with no case distinction, trimmed and not empty.
 - **DATA-9** One shop has one spelling in the full state: the spelling of its first use.
@@ -56,18 +55,13 @@ No view is stored.
 
 | View | Function | Content |
 |---|---|---|
-| `Compra` | `activeItems` | The items of `list: 'active'`, those to buy first, then those ticked |
-| Trip figures | `tripSummary` | `total`, `left`, `back`, `saved` |
-| Trip outcome | `tripOutcome` | `kept`, `open`, `bought` |
+| `Compra` | `activeItems` | Each item, in the order of `sort` |
 | Shop groups | `shopGroups` | `Compra` by shop |
 | Shops in use | `shopNames` | Each shop of an item, in name order |
 | Aisle groups | `aisleGroups` | `Compra` by aisle, in the order of `aisles` |
 
-`tripSummary` gives: `total`, the items of `Compra`; `left`, those not ticked; `back`, the open
-items kept with `Aplazar` (TRIP-6); `saved`, the other items of `Compra`, ticked or not:
-`total` − `back`. `tripOutcome` splits the items of `Compra` by where each one goes (TRIP-4):
-`kept`, open items kept with `Aplazar`; `open`, the other open items, saved; `bought`, ticked
-items, saved. The three add up to `total`.
+A group of `shopGroups` and of `aisleGroups` has its `items` and `total`, the count of its items.
+The figures of the screen are counts of items: the app has no trip figures.
 
 ## Name rules
 

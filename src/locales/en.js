@@ -167,8 +167,6 @@ export default {
   'error.nameRequired': 'Write a name.',
   'error.duplicateItem': '“{name}” is already in {list}.',
   'error.itemNotFound': 'Item not found.',
-  'error.onlyActiveTick': 'Only the items of {list} can be ticked.',
-  'error.nothingToStart': 'Nothing to finish: tick an item or add one.',
   'error.unknownSort': 'Unknown order.',
   'error.unknownGroup': 'Unknown grouping.',
   'error.invalidOrder': 'Invalid order.',

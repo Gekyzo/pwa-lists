@@ -3,12 +3,10 @@ import { emptyState, GROUPS, SORTS } from '#store';
 export const STORAGE_KEY = 'lists.v1';
 export const CORRUPT_KEY = `${STORAGE_KEY}.corrupt`;
 
-const LISTS = ['active', 'saved'];
-
-// Versions 1 to 7 have a second list, `next`, and `again`, the mark of a ticked one-time item that
-// comes back at the next trip. Both are items to buy at the next trip now: they go to Compra, not
-// ticked.
-const OLD_LISTS = ['next'];
+// Versions 1 to 10 put an item in a list, `active` or `saved`, and mark a ticked one with `bought`.
+// Versions 1 to 7 have a third list, `next`, and `again`, the mark of a ticked one-time item that
+// comes back at the next trip. Version 11 has no list and no tick: each item is to buy.
+const LISTS = ['active', 'saved', 'next'];
 
 const unique = (values) => new Set(values).size === values.length;
 
@@ -28,26 +26,30 @@ const normalizeShops = (shops) => {
     });
 };
 
+// True when an old item is to buy: in `next`, or in `active` and not ticked. A ticked one-time item
+// with `again` comes back; a ticked recurrent item of Bodega with `again` keeps its tick, as Bodega
+// kept it. `recurrent` is a mark of Bodega that Stash drops.
+const toBuy = ({ list = 'active', bought = false, again, recurrent }) =>
+  list === 'next' || (list === 'active' && (!bought || (recurrent !== true && again === true)));
+
+// The clean item, `false` for a valid item that is not to buy (saved or ticked), or null for an
+// invalid one.
 const normalizeItem = (item) => {
   if (typeof item !== 'object' || item === null) return null;
-  const { id, name, recurrent, list, bought, again, shops, quantity, aisle } = item;
+  const { id, name, list, bought, again, shops, quantity, aisle } = item;
   const valid =
     typeof id === 'string' &&
     id !== '' &&
     typeof name === 'string' &&
     name.trim() !== '' &&
-    [...LISTS, ...OLD_LISTS].includes(list) &&
-    typeof bought === 'boolean' &&
+    (list === undefined || LISTS.includes(list)) &&
+    (bought === undefined || typeof bought === 'boolean') &&
     (again === undefined || typeof again === 'boolean');
   if (!valid) return null;
-  // `recurrent` is a mark of Bodega: Stash drops it. A ticked recurrent item of Bodega with `again`
-  // keeps its tick, as Bodega kept it.
-  const comesBack = list === 'next' || (list === 'active' && bought && recurrent !== true && again === true);
+  if (!toBuy(item)) return false;
   return {
     id,
     name: name.trim(),
-    list: list === 'saved' ? 'saved' : 'active',
-    bought: list === 'active' && bought && !comesBack,
     shops: normalizeShops(shops),
     quantity: typeof quantity === 'string' ? quantity.trim() : '',
     aisle: typeof aisle === 'string' ? aisle.trim() : '',
@@ -90,21 +92,22 @@ const groupOf = (data) => {
   return data.grouped === false ? 'none' : 'shop';
 };
 
-// Versions 1 to 9 are the states of Bodega; version 10 is the first of Stash.
-const VERSIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+// Versions 1 to 9 are the states of Bodega; version 10 is the first of Stash, and version 11 the
+// first with no saved and no ticked items.
+const VERSIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
 
-// Returns a clean version 10 state, or null when the data is not a known state. The recipes, the
-// sent recipes and the menu of a Bodega state are dropped.
+// Returns a clean version 11 state, or null when the data is not a known state. The recipes, the
+// sent recipes and the menu of a Bodega state are dropped, and so are the saved and ticked items.
 const normalizeState = (data) => {
   if (typeof data !== 'object' || data === null || !VERSIONS.includes(data.version) || !Array.isArray(data.items)) return null;
+  if (data.items.some((item) => typeof item !== 'object' || item === null)) return null;
+  const valid = unique(data.items.map((item) => item.id)) && unique(data.items.map((item) => lower(String(item.name ?? '').trim())));
   const items = data.items.map(normalizeItem);
-  if (items.includes(null)) return null;
-  const valid = unique(items.map((item) => item.id)) && unique(items.map((item) => lower(item.name)));
-  if (!valid) return null;
+  if (!valid || items.includes(null)) return null;
   const aisles = normalizeAisles(data.aisles);
   return {
-    version: 10,
-    items: knownAisles(oneSpelling(items), aisles),
+    version: 11,
+    items: knownAisles(oneSpelling(items.filter(Boolean)), aisles),
     group: groupOf(data),
     sort: SORTS.includes(data.sort) ? data.sort : 'custom',
     aisles,
@@ -228,30 +231,6 @@ export const saveShopLists = (storage, choice) => {
   }
 };
 
-// What Terminar compra does at first with an item not bought: `keep` it in Compra or `save` it
-// (TRIP-7). A preference of the device, as the hand is.
-export const TRIP_END_KEY = 'lists.tripEnd';
-
-// `save` when stored, else `keep`.
-export const loadTripEnd = (storage) => {
-  try {
-    return storage.getItem(TRIP_END_KEY) === 'save' ? 'save' : 'keep';
-  } catch {
-    return 'keep';
-  }
-};
-
-// `keep` is the choice of an app with no choice: it removes the key.
-export const saveTripEnd = (storage, choice) => {
-  try {
-    if (choice === 'save') storage.setItem(TRIP_END_KEY, 'save');
-    else storage.removeItem(TRIP_END_KEY);
-    return true;
-  } catch {
-    return false;
-  }
-};
-
 // The colours of the app: `light`, `dark`, or `system` to follow the phone. A preference of the
 // device, as the hand is.
 export const THEME_KEY = 'lists.theme';
@@ -364,7 +343,6 @@ export const APP_KEYS = [
   LANGUAGE_KEY,
   HAND_KEY,
   SHOP_LISTS_KEY,
-  TRIP_END_KEY,
   THEME_KEY,
   DENSITY_KEY,
   ONBOARDED_KEY,

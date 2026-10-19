@@ -167,8 +167,6 @@ export default {
   'error.nameRequired': 'Écrivez un nom.',
   'error.duplicateItem': '« {name} » est déjà dans {list}.',
   'error.itemNotFound': 'Article introuvable.',
-  'error.onlyActiveTick': 'Seuls les articles de {list} peuvent être cochés.',
-  'error.nothingToStart': 'Rien à terminer : cochez un article ou ajoutez-en un.',
   'error.unknownSort': 'Ordre inconnu.',
   'error.unknownGroup': 'Regroupement inconnu.',
   'error.invalidOrder': 'Ordre non valide.',

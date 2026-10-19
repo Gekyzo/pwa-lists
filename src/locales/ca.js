@@ -167,8 +167,6 @@ export default {
   'error.nameRequired': 'Escriu un nom.',
   'error.duplicateItem': '«{name}» ja és a {list}.',
   'error.itemNotFound': 'Article no trobat.',
-  'error.onlyActiveTick': 'Només es poden marcar els articles de {list}.',
-  'error.nothingToStart': 'Res per acabar: marca un article o afegeix-ne un.',
   'error.unknownSort': 'Ordre desconegut.',
   'error.unknownGroup': 'Agrupació desconeguda.',
   'error.invalidOrder': 'Ordre no vàlid.',

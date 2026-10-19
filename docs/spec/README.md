@@ -12,7 +12,7 @@ The names of the screen are the Spanish ones, because `src/locales/es.js` is the
 |---|---|
 | [01-product.md](01-product.md) | Purpose, user, constraints, what the app does not do |
 | [02-data-model.md](02-data-model.md) | The state, its records and its invariants |
-| [03-lists.md](03-lists.md) | Items, the list `Compra`, the trip cycle, the add sheet |
+| [03-lists.md](03-lists.md) | Items, the list `Compra`, the tick, the add sheet |
 | [04-arrange.md](04-arrange.md) | Order, groups and the manual move of a row |
 | [05-shops.md](05-shops.md) | The shops of an item and the list by shop |
 | [07-screen.md](07-screen.md) | Sections, header, gestures, sheets, messages and undo, the walkthrough |
@@ -57,12 +57,9 @@ The rules DS-1 to DS-8 and LAY-1 to LAY-4 belong to the design system, `pwa-desi
 
 | Word | Meaning |
 |---|---|
-| Item | A product to buy. One record, in `Compra` or saved |
+| Item | A product to buy. One record, in `Compra`, while it is to buy |
 | `Compra` | The list of the current trip. List id `active` |
-| Trip | The time from one **Terminar compra** to the next |
-| Ticked | An item of `Compra` with `bought: true` |
-| Open | An item of `Compra` that is not ticked (TRIP-6) |
-| Saved | An item that a trip took out of `Compra`; the screen does not show it. List id `saved` |
+| Tick | The mark of an item as bought: it deletes the item (LIST-12) |
 | Shop | A name that one item or more have. It has no record of its own |
 | Aisle | A section of a store, such as `Lácteos`. The screen says `Sección`; the code says `aisle`, because a section is a screen of the bottom bar |
 | Section | One of the two screens of the bottom bar |

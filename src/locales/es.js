@@ -167,8 +167,6 @@ export default {
   'error.nameRequired': 'Escribe un nombre.',
   'error.duplicateItem': '"{name}" ya está en {list}.',
   'error.itemNotFound': 'Artículo no encontrado.',
-  'error.onlyActiveTick': 'Solo se pueden marcar los artículos de {list}.',
-  'error.nothingToStart': 'Nada que terminar: marca un artículo o añade uno.',
   'error.unknownSort': 'Orden desconocido.',
   'error.unknownGroup': 'Agrupación desconocida.',
   'error.invalidOrder': 'Orden no válido.',

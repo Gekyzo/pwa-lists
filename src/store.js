@@ -6,7 +6,7 @@ export const GROUPS = ['shop', 'aisle', 'none'];
 
 // `group` is the choice of the user to show a list in groups, and `sort` the order of the list.
 // `aisles` are the sections of the store, in the order of the walk.
-export const emptyState = () => ({ version: 10, items: [], group: 'shop', sort: 'custom', aisles: [] });
+export const emptyState = () => ({ version: 11, items: [], group: 'shop', sort: 'custom', aisles: [] });
 
 // An error is a message: the key of its text, with the parameters of the text. A `list`
 // parameter holds a list id. The screen turns the message into text.
@@ -22,15 +22,15 @@ const nameError = (state, name, ownId) => {
   if (!name) return ['error.nameRequired'];
   const key = name.toLowerCase();
   const duplicate = state.items.find((item) => item.id !== ownId && item.name.toLowerCase() === key);
-  return duplicate ? ['error.duplicateItem', { name: duplicate.name, list: duplicate.list }] : null;
+  return duplicate ? ['error.duplicateItem', { name: duplicate.name, list: 'active' }] : null;
 };
 
-// A new item goes to Compra.
+// An item exists while it is to buy: a tick deletes it.
 export const addItem = (state, rawName, newId = () => crypto.randomUUID()) => {
   const name = String(rawName ?? '').trim();
   const error = nameError(state, name);
   if (error) return reject(state, ...error);
-  const item = { id: newId(), name, list: 'active', bought: false, shops: [], quantity: '', aisle: '' };
+  const item = { id: newId(), name, shops: [], quantity: '', aisle: '' };
   return { state: { ...state, items: [...state.items, item] } };
 };
 
@@ -49,43 +49,13 @@ export const setQuantity = (state, id, rawQuantity) => {
   return quantity === item.quantity ? { state } : patchItem(state, id, { quantity });
 };
 
-export const toggleBought = (state, id) => {
-  const item = findItem(state, id);
-  if (!item) return reject(state, 'error.itemNotFound');
-  if (item.list !== 'active') return reject(state, 'error.onlyActiveTick', { list: 'active' });
-  return patchItem(state, id, { bought: !item.bought });
-};
-
 export const deleteItem = (state, id) => {
   if (!findItem(state, id)) return reject(state, 'error.itemNotFound');
   return { state: { ...state, items: state.items.filter((item) => item.id !== id) } };
 };
 
-// The items of Active that are not ticked: Terminar compra saves each one, or keeps it in Active
-// when the user chose Aplazar (TRIP-6).
-const isOpen = (item) => item.list === 'active' && !item.bought;
-export const openItems = (state) => sortItems(state, state.items.filter(isOpen));
-
-export const canStartNewShopping = (state) =>
-  state.items.some((item) => item.bought || isOpen(item));
-
-// The ids of `keep` that name an open item.
-const keptIds = (state, keep) => {
-  const wanted = new Set(keep);
-  return new Set(openItems(state).map((item) => item.id).filter((id) => wanted.has(id)));
-};
-
-// `keep` holds the ids of the open items that stay in Active; any other id is ignored.
-export const startNewShopping = (state, keep = []) => {
-  if (!canStartNewShopping(state)) return reject(state, 'error.nothingToStart');
-  const kept = keptIds(state, keep);
-  // An item of Active, ticked or not, is saved: only a kept open item is in Active at the next trip.
-  const items = state.items.map((item) => {
-    if (item.list === 'saved') return item;
-    return { ...item, list: kept.has(item.id) ? 'active' : 'saved', bought: false };
-  });
-  return { state: { ...state, items } };
-};
+// A tick deletes the item: it is bought. The screen shows its own message for it.
+export const tickItem = deleteItem;
 
 export const setSort = (state, sort) =>
   SORTS.includes(sort) ? { state: { ...state, sort } } : reject(state, 'error.unknownSort');
@@ -116,10 +86,7 @@ const byName = (a, b) => compareNames(a.name, b.name);
 // The items in the order that the user chose. The order of `state.items` is the insertion order.
 export const sortItems = (state, items) => (state.sort === 'name' ? [...items].sort(byName) : items);
 
-export const activeItems = (state) => {
-  const active = sortItems(state, state.items.filter((item) => item.list === 'active'));
-  return [...active.filter((item) => !item.bought), ...active.filter((item) => item.bought)];
-};
+export const activeItems = (state) => sortItems(state, state.items);
 
 // The form of a text for a search: no case and no accent distinction.
 export const fold = (text) =>
@@ -137,13 +104,13 @@ export const matchesItem = (item, query) => {
 };
 
 // A list by group with only the items that match the query. A query takes away a group with no
-// item left. `left` is the count of the items of the full group, as `total` is, so that the head
-// of a group shows the same figures with a query and with none.
+// item left. `total` stays the count of the full group, so that the head of a group shows the same
+// figure with a query and with none.
 export const filterGroups = (view, query) => {
   const searching = Boolean(fold(query));
   const matches = (item) => matchesItem(item, query);
   const groups = view.groups
-    .map((group) => ({ ...group, items: group.items.filter(matches), left: group.items.length }))
+    .map((group) => ({ ...group, items: group.items.filter(matches) }))
     .filter((group) => !searching || group.items.length > 0);
   return { groups, rest: view.rest.filter(matches) };
 };
@@ -169,45 +136,8 @@ export const searchItems = (state, query, limit = 5) => {
     .slice(0, limit);
 };
 
-// Makes an existing item show as "to buy" in Compra. `changed` is false when the item is there
-// already.
-export const bringToList = (state, id) => {
-  const item = findItem(state, id);
-  if (!item) return reject(state, 'error.itemNotFound');
-  if (item.list === 'saved') return { ...patchItem(state, id, { list: 'active' }), changed: true };
-  if (item.bought) return { ...toggleBought(state, id), changed: true };
-  return { state, changed: false };
-};
-
-// Figures for the header and for the preview of `startNewShopping`: `back` kept open items stay for
-// the next trip, `saved` the other items of Active are saved. `keep` is the parameter of
-// `startNewShopping`.
-export const tripSummary = (state, keep = []) => {
-  const active = state.items.filter((item) => item.list === 'active');
-  const bought = active.filter((item) => item.bought);
-  const kept = keptIds(state, keep).size;
-  return {
-    total: active.length,
-    left: active.length - bought.length,
-    back: kept,
-    saved: active.length - kept,
-  };
-};
-
-// Where each item of Active goes at `startNewShopping`, for the trip sheet: `kept` open items stay,
-// `open` items and `bought` items are saved.
-export const tripOutcome = (state, keep = []) => {
-  const active = state.items.filter((item) => item.list === 'active');
-  const kept = keptIds(state, keep).size;
-  return {
-    kept,
-    open: active.filter(isOpen).length - kept,
-    bought: active.filter((item) => item.bought).length,
-  };
-};
-
-// The message of the toast that an arrival at the shop shows, or null when nothing is left to buy.
+// The message of the toast that an arrival at the shop shows, or null when the list is empty.
 export const arrivalMessage = (state) => {
-  const { left } = tripSummary(state);
-  return left === 0 ? null : { key: 'toast.arrival', params: { count: left, list: 'active' } };
+  const count = state.items.length;
+  return count === 0 ? null : { key: 'toast.arrival', params: { count, list: 'active' } };
 };

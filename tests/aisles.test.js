@@ -6,11 +6,11 @@ import { addAisle, renameAisle, deleteAisle, moveAisle, setItemAisle, addDefault
 let counter = 0;
 const newId = () => `id-${++counter}`;
 
-// Each spec is [name, list, patch]: the list is 'active' or 'saved'.
+// Each spec is [name, patch].
 const build = (aisles, ...specs) =>
-  specs.reduce((state, [name, list, patch = {}]) => {
+  specs.reduce((state, [name, patch = {}]) => {
     const { state: added } = addItem(state, name, newId);
-    const items = added.items.map((item) => (item.name === name ? { ...item, list, ...patch } : item));
+    const items = added.items.map((item) => (item.name === name ? { ...item, ...patch } : item));
     return { ...added, items };
   }, { ...emptyState(), aisles });
 
@@ -46,7 +46,7 @@ test('addAisle rejects a name that differs from an aisle only by case', () => {
 });
 
 test('renameAisle renames the aisle in place and on each item that has it', () => {
-  const start = build(['Dairy', 'Frozen'], ['Milk', 'active', { aisle: 'Dairy' }], ['Peas', 'saved', { aisle: 'Frozen' }]);
+  const start = build(['Dairy', 'Frozen'], ['Milk', { aisle: 'Dairy' }], ['Peas', { aisle: 'Frozen' }]);
   const { state, error } = renameAisle(start, 'Dairy', ' Milk and eggs ');
   assert.equal(error, undefined);
   assert.deepEqual(state.aisles, ['Milk and eggs', 'Frozen']);
@@ -56,7 +56,7 @@ test('renameAisle renames the aisle in place and on each item that has it', () =
 });
 
 test('renameAisle changes only the case of a name', () => {
-  const start = build(['dairy'], ['Milk', 'active', { aisle: 'dairy' }]);
+  const start = build(['dairy'], ['Milk', { aisle: 'dairy' }]);
   const { state } = renameAisle(start, 'dairy', 'Dairy');
   assert.deepEqual(state.aisles, ['Dairy']);
   assert.equal(find(state, 'Milk').aisle, 'Dairy');
@@ -77,7 +77,7 @@ test('renameAisle rejects an unknown aisle, an empty name and the name of anothe
 });
 
 test('deleteAisle removes the aisle and clears it on its items', () => {
-  const start = build(['Dairy', 'Frozen'], ['Milk', 'active', { aisle: 'Dairy' }], ['Peas', 'saved', { aisle: 'Frozen' }]);
+  const start = build(['Dairy', 'Frozen'], ['Milk', { aisle: 'Dairy' }], ['Peas', { aisle: 'Frozen' }]);
   const { state, error } = deleteAisle(start, 'Dairy');
   assert.equal(error, undefined);
   assert.deepEqual(state.aisles, ['Frozen']);
@@ -112,7 +112,7 @@ test('moveAisle rejects an unknown aisle', () => {
 });
 
 test('setItemAisle sets the aisle of an item in the spelling of the aisle', () => {
-  const start = build(['Dairy'], ['Milk', 'active'], ['Salt', 'active']);
+  const start = build(['Dairy'], ['Milk'], ['Salt']);
   const { state, error } = setItemAisle(start, find(start, 'Milk').id, 'dairy');
   assert.equal(error, undefined);
   assert.equal(find(state, 'Milk').aisle, 'Dairy');
@@ -121,17 +121,17 @@ test('setItemAisle sets the aisle of an item in the spelling of the aisle', () =
 });
 
 test('setItemAisle with an empty name clears the aisle', () => {
-  const start = build(['Dairy'], ['Milk', 'active', { aisle: 'Dairy' }]);
+  const start = build(['Dairy'], ['Milk', { aisle: 'Dairy' }]);
   assert.equal(find(setItemAisle(start, find(start, 'Milk').id, '').state, 'Milk').aisle, '');
 });
 
 test('setItemAisle to the aisle that the item has returns the same state object', () => {
-  const start = build(['Dairy'], ['Milk', 'active', { aisle: 'Dairy' }]);
+  const start = build(['Dairy'], ['Milk', { aisle: 'Dairy' }]);
   assert.equal(setItemAisle(start, find(start, 'Milk').id, 'Dairy').state, start);
 });
 
 test('setItemAisle rejects an unknown item and an unknown aisle', () => {
-  const start = build(['Dairy'], ['Milk', 'active']);
+  const start = build(['Dairy'], ['Milk']);
   assert.deepEqual(setItemAisle(start, 'nope', 'Dairy').error, { key: 'error.itemNotFound' });
   const unknown = setItemAisle(start, find(start, 'Milk').id, 'Frozen');
   assert.equal(unknown.state, start);
@@ -149,33 +149,30 @@ test('addDefaultAisles with nothing new returns the same state object', () => {
   assert.equal(addDefaultAisles(start, ['DAIRY']).state, start);
 });
 
-test('aisleGroups follows the order of the aisles and keeps the ticked members in the total', () => {
+test('aisleGroups follows the order of the aisles and leaves out an aisle with no item', () => {
   const start = build(
     ['Bakery', 'Dairy', 'Frozen'],
-    ['Milk', 'active', { aisle: 'Dairy' }],
-    ['Bread', 'active', { aisle: 'Bakery', bought: true }],
-    ['Rolls', 'active', { aisle: 'Bakery' }],
-    ['Salt', 'active'],
-    ['Peas', 'saved', { aisle: 'Frozen' }],
+    ['Milk', { aisle: 'Dairy' }],
+    ['Bread', { aisle: 'Bakery' }],
+    ['Rolls', { aisle: 'Bakery' }],
+    ['Salt'],
   );
   assert.deepEqual(shape(aisleGroups(start)), {
-    groups: [['Bakery', ['Rolls'], 2], ['Dairy', ['Milk'], 1]],
+    groups: [['Bakery', ['Bread', 'Rolls'], 2], ['Dairy', ['Milk'], 1]],
     rest: ['Salt'],
   });
 });
 
-test('aisleGroups uses the order of the user and leaves out the saved items', () => {
+test('aisleGroups uses the order of the user', () => {
   const start = build(
     ['Dairy'],
-    ['Yogurt', 'active', { aisle: 'Dairy' }],
-    ['Cheese', 'active', { aisle: 'Dairy' }],
-    ['Milk', 'active', { aisle: 'Dairy', bought: true }],
-    ['Butter', 'saved', { aisle: 'Dairy' }],
-    ['Salt', 'active'],
+    ['Yogurt', { aisle: 'Dairy' }],
+    ['Cheese', { aisle: 'Dairy' }],
+    ['Salt'],
   );
   const sorted = setSort(start, 'name').state;
   assert.deepEqual(shape(aisleGroups(sorted)), {
-    groups: [['Dairy', ['Cheese', 'Yogurt'], 3]],
+    groups: [['Dairy', ['Cheese', 'Yogurt'], 2]],
     rest: ['Salt'],
   });
 });

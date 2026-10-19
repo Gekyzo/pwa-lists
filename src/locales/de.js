@@ -167,8 +167,6 @@ export default {
   'error.nameRequired': 'Schreibe einen Namen.',
   'error.duplicateItem': '„{name}“ ist schon in {list}.',
   'error.itemNotFound': 'Artikel nicht gefunden.',
-  'error.onlyActiveTick': 'Nur die Artikel von {list} können markiert werden.',
-  'error.nothingToStart': 'Nichts zu beenden: Markiere einen Artikel oder füge einen hinzu.',
   'error.unknownSort': 'Unbekannte Reihenfolge.',
   'error.unknownGroup': 'Unbekannte Gruppierung.',
   'error.invalidOrder': 'Ungültige Reihenfolge.',

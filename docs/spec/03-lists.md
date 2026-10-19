@@ -6,15 +6,14 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 
 - **LIST-1** A new item has a name that is trimmed and not empty. An empty name gives
   `error.nameRequired`.
-- **LIST-2** A name that an item has already, in `Compra` or saved, gives `error.duplicateItem` with
-  the name and the list of that item (DATA-3).
+- **LIST-2** A name that an item has already gives `error.duplicateItem` with the name of that
+  item and the list `Compra` (DATA-3).
 - **LIST-3** A new item goes to `Compra`.
-- **LIST-4** A new item goes to the end of `items`, with no shop, no quantity, not ticked.
+- **LIST-4** A new item goes to the end of `items`, with no shop, no quantity and no aisle.
 - **LIST-5** A rename has the rules LIST-1 and LIST-2. The item keeps its own name without an
   error. A rename to the same text changes nothing.
 - **LIST-6** A name field of the screen takes 80 characters at most. The store has no limit.
-- **LIST-7** Removed: an item has no recurrent mark. Only `Aplazar` keeps an item in `Compra` for
-  the next trip (TRIP-6).
+- **LIST-7** Removed: an item has no recurrent mark.
 - **LIST-8** A delete removes the item. Its shops go with it.
 - **LIST-9** Removed: `Compra` is the only list, so an item has no other list to move to.
 
@@ -22,21 +21,20 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 
 - **LIST-27** An item has a quantity: free text, such as `2`, `1 kg` or `3 latas`, or none. The
   quantity is trimmed; an empty text clears it. The same text changes nothing.
-- **LIST-28** A tick, **Terminar compra** and a bring back of a saved item keep the quantity. A
-  delete removes it with the item.
+- **LIST-28** A tick and a delete remove the quantity with the item. Their `Deshacer` puts it
+  back.
 - **LIST-29** The search of a list does not match the quantity (LIST-22).
 
 ## Tick
 
-- **LIST-10** Only an item of `Compra` can be ticked. A saved item gives `error.onlyActiveTick`.
+- **LIST-10** Removed: each item is in `Compra`, so each item can be ticked.
 - **LIST-11** A tap on the body of a row of `Compra` (ROW-1) or a slide to the right (ROW-11)
   changes `bought`. A ticked row in `Comprados (N)` unticks the same way.
-- **LIST-12** A tick does not delete the item. The item goes to the section `Comprados (N)` at the
-  end of `Compra`, which is closed at first. A tap on that row opens and closes it.
+- **LIST-12** A tick deletes the item at once (`tickItem`): it is bought. Its shops, quantity and
+  aisle go with it. An unknown item gives `error.itemNotFound`.
 - **LIST-13** A tick has `Deshacer`, because the row leaves the place where the finger is. A tap
   on a ticked item removes the tick with no `Deshacer`.
-- **LIST-14** Removed: a ticked item has no mark that keeps it for the next trip. Only `Aplazar`
-  keeps an item, and only an open item (TRIP-6).
+- **LIST-14** Removed: a ticked item has no mark that keeps it for the next trip.
 
 ## Removed: the second list
 
@@ -48,18 +46,9 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 
 ## Trip
 
-- **TRIP-1** **Terminar compra** is available when `Compra` has an item, ticked or open (TRIP-6).
-  If not, the operation gives `error.nothingToStart`.
-- **TRIP-2** **Terminar compra** does this to each item:
-
-  | Item | Result |
-  |---|---|
-  | Ticked | Saved: `list: 'saved'`, not ticked (LIST-30) |
-  | Saved | Does not change |
-  | In `Compra`, not ticked | Stays in `Compra`, not ticked, with `Aplazar`, or is saved with `Descartar` (TRIP-6) |
-
-- **TRIP-3** **Terminar compra** does not change `group` and `sort`. The relative
-  order of the items that stay does not change.
+- **TRIP-1** Removed: Stash has no trip. A tick deletes the item (LIST-12).
+- **TRIP-2** Removed: Stash has no trip. A tick deletes the item (LIST-12).
+- **TRIP-3** Removed: Stash has no trip. A tick deletes the item (LIST-12).
 - **TRIP-4** The control shows in two places:
   1. A banner `¿Has terminado?` in `Compra`, when the list has items and all are ticked. Its text
      is the outcome parts of the trip sheet, joined by ` · `.
@@ -84,10 +73,8 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
   happens to the items not bought: `Descartar` or `Aplazar` to the next trip. It applies to every
   open item at **Terminar compra**, and the trip sheet counts the open items with it.
   An app with no choice uses `Aplazar`.
-- **TRIP-8** The choice is stored in `lists.tripEnd`: the value `save` for `Descartar`.
-  `Aplazar` removes the key. Any other stored value, such as a `keep` of an older version, reads as
-  `Aplazar`. It is a preference of the device, not a part of the state: `Deshacer` and an import do
-  not change it.
+- **TRIP-8** Removed: the app has no choice of what a trip does. A stored `lists.tripEnd` stays,
+  with no effect, and **Borrar todos los datos** does not remove it.
 
 ## Header figures
 
@@ -156,23 +143,17 @@ is open.
   With no ticked match the head does not show.
 - **LIST-26** With no match the list shows `Ningún artículo coincide con «text».`
 
-## Saved items
+## Removed: saved items
 
-- **LIST-30** **Terminar compra** saves each item of `Compra` that is ticked, and each open item
-  with `Descartar`: only `Aplazar` (TRIP-6) keeps an item for the next trip.
-  A saved item leaves `Compra` and keeps its name, its shops and its quantity. The screen does not
-  show it, and has no delete for it: to delete it, bring it back (LIST-32), then **Eliminar**.
-- **LIST-31** A saved item keeps its name (DATA-3). The add sheet finds it (ADD-3), and an add of
-  its name brings it back (ADD-5).
-- **LIST-32** A bring back puts a saved item in `Compra`, not ticked. Its name, shops, quantity and
-  aisle do not change.
-  A saved item cannot be ticked (LIST-10).
+- **LIST-30** Removed: the app has no saved items. A tick deletes the item (LIST-12).
+- **LIST-31** Removed: the app has no saved items. A tick deletes the item (LIST-12).
+- **LIST-32** Removed: the app has no saved items. A tick deletes the item (LIST-12).
 - **LIST-34** Removed: `Compra` has no section of the saved items (LIST-30). The add sheet is the
   only way to them (LIST-31).
 - **LIST-35** Removed: a saved item has no row (LIST-34).
 - **LIST-36** Removed: the search of the list (LIST-22) does not find a saved item. The search
   button shows when the list has an item.
-- **LIST-33** A saved item counts in no header figure and in no trip figure.
+- **LIST-33** Removed: the app has no saved items. A tick deletes the item (LIST-12).
 
 ## Limits
 
