@@ -15,7 +15,7 @@ const enter = (way) => {
 
 export const showView = (view) => {
   const way = direction(ui.view, view);
-  // The field is shared: the focus of a list search must not go with it to Recetas.
+  // A change of section closes the search of the list, so the field gives up the focus.
   $('query').blur();
   Object.assign(ui, { view, openId: null, query: '', searchOpen: false, shopPickOpen: false });
   render();

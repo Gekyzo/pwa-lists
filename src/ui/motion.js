@@ -34,7 +34,7 @@ export const expand = (nodes) => {
 export const pendingRows = () => [...$('items').querySelectorAll('.item-row:not(.bought)')].filter((node) => node.dataset.id);
 
 // The top of each row to buy. The key has the place of the row among the rows of its item,
-// so that the first row of an item of two recipes is the row of the flat list.
+// so that the first row of an item of two shops is the row of the flat list.
 export const rowTops = () => {
   const seen = new Map();
   return new Map(
@@ -70,7 +70,7 @@ export const leaveNode = (key, nodes, done) => {
   });
 };
 
-// Closes the rows of an item, then runs `done`. An item of two recipes has two rows.
+// Closes the rows of an item, then runs `done`. An item of two shops has two rows.
 export const leave = (item, done) => {
   const rows = [...$('items').querySelectorAll('.item-row')].filter((node) => node.dataset.id === item.id);
   leaveNode(item.id, rows, done);
