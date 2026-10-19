@@ -78,6 +78,11 @@
     pointer-events: none;
   }
 
+  /* The display of .icon wins over the hidden attribute: the basket shows in Compra only (NAV-18). */
+  .icon.corner[hidden] {
+    display: none;
+  }
+
   [data-hand="left"] .icon.corner {
     left: auto;
     right: var(--corner-out);

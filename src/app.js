@@ -99,7 +99,8 @@ const renderAll = () => {
   renderList(summary);
 
   $('settings').hidden = ui.view !== 'settings';
-  document.querySelector('.icon.corner').hidden = ui.view !== 'active';
+  // An SVG element has no `hidden` property, so the attribute is set.
+  document.querySelector('.icon.corner').toggleAttribute('hidden', ui.view !== 'active');
   renderVersion();
   renderInstall();
   renderTrip();
