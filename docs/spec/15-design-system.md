@@ -57,4 +57,4 @@ The parts of `styles.css`, by layer. The shared parts are in the design system.
 | Layer | Parts |
 |---|---|
 | components | versions of `icon`, `app-header`, `sheet`, `dock`, `item-row`, `group-head` (DSV-3) |
-| screens | list: `shop-lists`, `search`, `hint`, `trip-open` · settings: `settings`, `about`, `version-status`, `products` (the rows of the aisle sheet) · onboarding: `onboarding`, `onboarding-art` |
+| screens | list: `shop-lists`, `search`, `hint` · settings: `settings`, `about`, `version-status`, `products` (the rows of the aisle sheet) · onboarding: `onboarding`, `onboarding-art` |

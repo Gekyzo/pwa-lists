@@ -31,9 +31,9 @@ export const expand = (nodes) => {
   });
 };
 
-export const pendingRows = () => [...$('items').querySelectorAll('.item-row:not(.bought)')].filter((node) => node.dataset.id);
+export const pendingRows = () => [...$('items').querySelectorAll('.item-row')].filter((node) => node.dataset.id);
 
-// The top of each row to buy. The key has the place of the row among the rows of its item,
+// The top of each row. The key has the place of the row among the rows of its item,
 // so that the first row of an item of two shops is the row of the flat list.
 export const rowTops = () => {
   const seen = new Map();
@@ -79,7 +79,7 @@ export const leave = (item, done) => {
 // The rows that the flat list does not have: the group heads, and each row after the first of an item.
 export const groupOnlyRows = () => {
   const seen = new Set();
-  return [...$('items').querySelectorAll('.group-head, .item-row:not(.bought)')].filter((node) => {
+  return [...$('items').querySelectorAll('.group-head, .item-row')].filter((node) => {
     if (node.classList.contains('group-head')) return true;
     const again = seen.has(node.dataset.id);
     seen.add(node.dataset.id);
@@ -90,10 +90,10 @@ export const groupOnlyRows = () => {
 // The lists whose rows open and close when a change of the state or a section adds or removes them.
 const ROW_LISTS = ['items'];
 
-// A row is the same row when it has the same list, the same item, and the same tick.
+// A row is the same row when it has the same list and the same item.
 // The first row of an item stands for the item: a second row of it, in a second group, is the
 // part of a change of grouping, which arrange.js moves.
-const rowKey = (list, node) => `${list}|${node.dataset.id}|${node.classList.contains('bought')}`;
+const rowKey = (list, node) => `${list}|${node.dataset.id}`;
 
 // The rows of the lists, in screen order, before a render. `animateRows` compares them after it.
 export const snapshotRows = () => {

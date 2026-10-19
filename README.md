@@ -1,15 +1,15 @@
 # Stash
 
 An offline shopping list PWA for one Android phone, by store. One list, `Compra`, holds the items
-of the trip. Each item has its shops, and `Compra` has a list for each shop. The aisles of the
-store group the list by section. The app has seven languages, and a new install starts with a
-walkthrough of four pages. Plain HTML, CSS and ES modules, with no build step and no dependencies.
+to buy. Each item has its shops, and `Compra` has a list for each shop. A tick deletes the item.
+The aisles of the store group the list by section. The app has seven languages, and a new install
+starts with a walkthrough of three pages. Plain HTML, CSS and ES modules, with no build step and no dependencies.
 The data stays in the `localStorage` of the browser.
 
 Stash shares the origin `gekyzo.github.io` with Bodega, the app it is a fork of. It keeps its own
 `lists.` storage keys and its own `lists-` caches, so the two apps do not touch the data of the
-other. **Importar** reads a Bodega backup: it keeps the items, their shops and aisles, and drops
-the recipes, the menu and the recurrent marks.
+other. **Importar** reads a Bodega backup: it keeps the items to buy, their shops and aisles, and
+drops the saved and ticked items, the recipes, the menu and the recurrent marks.
 
 - App: https://gekyzo.github.io/pwa-lists/
 - Specification: [`docs/spec/`](docs/spec/README.md), with one identifier for each rule.
@@ -85,7 +85,7 @@ offline copy of Stash.
 | Subject | Document |
 |---|---|
 | What the app does, and what it does not do | [01-product](docs/spec/01-product.md) |
-| The lists, the trip and the add sheet | [03-lists](docs/spec/03-lists.md) |
+| The list, the tick and the add sheet | [03-lists](docs/spec/03-lists.md) |
 | Order, groups and shops | [04-arrange](docs/spec/04-arrange.md), [05-shops](docs/spec/05-shops.md) |
 | The aisles of the store | [17-aisles](docs/spec/17-aisles.md) |
 | Gestures, messages, undo and the walkthrough | [07-screen](docs/spec/07-screen.md) |

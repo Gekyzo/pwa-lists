@@ -76,8 +76,6 @@ document.documentElement.dataset.hand = hand;
 export let theme = storage ? loadTheme(storage) : 'system';
 // `hide` takes the row of shop lists away from Compra.
 export let shopLists = storage ? loadShopLists(storage) : 'show';
-// `save` makes Descartar the first choice of an item not bought at Terminar compra (TRIP-7).
-export let tripEnd = 'keep';
 document.documentElement.dataset.theme = theme;
 // `compact` takes space out of the rows of a list, in styles.css.
 export let density = storage ? loadDensity(storage) : 'normal';
@@ -97,7 +95,7 @@ export let state = storage ? load(storage) : store.emptyState();
 // The debug log (ENG-17): each change of the state, to paste a flow into a session. Only on the dev
 // server (`npm run serve`), never on the deployed host.
 export const DEV = ['localhost', '127.0.0.1', '[::1]'].includes(location.hostname);
-const debugRow = (item) => `${item.name} [${item.list}${item.bought ? ' bought' : ''}${item.quantity ? ` qty=${item.quantity}` : ''}${item.shops.length ? ` shops=${item.shops.join('|')}` : ''}${item.aisle ? ` aisle=${item.aisle}` : ''}]`;
+const debugRow = (item) => `${item.name} [${[item.quantity && `qty=${item.quantity}`, item.shops.length && `shops=${item.shops.join('|')}`, item.aisle && `aisle=${item.aisle}`].filter(Boolean).join(' ')}]`;
 const debugDiff = (before, after) => {
   const old = new Map(before.items.map((item) => [item.id, debugRow(item)]));
   const now = new Map(after.items.map((item) => [item.id, debugRow(item)]));
@@ -129,8 +127,6 @@ export const ui = {
   sheetOpen: false,
   // The sheet of the header button, with the group and the order of the list.
   arrangeOpen: false,
-  // True while the sheet of the trip button of Compra is open.
-  tripOpen: false,
   // True while the shop picker of the dock is open.
   shopPickOpen: false,
   // True while the sheet of the aisles of Ajustes is open.
@@ -139,7 +135,6 @@ export const ui = {
   editId: null,
   // The page of the walkthrough in view, or null while the walkthrough is closed.
   onboarding: firstStart ? 0 : null,
-  boughtOpen: false,
   // The groups of a list that the user closed, as `<view>:<group key>`. Not stored.
   closedGroups: new Set(),
   // The text of the search field of a list. It is not stored.
@@ -148,6 +143,9 @@ export const ui = {
   searchOpen: false,
   // The shop list of Compra: null for Todas, '' for Sin tienda, or a shop. Not stored.
   shop: null,
+  // The shop list that a tick emptied: it stays in view, with its end card, while it has no chip
+  // (SHOP-23).
+  doneShop: null,
   // The group where the row actions are open: `shop:<name>`, `aisle:<name>`, or null out of a group.
   openGroup: null,
   // The side menu of the open item row: 'end' (slide left) or null.
@@ -248,8 +246,4 @@ export const setDensity = (value) => {
 export const setShopLists = (choice) => {
   shopLists = choice;
   if (storage) saveShopLists(storage, shopLists);
-};
-
-export const setTripEnd = (choice) => {
-  tripEnd = choice === 'save' ? 'save' : 'keep';
 };

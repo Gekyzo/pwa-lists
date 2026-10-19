@@ -2,7 +2,7 @@ import * as store from '#store';
 import { reached, settle } from '#swipe';
 import { loadSwipeHint, saveSwipeHint } from '#storage';
 import { SIDE_BUTTON, DRAG_START, HINT_WAIT_MS, HINT_SHIFT, el, storage, state, ui, t, apply, render, guardClick } from '#ui/context';
-import { isOpen, searching, shownGroup } from '#ui/view';
+import { isOpen, searching, shownGroup, viewState } from '#ui/view';
 import { leave, collapse, expand } from '#ui/motion';
 import { icon, iconButton } from '#ui/controls';
 import { openEdit } from '#ui/edit';
@@ -47,30 +47,31 @@ const editButton = (item) => {
   return button;
 };
 
-// A row of Compra: a tap on its body ticks the item (D1), the check only shows the state, and the
-// edit button stays at the end. The name is the checkbox for the keyboard and a screen reader: a
+// A row of Compra: a tap on its body ticks the item (LIST-11), the check only shows the tick, and
+// the edit button stays at the end. The name is the checkbox for the keyboard and a screen reader: a
 // button gives it Space and Enter, and its click reaches the body like a tap.
 const itemRow = (item) => {
-  const toggle = () => {
-    if (item.bought) {
-      apply(store.toggleBought(state, item.id));
-      return;
-    }
+  const tick = () => {
     check.checked = true;
-    // A ticked item goes into the collapsed section, so a wrong tap needs an undo.
-    leave(item, () => apply(store.toggleBought(state, item.id), { undoText: t('toast.bought', { name: item.name }) }));
+    name.setAttribute('aria-checked', 'true');
+    // A tick deletes the item, so a wrong tap needs an undo (LIST-13).
+    leave(item, () => {
+      // The last item of the shop list in view keeps the list in view, with its end card.
+      if (ui.shop !== null && viewState().items.length === 1) ui.doneShop = ui.shop;
+      apply(store.tickItem(state, item.id), { undoText: t('toast.bought', { name: item.name }) });
+    });
   };
-  const check = el('input', { type: 'checkbox', className: 'item-row-check', checked: item.bought, tabIndex: -1 });
+  const check = el('input', { type: 'checkbox', className: 'item-row-check', tabIndex: -1 });
   check.setAttribute('aria-hidden', 'true');
   const name = el('button', { type: 'button', className: 'item-row-name' }, nameParts(item));
   name.setAttribute('role', 'checkbox');
-  name.setAttribute('aria-checked', String(item.bought));
+  name.setAttribute('aria-checked', 'false');
   const row = [check, name, el('div', { className: 'item-row-end' }, [editButton(item)])];
   return {
     row,
     end: [editAction(item), deleteAction(item)],
-    right: { run: toggle, icon: item.bought ? 'undo' : 'check' },
-    tap: toggle,
+    right: { run: tick, icon: 'check' },
+    tap: tick,
   };
 };
 
@@ -161,9 +162,6 @@ export const hintSwipe = () => {
   }, HINT_WAIT_MS);
 };
 
-// The rows that a row can move among: its group, or the rows to buy of a flat list.
-// Null for a row that does not move.
-const scopeOf = (item, groupId) => (item.bought ? null : groupId ?? 'rest');
 
 // A side action closes the row, then runs.
 const closing = (button) => {
@@ -218,36 +216,15 @@ export const itemNode = (item, groupId = null) => {
   const node = el('li', {
     className: [
       'item-row',
-      item.bought && 'bought',
       ui.flashId === item.id && 'flash',
       ui.leaving.has(item.id) && 'gone',
     ].filter(Boolean).join(' '),
   }, [box]);
   node.dataset.id = item.id;
-  const scope = scopeOf(item, groupId);
-  if (scope) node.dataset.scope = scope;
+  // The rows that a row can move among: its group, or the rows of a flat list.
+  node.dataset.scope = groupId ?? 'rest';
   bindReorder(body, node, item, groupId);
   return node;
-};
-
-// The ticked items of Compra, behind one row that opens and closes them. A search keeps them open,
-// so that a ticked match is in view.
-export const boughtSection = (bought) => {
-  const open = ui.boughtOpen || searching();
-  const button = el('button', {
-    type: 'button',
-    className: 'section-head-button',
-    disabled: searching(),
-    onclick: () => {
-      Object.assign(ui, { boughtOpen: !ui.boughtOpen, animate: true });
-      render();
-    },
-  }, [
-    el('span', { textContent: t('count.bought', { count: bought.length }) }),
-    el('span', { className: 'chevron', textContent: open ? '▾' : '▸' }),
-  ]);
-  button.setAttribute('aria-expanded', String(open));
-  return [el('li', { className: 'section-head' }, [button]), ...(open ? bought.map((item) => itemNode(item)) : [])];
 };
 
 // The rows of a group carry its key, so that its head can close and open them.

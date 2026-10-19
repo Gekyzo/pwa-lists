@@ -10,7 +10,6 @@ import {
   storage,
   t,
   shopLists,
-  tripEnd,
   state,
   ui,
   undoState,
@@ -38,9 +37,7 @@ import {
   showDockMatches,
   closeShopPick,
   renderList,
-  renderTrip,
   closeSearch,
-  closeTrip,
   bind as bindList,
 } from '#ui/list';
 import { renderSheet, openSheet, closeSheet, bind as bindAdd } from '#ui/add';
@@ -79,13 +76,12 @@ const renderAll = () => {
   endReorder(false);
   // The item of the edit sheet can go while the sheet is open: an undo, or an import.
   if (!state.items.some((item) => item.id === ui.editId)) ui.editId = null;
-  // A shop list whose chip went shows Todas.
-  // A hidden row leaves no list filtered.
-  ui.shop = shopLists === 'show' ? shops.validShop(state, ui.shop) : null;
-  // The preview of Terminar compra counts the open items with the setting's choice (TRIP-7).
-  const kept = tripEnd === 'keep' ? store.openItems(state).map((item) => item.id) : [];
-  const summary = store.tripSummary(state, kept);
-  const header = headerOf(store.tripSummary(viewState()));
+  // A shop list whose chip went shows Todas, except a list that a tick emptied while other items
+  // are still to buy (SHOP-23). A hidden row leaves no list filtered.
+  const kept = ui.shop !== null && ui.shop === ui.doneShop && state.items.length > 0;
+  ui.shop = shopLists !== 'show' ? null : kept ? ui.shop : shops.validShop(state, ui.shop);
+  if (ui.shop !== ui.doneShop) ui.doneShop = null;
+  const header = headerOf(viewState().items.length);
   if (inList() && ui.shop !== null) header.title = shopLabel(ui.shop);
 
   renderShopChips();
@@ -93,17 +89,15 @@ const renderAll = () => {
   $('subtitle').textContent = header.subtitle;
   $('ring').hidden = header.ring === null;
   $('ring-text').textContent = header.ring ?? '';
-  $('ring').style.setProperty('--pct', `${header.pct}%`);
 
   renderDock();
-  renderList(summary);
+  renderList();
 
   $('settings').hidden = ui.view !== 'settings';
   // An SVG element has no `hidden` property, so the attribute is set.
   document.querySelector('.icon.corner').toggleAttribute('hidden', ui.view !== 'active');
   renderVersion();
   renderInstall();
-  renderTrip();
 
   // An action in the empty state replaces the add button.
   $('fab').hidden = ui.view === 'settings' || !$('empty-action').hidden || sheetOpen(ui);
@@ -170,7 +164,6 @@ const closeSheets = () => {
   if (ui.sheetOpen) closeSheet();
   if (ui.arrangeOpen) closeArrange();
   if (ui.editId !== null) closeEdit();
-  if (ui.tripOpen) closeTrip();
   if (ui.aislesOpen) closeAisles();
   if (ui.shopPickOpen) closeShopPick();
 };
@@ -245,7 +238,6 @@ bindAisles();
 const SHEET_CLOSE = {
   sheet: closeSheet,
   arrange: closeArrange,
-  trip: closeTrip,
   edit: closeEdit,
   aisles: closeAisles,
   'shop-pick': closeShopPick,

@@ -58,7 +58,7 @@ The rules DS-1 to DS-8 and LAY-1 to LAY-4 belong to the design system, `pwa-desi
 | Word | Meaning |
 |---|---|
 | Item | A product to buy. One record, in `Compra`, while it is to buy |
-| `Compra` | The list of the current trip. List id `active` |
+| `Compra` | The list of the items to buy. List id `active` |
 | Tick | The mark of an item as bought: it deletes the item (LIST-12) |
 | Shop | A name that one item or more have. It has no record of its own |
 | Aisle | A section of a store, such as `Lácteos`. The screen says `Sección`; the code says `aisle`, because a section is a screen of the bottom bar |

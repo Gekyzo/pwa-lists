@@ -1,13 +1,8 @@
 import * as store from '#store';
 import * as shops from '#shops';
 import { suggestionRows } from '#suggest';
-import { $, el, state, ui, t, say, textOf, showToast, apply, render } from '#ui/context';
+import { $, el, state, ui, t, say, showToast, apply, render } from '#ui/context';
 import { inList, endSearch } from '#ui/view';
-
-const whereText = (item) => {
-  if (item.list === 'saved') return t('where.saved');
-  return t(item.bought ? 'where.bought' : 'where.inList');
-};
 
 export const renderSheet = () => {
   $('sheet').hidden = !ui.sheetOpen;
@@ -27,7 +22,7 @@ export const renderSheet = () => {
       ? el('button', { type: 'button', className: 'list-row accent', textContent: t('add.createNamed', { name: text }), onclick: submitAdd })
       : el('button', { type: 'button', className: 'list-row', onclick: () => useExisting(row.item) }, [
         el('span', { className: 'list-row-text', textContent: row.item.name }),
-        el('span', { className: 'list-row-meta', textContent: whereText(row.item) }),
+        el('span', { className: 'list-row-meta', textContent: t('where.inList') }),
       ]),
   ]));
   $('suggestions').replaceChildren(...rows.reverse());
@@ -57,16 +52,13 @@ export const closeSheet = () => {
 // The shop that an add from the sheet puts on its item: the shop list in view, if any.
 const pickedShop = () => (inList() ? ui.shop : null);
 
-// Puts an item that exists already into Compra, in place of a duplicate. From a shop list the item
-// also gets the shop, which is a change too.
+// An item that exists already is in Compra: an add of its name creates no duplicate. From a shop
+// list the item gets the shop, which is the only change.
 const useExisting = (item) => {
-  const brought = store.bringToList(state, item.id);
-  const result = shops.withShop(brought, item.id, pickedShop());
-  if (result.state !== brought.state) result.changed = true;
-  if (!result.changed) {
+  const result = shops.withShop({ state }, item.id, pickedShop());
+  if (result.state === state) {
     // Nothing changed: the text stays, and the help under the input says why. With no sheet, a toast.
-    if (result.error) showToast(textOf(result.error));
-    else if (!ui.sheetOpen) showToast(t('add.duplicate', { name: item.name }));
+    if (!ui.sheetOpen) showToast(t('add.duplicate', { name: item.name }));
     else setHelp(t('add.duplicate', { name: item.name }));
     $('add-name').focus();
     return;

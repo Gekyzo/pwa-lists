@@ -4,8 +4,7 @@ Rules of `index.html`, `styles.css`, `src/app.js`, `src/ui/`, `src/swipe.js` and
 
 ## Layout
 
-From top to bottom: the header (ring, title, subtitle, search button, arrange button, trip
-button), the content of the section, the `+` button above the bottom bar, and the bottom bar.
+From top to bottom: the header (ring, title, subtitle, search button, arrange button), the content of the section, the `+` button above the bottom bar, and the bottom bar.
 Below 600px wide the dock of `Compra` stands between the `+` button and the bottom bar (SHOP-26),
 and the header has no search button while the dock shows. The title keeps one line, with an
 ellipsis. The message shows below the top
@@ -31,9 +30,9 @@ the bottom bar at each width.
   (ONB-10).
 - **NAV-5** The content of the new section comes in from its side of the bottom bar, after a slide
   and after a tap.
-- **NAV-6** `Ajustes` has six groups, each a title above one card of rows: **Copia de seguridad**
+- **NAV-6** `Ajustes` has five groups, each a title above one card of rows: **Copia de seguridad**
   (**Exportar**, **Importar**, **Borrar todos los datos**), **Preferencias** (**Idioma**, **Mano**, **Tema**, **Densidad**),
-  **Al terminar la compra** (TRIP-7), **Secciones**, **Aplicación** (**Instalar la aplicación**) and
+  **Secciones**, **Aplicación** (**Instalar la aplicación**) and
   **Ayuda** (**Ver la introducción**). A row is 56 px high or more.
   It has its name at the start. A row that opens something ends with a `›`; **Exportar**,
   **Importar**, **Secciones de la tienda** and **Ver la introducción** do. A row of **Preferencias**
@@ -59,7 +58,7 @@ the bottom bar at each width.
 - **ROW-1** A row of `Compra` has a check mark, the name with its quantity after it in a muted
   colour, a line below it with the shops (SHOP-7) when the list is not by shop (GROUP-14), and an
   edit button **Editar** at its end. The name keeps two lines, then ends with an ellipsis. A tap on
-  the body of the row ticks or unticks the item (LIST-11); the check mark only shows the state. A
+  the body of the row ticks the item (LIST-11); the check mark shows the tick while the row closes. A
   tap on the edit button opens the edit sheet (ROW-7) and does not tick. With **Izquierda**
   (NAV-12) the edit button is at the start of the row and the check mark at its end. For the
   keyboard and a screen reader, the name is a checkbox: `Space` or `Enter` ticks it.
@@ -88,18 +87,18 @@ the bottom bar at each width.
   quantity has no message and no `Deshacer`. The sheet opens with no focus in a field.
 - **ROW-8** The click that follows a drag, a hold or a section slide is ignored for 350 ms, so it
   does not tick an item or press a button.
-- **ROW-9** No row appears or disappears at once. A ticked row closes in 200 ms before it goes to
-  `Comprados (N)`. After each
-  other change of the state (add, delete, move, untick, **Terminar compra**, `Deshacer`) and each open
+- **ROW-9** No row appears or disappears at once. A ticked row closes in 200 ms before the item
+  goes (LIST-12). After each
+  other change of the state (add, delete, move, `Deshacer`) and each open
   or close of a section, a new row of `Compra` opens in 200 ms, and a row that is gone stays in its place and closes in
   200 ms. A change of the grouping or of the order moves the rows ([04-arrange.md](04-arrange.md)). With
   `prefers-reduced-motion` nothing moves.
 - **ROW-10** A long press of a finger on a row does not open the menu of the browser.
-- **ROW-11** A slide of a row to the right runs an action at the release: in `Compra` it ticks or
-  unticks the item (LIST-11), with `Deshacer` for a tick (LIST-13). It runs when the slide passed 35 % of the width of the row, 80 px at least; a
+- **ROW-11** A slide of a row to the right runs an action at the release: in `Compra` it ticks the
+  item (LIST-11), with `Deshacer` (LIST-13). It runs when the slide passed 35 % of the width of the row, 80 px at least; a
   shorter slide puts the row back. The row slides over a backdrop with the icon of the action,
   which fills with the accent colour once the slide is long enough. At that moment the phone
-  vibrates for 10 ms, for a tick and for an untick. A row with its left side open closes it.
+  vibrates for 10 ms. A row with its left side open closes it.
 - **ROW-12** Removed: the app has no recipe rows.
 - **ROW-13** Removed: a saved item has no row (LIST-35).
 - **ROW-14** The first time `Compra` shows a row, after 600 ms the body of its first row slides
@@ -120,20 +119,19 @@ the bottom bar at each width.
 
   | Area | Changes |
   |---|---|
-  | Items | Tick, by a tap on the row (ROW-1) or by a slide (ROW-11), delete, an existing item brought by the add sheet, a saved item brought back (LIST-35), a manual move |
-  | Trip | **Terminar compra** |
+  | Items | Tick, by a tap on the row (ROW-1) or by a slide (ROW-11), delete, the shop that the add sheet puts on an existing item (SHOP-24), a manual move |
   | Backup | Import |
 
 - **MSG-6** These changes have no `Deshacer`: a new item, a rename,
-  the removal of a tick, the shops, the order and the grouping.
+  the shops, the order and the grouping.
 - **MSG-7** A rejected operation shows the text of its error and changes nothing.
 - **MSG-8** When a save fails, the change stays on the screen and the message is `El cambio no se
   ha guardado: el almacenamiento no está disponible.` (STORE-9).
 
 ## Sheets
 
-- **NAV-8** There are six sheets: add, arrange (with the choice of shop lists, SHOP-25), shop
-  picker (SHOP-27), trip, edit (ROW-7) and aisles (AISLE-10).
+- **NAV-8** There are five sheets: add, arrange (with the choice of shop lists, SHOP-25), shop
+  picker (SHOP-27), edit (ROW-7) and aisles (AISLE-10).
   One is open at a time. A tap on the
   veil, **Listo** or `Escape` closes it. The `+` button does not show while a sheet is open.
 - **NAV-22** Each sheet has a head: the grab, a title on one line and the button **Listo**. The
@@ -145,12 +143,8 @@ the bottom bar at each width.
 - **NAV-23** A drag down of the grab or the head of a sheet closes it when the drag passes 30 % of
   the height of the sheet, or when the release is faster than 0.5 px/ms. A shorter, slower drag
   puts the sheet back. A drag that starts on a button or a field of the head does nothing.
-- **NAV-9** The trip button of the header has three dots. It shows in `Compra`. A tap
-  opens the trip sheet from the bottom, as the arrange button opens its sheet. The sheet has the
-  title `Opciones de la compra`, the line of where the items go (TRIP-4), the line of the open items
-  (TRIP-6) and the button **Terminar compra**, in this order.
-- **NAV-10** The trip sheet closes as each sheet does (NAV-8). The open puts the focus on
-  **Terminar compra**, and the close puts it back on the trip button.
+- **NAV-9** Removed: the header has no trip button (TRIP-4).
+- **NAV-10** Removed: the app has no trip sheet (TRIP-4).
 
 - **NAV-24** The `+` button collapses to a square of the tap size (48 px) after a scroll of the
   list of more than 24 px down, and opens again on any scroll up and at the top of the list
@@ -204,14 +198,13 @@ the bottom bar at each width.
 
 ## Onboarding
 
-- **ONB-1** The walkthrough is a layer over the full app, with four pages in this order:
+- **ONB-1** The walkthrough is a layer over the full app, with three pages in this order:
 
   | Page | Title | Teaches |
   |---|---|---|
-  | 1 | `Tu próxima compra, casi hecha` | `Compra` is the trip of today; what you do not buy today stays in the list for the next trip (TRIP-2) |
-  | 2 | `Termina la compra` | The tick and the result of **Terminar compra**, with the choice of **Al terminar la compra** (TRIP-2, TRIP-7) |
-  | 3 | `Desliza una fila` | The tap on a row (ROW-1) and its two slides (ROW-3, ROW-11) |
-  | 4 | `Una lista por tienda` | The shops of an item in **Editar** (SHOP-8), and the list by shop that they give (SHOP-16) |
+  | 1 | `Lo que necesitas comprar` | `Compra` holds what you need to buy; a tick deletes the item (LIST-12) |
+  | 2 | `Desliza una fila` | The tap on a row (ROW-1) and its two slides (ROW-3, ROW-11) |
+  | 3 | `Una lista por tienda` | The shops of an item in **Editar** (SHOP-8), and the list by shop that they give (SHOP-16) |
 
 - **ONB-2** A page has a drawing, a title and a text. A drawing has no text and does not move.
   A line break in the text of a catalog starts a new line. A text between two backticks, such as
@@ -221,9 +214,9 @@ the bottom bar at each width.
   The app icon shows on page 1 only, above the drawing and inside the page group, 96 px wide, with
   no background (`icons/logo.png`, VER-15). It is decorative (`alt=""`). The title keeps the room
   of two lines and the text the room of five lines, the longest title and text of a page in any
-  language, so the drawing is at the same place on pages 2 to 4.
+  language, so the drawing is at the same place on pages 2 and 3.
 - **ONB-3** The top bar has **Atrás** at the start and **Saltar** at the end, both without a border
-  or a fill. **Atrás** is in accent colour and shows on pages 2 to 4; a tap shows the previous
+  or a fill. **Atrás** is in accent colour and shows on pages 2 and 3; a tap shows the previous
   page. **Saltar** does not show on the last page. The bar keeps out of the top safe-area inset
   and does not follow **Mano**. **Siguiente** takes the full width at the bottom, 56 px high
   (`--tap-l`); on the last page it reads **Empezar**. One dot for each page shows the place of the

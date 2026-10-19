@@ -61,15 +61,8 @@ test('the walkthrough title can take the focus, so no button shows a ring on loa
   assert.match(body, /<h2 id="onboarding-title" class="onboarding-title" tabindex="-1">/);
 });
 
-test('the trip button opens a sheet from the bottom, with a veil, and the header has no dropdown', () => {
-  const [layer = ''] = body.match(/<div id="trip" class="sheet-layer"[\s\S]*?<\/div>\s*<\/div>/) ?? [];
-  assert.match(layer, /<div id="trip-veil" class="sheet-veil">/);
-  assert.match(layer, /<div class="sheet" role="dialog"/);
-  assert.match(layer, /<header class="sheet-head"><h2 class="sheet-title main" data-i18n="trip.question"><\/h2>/);
-  assert.match(layer, /<div class="sheet-body">\s*<ul id="trip-outcomes"[^>]*><\/ul>\s*<p id="trip-open" class="hint trip-open" hidden>[\s\S]*<button id="trip-settings"[\s\S]*<button id="finish-menu" class="button primary wide"[\s\S]*<button id="trip-continue" class="button outline wide"[^>]*data-i18n="trip.continue"/);
-  assert.doesNotMatch(layer, /trip-open-list|trip-confirm/);
-  assert.match(body, /<button id="trip-button"[^>]*aria-haspopup="dialog"[^>]*aria-controls="trip"/);
-  assert.doesNotMatch(body, /trip-menu|role="menu"/);
+test('the page has no trip: no trip button, no trip sheet, no banner and no trip-end group', () => {
+  for (const id of ['trip', 'trip-button', 'finish', 'trip-end']) assert.doesNotMatch(body, new RegExp(`id="${id}"`), id);
 });
 
 // Each sheet of the page: the markup from its open tag to the open tag of the next sheet.
@@ -78,9 +71,9 @@ const sheetParts = () => {
   return opens.map((open, i) => ({ id: open[2] ?? null, part: body.slice(open.index, opens[i + 1]?.index ?? body.length) }));
 };
 
-test('each of the six sheets has the grab, then a head with its title and Listo, then a body', () => {
+test('each of the five sheets has the grab, then a head with its title and Listo, then a body', () => {
   const parts = sheetParts();
-  assert.equal(parts.length, 6);
+  assert.equal(parts.length, 5);
   for (const { id, part } of parts) {
     assert.match(
       part,
@@ -109,7 +102,6 @@ test('the sheets with a title of their own give it an id; the others a fixed tex
     'id="add-title" ',
     ' data-i18n="arrange.label"',
     ' data-i18n="shops.lists"',
-    ' data-i18n="trip.question"',
     'id="edit-title" ',
     ' data-i18n="aisles.title"',
   ]);
@@ -139,9 +131,9 @@ const settings = body.match(/<section id="settings"[\s\S]*?<\/section>/)?.[0] ??
 const groups = settings.split('<h2 ').slice(1).map((part) => [part, part.split('</h2>')[1]]);
 
 test('each group of Ajustes is a list-group-head and one list-group card', () => {
-  assert.equal(groups.length, 6);
-  assert.equal([...settings.matchAll(/<h2 /g)].length, 6);
-  assert.equal([...settings.matchAll(/class="list-group card"/g)].length, 6);
+  assert.equal(groups.length, 5);
+  assert.equal([...settings.matchAll(/<h2 /g)].length, 5);
+  assert.equal([...settings.matchAll(/class="list-group card"/g)].length, 5);
   assert.doesNotMatch(settings, /settings-title/);
 });
 

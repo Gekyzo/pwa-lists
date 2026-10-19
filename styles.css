@@ -223,14 +223,6 @@
     gap: var(--space-1);
   }
 
-  /* @extends item-row
-     @state bought    A ticked item of Actual. */
-
-  .item-row.bought .item-row-name {
-    color: var(--muted);
-    text-decoration: line-through;
-  }
-
   /* Densidad Compacta (NAV-20): the token set of the design system makes a row --tap-l (48px) high;
      the check takes less room around it. */
   :root[data-density="compact"] .item-row-check {
@@ -298,19 +290,6 @@
     body:has(.dock:not([hidden])) .search {
       display: block;
     }
-  }
-
-  /* @component trip-open
-     @scope list
-     @summary A line of the trip sheet above Terminar compra: the counts, and what happens to the items not bought.
-     @example <p class="hint trip-open">Los 2 artículos que no has comprado se descartan. Puedes cambiarlo en Ajustes.</p> */
-  .hint.trip-open {
-    padding: var(--space-1) 0 var(--space-3);
-  }
-
-  /* The Ajustes button ends the sentence of the hint. */
-  .hint.trip-open .button::after {
-    content: ".";
   }
 
   /* @component search
@@ -409,14 +388,7 @@
   /* @component settings
      @scope settings
      @summary The Ajustes section: groups of settings rows (list-group card) under a list-group-head. A row of Preferencias holds a real select laid over it, so a tap opens the native picker.
-     @part settings-hint    A line of help below a group head, on a hint.
      @example <section class="settings" style="width: 100%"><h2 class="list-group-head">Preferencias</h2><div class="list-group card"><div class="settings-row"><span class="settings-row-label">Idioma</span><span class="settings-row-value">Español</span><span class="chevron" aria-hidden="true">›</span><select class="select" aria-label="Idioma"><option>Español</option></select></div></div></section> */
-  .settings-hint {
-    padding: 0 var(--space-4) var(--space-2);
-    text-align: start;
-    hyphens: auto;
-  }
-
   /* @extends list-group */
   .settings .settings-row {
     position: relative;

@@ -2,6 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync, readdirSync } from 'node:fs';
 import { CATALOGS, FALLBACK, LANGUAGES, LANGUAGE_NAMES, intlTag, pseudo, resolveLanguage, translator } from '#i18n';
+import { PAGES } from '#onboarding';
 
 const fake = {
   en: { hello: 'Hello {name}', items: { one: '{count} item', other: '{count} items' }, onlyEn: 'English only' },
@@ -165,9 +166,15 @@ test('each key of the catalog is used by the code or the page', () => {
     ...readdirSync(new URL('../src/ui/', import.meta.url)).map((name) => `src/ui/${name}`)];
   const code = files.map((file) => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8')).join('\n');
   // Keys that the code builds from a part, such as `onboarding.${page}.title`.
-  const dynamic = ['onboarding.', 'outcome.', 'aisles.usual.', 'list.'];
+  const dynamic = ['onboarding.', 'aisles.usual.', 'list.'];
   for (const key of Object.keys(CATALOGS.es)) {
     if (dynamic.some((prefix) => key.startsWith(prefix))) continue;
     assert.ok(code.includes(`'${key}'`) || code.includes(`"${key}"`) || code.includes(`:${key}`), key);
   }
+});
+
+test('each key that the code builds from a part names a page of the walkthrough or the list Compra', () => {
+  const built = Object.keys(CATALOGS.es).filter((key) => /^onboarding\.[a-z]+\.(title|text)$/.test(key) || key.startsWith('list.'));
+  const expected = [...PAGES.flatMap((page) => [`onboarding.${page}.title`, `onboarding.${page}.text`]), 'list.active'];
+  assert.deepEqual(built.sort(), expected.sort());
 });

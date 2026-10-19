@@ -6,7 +6,6 @@ import { sheetOpen, closeTop } from '#layers';
 const closed = () => ({
   sheetOpen: false,
   arrangeOpen: false,
-  tripOpen: false,
   aislesOpen: false,
   shopPickOpen: false,
   editId: null,
@@ -19,7 +18,7 @@ test('sheetOpen is false with nothing open', () => {
 });
 
 test('sheetOpen is true for each sheet', () => {
-  for (const flag of ['sheetOpen', 'arrangeOpen', 'tripOpen', 'aislesOpen', 'shopPickOpen']) {
+  for (const flag of ['sheetOpen', 'arrangeOpen', 'aislesOpen', 'shopPickOpen']) {
     assert.equal(sheetOpen({ ...closed(), [flag]: true }), true, flag);
   }
   assert.equal(sheetOpen({ ...closed(), editId: 'id-1' }), true);
@@ -42,4 +41,8 @@ test('closeTop does not change the screen state', () => {
   const copy = structuredClone(view);
   closeTop(view);
   assert.deepEqual(view, copy);
+});
+
+test('sheetOpen has no trip sheet', () => {
+  assert.equal(sheetOpen({ ...closed(), tripOpen: true }), false);
 });

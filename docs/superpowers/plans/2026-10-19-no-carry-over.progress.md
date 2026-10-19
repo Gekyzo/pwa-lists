@@ -29,7 +29,7 @@ the 🎯 indicators (terminal status bar, tab ring, overlord tile) draw from thi
 | # | Task | Status | Commit (subject) | Landed | Notes |
 |---|---|---|---|---|---|
 | 1 | State with items to buy only | ☑ |  | 2026-10-19 |  |
-| 2 | A tick deletes on the screen | ☐ |  |  |  |
+| 2 | A tick deletes on the screen | ☑ |  | 2026-10-19 |  |
 
 ## Blockers
 

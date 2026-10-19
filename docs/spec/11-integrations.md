@@ -8,9 +8,9 @@ A PWA gets a position only while it is open, so it cannot detect an arrival. An 
 app (MacroDroid, Tasker) owns the geofence and opens the app with a parameter.
 
 - **ARR-1** A start with `?arrival` in the URL shows `N artículos por comprar en Compra.`, in the
-  language of the screen, where N is the count of items of `Compra` that are not ticked.
+  language of the screen, where N is the count of items of `Compra`.
 - **ARR-2** The message stays 10 seconds, because the app opened by itself.
-- **ARR-3** With nothing left to buy the app shows no message.
+- **ARR-3** With an empty `Compra` the app shows no message.
 - **ARR-4** The app removes `arrival` from the URL at once and keeps each other parameter, so a
   reload is silent.
 - **ARR-5** The repository holds no coordinates. The place, the radius and the accuracy belong to

@@ -42,7 +42,7 @@ the arrange sheet in `src/ui/arrange.js`.
   item with a shop, `Compra` is flat.
 - **GROUP-4** A tap on the choice that the view shows already changes nothing. Thus a tap on
   **Nada** in a view that is flat by GROUP-3 keeps the stored grouping.
-- **GROUP-10** The ticked items show one time each in `Comprados (N)`, with no group.
+- **GROUP-10** Removed: `Compra` has no ticked items, so it has no `Comprados (N)` (LIST-12).
 
 ### Removed: by recipe
 
@@ -57,8 +57,7 @@ the arrange sheet in `src/ui/arrange.js`.
 ### By shop
 
 - **GROUP-11** The groups are the shops of the items of the view, in name order. The head of a
-  group shows the name of the shop and `ticked/total`, or `✓` when all its members are ticked. The
-  group lists only the members to buy.
+  group shows the name of the shop and the count of its items.
 - **GROUP-12** An item of two shops shows in the two groups.
 - **GROUP-13** The items with no shop show below the head `Sin tienda`.
 - **GROUP-14** A row in a list by shop does not show the shops of the item below its name.
@@ -92,10 +91,10 @@ the arrange sheet in `src/ui/arrange.js`.
 
   | View | Rows that move | Scope |
   |---|---|---|
-  | `Compra`, flat | Items to buy | The items to buy |
-  | `Compra`, grouped | Items to buy | The group of the row, or `Sin tienda` / `Sin sección` |
+  | `Compra`, flat | Each item | All the items |
+  | `Compra`, grouped | Each item | The group of the row, or `Sin tienda` / `Sin sección` |
 
-- **MOVE-4** A ticked row does not move. A row does not move while its side
+- **MOVE-4** A row does not move while its side
   menu is open or its name is in edit. A scope of one row does not move. No row moves while the
   search field of the list has a text (LIST-22): the hidden rows have no place on the screen.
 - **MOVE-5** The scope is the run of rows of the same scope that are next to the lifted row. A
@@ -114,4 +113,4 @@ the arrange sheet in `src/ui/arrange.js`.
 
 ## Limits
 
-No move between groups, no move of a ticked row, no order of the shops, no move with the keyboard.
+No move between groups, no order of the shops, no move with the keyboard.

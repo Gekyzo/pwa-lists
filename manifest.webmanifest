@@ -1,7 +1,7 @@
 {
   "name": "Stash - Lista de la compra",
   "short_name": "Stash",
-  "description": "Lista de la compra que se prepara sola para la próxima vez",
+  "description": "Lista de la compra por tienda",
   "lang": "es",
   "id": "/pwa-lists/",
   "start_url": "./",

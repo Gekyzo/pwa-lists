@@ -16,7 +16,6 @@ import {
   hand,
   theme,
   density,
-  tripEnd,
   textOf,
   showToast,
   apply,
@@ -25,7 +24,6 @@ import {
   setHand,
   setTheme,
   setDensity,
-  setTripEnd,
 } from '#ui/context';
 import { renderOnboarding } from '#ui/onboarding';
 
@@ -133,15 +131,8 @@ export const applyLanguage = () => {
   const densityOption = (value, key) => el('option', { value, textContent: t(key), selected: value === density });
   $('density').replaceChildren(densityOption('normal', 'settings.densityNormal'), densityOption('compact', 'settings.densityCompact'));
   renderValues();
-  renderTripEnd();
   render();
   renderOnboarding();
-};
-
-const renderTripEnd = () => {
-  document.querySelectorAll('[data-trip-end]').forEach((button) => {
-    button.setAttribute('aria-pressed', String(button.dataset.tripEnd === tripEnd));
-  });
 };
 
 const download = (filename, text) => {
@@ -178,14 +169,6 @@ export const bind = () => {
   $('density').addEventListener('change', (event) => setDensity(event.target.value));
 
   for (const id of ['hand', 'theme', 'density']) $(id).addEventListener('change', renderValues);
-
-  $('trip-end').addEventListener('click', (event) => {
-    const button = event.target.closest('[data-trip-end]');
-    if (!button) return;
-    setTripEnd(button.dataset.tripEnd);
-    renderTripEnd();
-    render();
-  });
 
   $('update').addEventListener('click', async () => {
     $('update').disabled = true;

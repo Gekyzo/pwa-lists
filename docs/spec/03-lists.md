@@ -29,11 +29,11 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 
 - **LIST-10** Removed: each item is in `Compra`, so each item can be ticked.
 - **LIST-11** A tap on the body of a row of `Compra` (ROW-1) or a slide to the right (ROW-11)
-  changes `bought`. A ticked row in `Comprados (N)` unticks the same way.
+  ticks the item.
 - **LIST-12** A tick deletes the item at once (`tickItem`): it is bought. Its shops, quantity and
   aisle go with it. An unknown item gives `error.itemNotFound`.
-- **LIST-13** A tick has `Deshacer`, because the row leaves the place where the finger is. A tap
-  on a ticked item removes the tick with no `Deshacer`.
+- **LIST-13** A tick shows `"name" comprado.` with `Deshacer`, because the row leaves the list.
+  `Deshacer` puts the item back in its place in `items`, with its shops, quantity and aisle.
 - **LIST-14** Removed: a ticked item has no mark that keeps it for the next trip.
 
 ## Removed: the second list
@@ -44,35 +44,15 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 - **LIST-18** Removed: the app has one list, `Compra`.
 - **LIST-19** Removed: the bottom bar shows no count.
 
-## Trip
+## Removed: the trip
 
 - **TRIP-1** Removed: Stash has no trip. A tick deletes the item (LIST-12).
 - **TRIP-2** Removed: Stash has no trip. A tick deletes the item (LIST-12).
 - **TRIP-3** Removed: Stash has no trip. A tick deletes the item (LIST-12).
-- **TRIP-4** The control shows in two places:
-  1. A banner `¿Has terminado?` in `Compra`, when the list has items and all are ticked. Its text
-     is the outcome parts of the trip sheet, joined by ` · `.
-  2. The trip sheet of `Compra` (NAV-9). Its title is the question `¿Terminar la compra?`. It lists
-     the items of `Compra` by where each one goes, one row for each outcome with an icon and its
-     count: open items kept with `Aplazar` (icon `cart`, `1 sin comprar se aplaza`), open items
-     saved with `Descartar` (`download`, `1 sin comprar se guarda`) and ticked items (`check`,
-     `4 comprados salen de la lista`). An outcome with no item has no row.
-     The banner and the sheet use the same text for each outcome. Below the rows, the primary
-     button **Terminar compra** is disabled when TRIP-1 does not hold, and the secondary button
-     **Seguir comprando** closes the sheet.
-- **TRIP-5** After **Terminar compra** the screen shows `Compra`. `Deshacer` restores the full
-  state of before.
-- **TRIP-6** An open item is an item of `Compra` that is not ticked. **Terminar compra**
-  keeps the open items in `Compra`, not ticked, when the choice of TRIP-7 is `Aplazar`. It saves
-  them (LIST-30) when the choice is `Descartar`. The button of the trip sheet finishes at once.
-  When an item is open, a line above the button says `Puedes cambiar qué pasa con lo no comprado
-  en Ajustes.`; `Ajustes` is a button that closes the sheet and opens `Ajustes`. The sheet has one step and no choice for each item. A tap on the veil closes the
-  sheet and changes nothing. The banner never has an open item.
-- **TRIP-7** **Al terminar la compra** of `Ajustes` has two buttons side by side: `Descartar` and
-  `Aplazar`, and the chosen one is pressed. A line below the title says that the choice sets what
-  happens to the items not bought: `Descartar` or `Aplazar` to the next trip. It applies to every
-  open item at **Terminar compra**, and the trip sheet counts the open items with it.
-  An app with no choice uses `Aplazar`.
+- **TRIP-4** Removed: `Compra` has no banner `¿Has terminado?` and no trip sheet.
+- **TRIP-5** Removed: Stash has no trip. A tick deletes the item (LIST-12).
+- **TRIP-6** Removed: Stash has no trip, so an item is never open or kept for the next trip.
+- **TRIP-7** Removed: `Ajustes` has no group **Al terminar la compra**.
 - **TRIP-8** Removed: the app has no choice of what a trip does. A stored `lists.tripEnd` stays,
   with no effect, and **Borrar todos los datos** does not remove it.
 
@@ -80,7 +60,7 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 
 | Section | Title | Subtitle | Ring |
 |---|---|---|---|
-| `Compra` | `Compra de hoy` | `La lista está vacía`, `Todo comprado` or `T de N comprados` (ticked of total) | The count of items to buy, or `✓` when all are bought, filled to the share ticked |
+| `Compra` | `Compra de hoy` | `N artículos`, or `La lista está vacía` | The count of items, with no fill |
 | `Ajustes` | `Ajustes` | `Stash` | None: the ring does not show |
 
 ## Add sheet
@@ -96,22 +76,17 @@ is open.
   exact match first, then the names that start with the text, then the others). The list shows the
   rows upside down, so that the first row sits next to the input. **Añadir** is off while the field
   is empty.
-- **ADD-3** Each listed item says where it is and what a tap does:
-
-  | State of the item | Text | Effect of the tap |
-  |---|---|---|
-  | Ticked | `ya comprado · desmarcar` | Removes the tick |
-  | To buy in `Compra` | `ya en la lista` | Nothing |
-  | Saved | `comprado antes · añadir` | Goes to `Compra`, not ticked (LIST-32) |
+- **ADD-3** Each listed item is in `Compra`, and says `ya en la lista`. A tap on it does nothing
+  but ADD-5, apart from the shop of SHOP-24.
 
 - **ADD-4** When no item has the typed name, the list ends with `+ Crear «name»`, which does the
   same as **Añadir**.
-- **ADD-5** **Añadir** with the name of an item that exists does the effect of ADD-3 for that item.
-  It never creates a duplicate. When the effect changes nothing (the item is to buy in `Compra`
-  already), the text stays in the field, the field gets the error mark, and the help under it says
-  `«name» ya está en la lista`. The next input clears the help.
-- **ADD-6** An effect that changes the state shows `"name" ya existe. Ahora está en <list>.` with
-  `Deshacer`. An effect that changes nothing shows no toast (ADD-5).
+- **ADD-5** **Añadir** with the name of an item that exists does what a tap on that item does
+  (ADD-3). It never creates a duplicate. When nothing changes, the text stays in the field, the
+  field gets the error mark, and the help under it says `«name» ya está en la lista`. The next
+  input clears the help.
+- **ADD-6** The shop that SHOP-24 puts on an existing item shows `"name" ya existe. Ahora está en
+  Compra.` with `Deshacer`. A tap that changes nothing shows no toast (ADD-5).
 - **ADD-7** A new item shows `"name" añadido a <list>.` with no `Deshacer`.
 - **ADD-8** After each add the sheet stays open, with an empty field that has the focus, so that
   the user adds several items in one visit. A tap out of the sheet or `Escape` closes it.
@@ -134,13 +109,11 @@ is open.
 - **LIST-22** The list shows only the items whose name, one of whose shops or whose aisle
   (AISLE-9) contains the text,
   with no case and no accent distinction. An empty text shows all items.
-- **LIST-23** The order and the grouping stay. A group with no match to buy does not show. The
-  count of a group head and the header figures stay those of the full list.
+- **LIST-23** The order and the grouping stay. A group with no match does not show. The count of
+  a group head and the header figures stay those of the full list.
 - **LIST-24** The text of the search is not stored. A change of section closes the search. An add
   from the add sheet closes it too, so that the row of the item is in view.
-- **LIST-25** In `Compra` the search filters the ticked items too. `Comprados (N)` counts the ticked
-  matches and shows open while the field has a text, and its head does not close it in that time.
-  With no ticked match the head does not show.
+- **LIST-25** Removed: `Compra` has no ticked items to search (LIST-12).
 - **LIST-26** With no match the list shows `Ningún artículo coincide con «text».`
 
 ## Removed: saved items
@@ -157,6 +130,6 @@ is open.
 
 ## Limits
 
-One list for the trip: no list for a later trip, and no mark on an item for a later trip. No unit
+One list of items to buy: no list for a later trip, no saved item and no history of bought items. No unit
 and no arithmetic of quantities, no note. No add of several items from one text. No ranking of the
 results of a list search.

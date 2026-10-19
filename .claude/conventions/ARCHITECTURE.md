@@ -47,9 +47,9 @@ The `May import` column is the real set of `#` imports of each module.
 | `src/ui/drag.js` | The manual order: the lift of a row, its move and its drop | `store`, `reorder`, `ui/context`, `ui/view`, `ui/motion` |
 | `src/ui/rows.js` | The item rows, their side menus, their swipe and the hint of the swipe | `store`, `swipe`, `storage`, `ui/context`, `ui/view`, `ui/motion`, `ui/controls`, `ui/edit`, `ui/drag` |
 | `src/ui/arrange.js` | The arrange sheet: the grouping, the order, the row of shop lists | `store`, `shops`, `ui/context`, `ui/view`, `ui/motion` |
-| `src/ui/list.js` | The list `Compra`: rows, search, shop lists, the dock and its shop picker, header, trip sheet | `store`, `shops`, `aisles`, `sections`, `ui/context`, `ui/view`, `ui/controls`, `ui/rows`, `ui/add`, `ui/nav` |
+| `src/ui/list.js` | The list `Compra`: rows, search, shop lists and the end card, the dock and its shop picker, header | `store`, `shops`, `aisles`, `sections`, `ui/context`, `ui/view`, `ui/rows`, `ui/add` |
 | `src/ui/add.js` | The add sheet | `store`, `shops`, `suggest`, `ui/context`, `ui/view` |
-| `src/ui/onboarding.js` | The walkthrough of four pages | `onboarding`, `sections`, `storage`, `ui/context`, `ui/controls` |
+| `src/ui/onboarding.js` | The walkthrough of three pages | `onboarding`, `sections`, `storage`, `ui/context`, `ui/controls` |
 | `src/ui/aisles.js` | The sheet of the aisles of `Ajustes` | `aisles`, `ui/context`, `ui/controls` |
 | `src/ui/install.js` | The Install button of `Ajustes` | `install`, `ui/context` |
 | `src/ui/settings.js` | `Ajustes`: version and update, language, hand, theme, export and import | `sections`, `storage`, `version`, `i18n`, `ui/context`, `ui/onboarding` |

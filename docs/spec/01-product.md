@@ -3,9 +3,8 @@
 ## Purpose
 
 Stash is a shopping list for one person on one Android phone. It works in the shop with no
-connection. It keeps one list, `Compra`, for the trip. At the end of a trip it keeps
-the products that the user buys each time and the products not bought, so that the list for the
-next trip is almost ready.
+connection. It keeps one list, `Compra`, of the items to buy, each with its optional shops. A
+tick deletes the item: it is bought.
 
 ## User and device
 
@@ -32,7 +31,7 @@ next trip is almost ready.
 
 | Function | Document |
 |---|---|
-| The list `Compra` and the trip cycle | [03-lists.md](03-lists.md) |
+| The list `Compra` and the tick | [03-lists.md](03-lists.md) |
 | Add with search, with no duplicate | [03-lists.md](03-lists.md) |
 | Search in `Compra` | [03-lists.md](03-lists.md) |
 | Order by name or custom, with a manual move | [04-arrange.md](04-arrange.md) |
@@ -50,7 +49,7 @@ next trip is almost ready.
 These are decisions, not gaps.
 
 - Quantities, units, prices, categories, notes and photos of an item.
-- More than one list for the trip, a list for a later trip, and a history of past trips.
+- More than one list, a list for a later trip, saved items, and a history of bought items.
 - A sync between devices, an account, a shared list. Google Tasks as a shared list was rejected.
 - Geolocation in the app and system notifications.
 - Recipes and a menu of the week.

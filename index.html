@@ -24,9 +24,6 @@
       <button id="arrange-button" class="button icon" type="button" data-i18n-attr="aria-label:arrange.label" aria-haspopup="dialog" hidden>
         <svg class="icon" aria-hidden="true"><use href="icons.svg#filter"/></svg>
       </button>
-      <button id="trip-button" class="button icon" type="button" data-i18n-attr="aria-label:trip.menu" aria-haspopup="dialog" aria-controls="trip" hidden>
-        <svg class="icon" aria-hidden="true"><use href="icons.svg#more"/></svg>
-      </button>
     </header>
 
     <div id="toast" class="toast" role="status" aria-live="polite" hidden>
@@ -57,12 +54,6 @@
         <button id="empty-action" class="button primary wide" type="button" hidden></button>
       </div>
 
-
-      <section id="finish" class="banner" hidden>
-        <strong data-i18n="finish.question"></strong>
-        <p id="finish-text" class="banner-text"></p>
-        <button id="finish-button" class="button primary wide" type="button" data-i18n="finish.button"></button>
-      </section>
 
       <section id="settings" class="settings" hidden>
         <h2 class="list-group-head" data-i18n="settings.backup"></h2>
@@ -96,14 +87,6 @@
             <span id="density-value" class="settings-row-value"></span>
             <span class="chevron" aria-hidden="true">›</span>
             <select id="density" class="select" data-i18n-attr="aria-label:settings.density"></select>
-          </div>
-        </div>
-        <h2 class="list-group-head" data-i18n="settings.tripEnd"></h2>
-        <p class="hint settings-hint" data-i18n="settings.tripEndHint"></p>
-        <div class="list-group card">
-          <div id="trip-end" class="segmented" role="group" data-i18n-attr="aria-label:settings.tripEnd">
-            <button class="segment" type="button" data-trip-end="save" data-i18n="trip.discard"></button>
-            <button class="segment" type="button" data-trip-end="keep" data-i18n="trip.postpone"></button>
           </div>
         </div>
         <h2 class="list-group-head" data-i18n="settings.aisles"></h2>
@@ -220,20 +203,6 @@
       </div>
     </div>
 
-    <div id="trip" class="sheet-layer" hidden>
-      <div id="trip-veil" class="sheet-veil"></div>
-      <div class="sheet" role="dialog" data-i18n-attr="aria-label:trip.menu">
-        <div class="sheet-grab"></div>
-        <header class="sheet-head"><h2 class="sheet-title main" data-i18n="trip.question"></h2><button class="button primary" type="button" data-i18n="edit.done"></button></header>
-        <div class="sheet-body">
-          <ul id="trip-outcomes" class="list-group plain"></ul>
-          <p id="trip-open" class="hint trip-open" hidden><span data-i18n="trip.hint"></span> <button id="trip-settings" class="button accent" type="button" data-i18n="nav.settings"></button></p>
-          <button id="finish-menu" class="button primary wide" type="button" data-i18n="finish.button"></button>
-          <button id="trip-continue" class="button outline wide" type="button" data-i18n="trip.continue"></button>
-        </div>
-      </div>
-    </div>
-
     <div id="edit" class="sheet-layer" hidden>
       <div id="edit-veil" class="sheet-veil"></div>
       <form id="edit-form" class="sheet" role="dialog" autocomplete="off">
@@ -290,17 +259,6 @@
             <rect class="art-accent" x="72" y="70" width="12" height="12" rx="3"/>
             <rect class="art-accent" x="72" y="100" width="12" height="12" rx="3"/>
             <path d="M92 46h56M92 76h48M92 106h52"/>
-          </svg>
-          <svg data-page="trip" viewBox="0 0 240 160" aria-hidden="true">
-            <rect class="art-card" x="20" y="36" width="150" height="40" rx="10"/>
-            <rect class="art-accent" x="32" y="50" width="12" height="12" rx="3"/>
-            <path class="art-accent" d="M35 56l2.5 2.5 4-5"/>
-            <path d="M54 56h80"/>
-            <rect class="art-card" x="20" y="88" width="150" height="40" rx="10"/>
-            <rect x="32" y="102" width="12" height="12" rx="3"/>
-            <path d="M54 108h64"/>
-            <circle class="art-solid" cx="200" cy="82" r="18"/>
-            <path class="art-on-solid" d="M192 82l5 5 10-10"/>
           </svg>
           <svg data-page="row" viewBox="0 0 240 160" aria-hidden="true">
             <rect class="art-card" x="20" y="50" width="132" height="40" rx="10"/>
