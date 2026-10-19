@@ -209,9 +209,9 @@ the bottom bar at each width.
   | Page | Title | Teaches |
   |---|---|---|
   | 1 | `Tu próxima compra, casi hecha` | `Compra` is the trip of today; what you do not buy today stays in the list for the next trip (TRIP-2) |
-  | 2 | `Marca lo de siempre` | The recurrent mark and the result of **Terminar compra** |
+  | 2 | `Termina la compra` | The tick and the result of **Terminar compra**, with the choice of **Al terminar la compra** (TRIP-2, TRIP-7) |
   | 3 | `Desliza una fila` | The tap on a row (ROW-1) and its two slides (ROW-3, ROW-11) |
-  | 4 | `Desliza la pantalla` | The slide between sections (NAV-3), the bottom bar and the `+` button |
+  | 4 | `Una lista por tienda` | The shops of an item in **Editar** (SHOP-8), and the list by shop that they give (SHOP-16) |
 
 - **ONB-2** A page has a drawing, a title and a text. A drawing has no text and does not move.
   A line break in the text of a catalog starts a new line. A text between two backticks, such as

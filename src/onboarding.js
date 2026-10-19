@@ -1,5 +1,5 @@
 // The pages of the walkthrough of the first start, in their order.
-export const PAGES = ['lists', 'trip', 'row', 'sections'];
+export const PAGES = ['lists', 'trip', 'row', 'shops'];
 
 // The walkthrough shows at the start of a new install only: no seen flag and no stored state.
 export const shouldShow = ({ seen, hasState }) => !seen && !hasState;
@@ -18,7 +18,7 @@ const keyPart = (text) => {
   return match ? { text: match[2] ?? '', key: true, icon: match[1] } : { text, key: true };
 };
 
-// The parts of a page text. A text between two backticks is a key, such as `↻` or `+`; a
+// The parts of a page text. A text between two backticks is a key, such as `←` or `+`; a
 // backtick with no pair stays in the text.
 export const textParts = (text) => {
   const pieces = text.split('`');

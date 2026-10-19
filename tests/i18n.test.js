@@ -149,3 +149,13 @@ test('pseudo is not a language and no navigator language or stored value selects
   assert.equal(resolveLanguage(['pseudo', 'es'], 'pseudo'), 'es');
   assert.equal(resolveLanguage(['pseudo'], null), FALLBACK);
 });
+
+test('no text names a removed feature: recipes, the menu or recurrent items', () => {
+  const removed = /receta|recipe|recette|rezept|ricett|recepta|menú|\bmenu\b|menù|repetir|repeat|répéter|wiederholen|ripet|repeteix|↻/i;
+  for (const lang of LANGUAGES) {
+    for (const [key, entry] of Object.entries(CATALOGS[lang])) {
+      const texts = typeof entry === 'string' ? [entry] : [entry.one, entry.other];
+      for (const text of texts) assert.doesNotMatch(text, removed, `${lang} ${key}`);
+    }
+  }
+});
