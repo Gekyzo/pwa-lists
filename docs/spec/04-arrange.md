@@ -28,8 +28,8 @@ the arrange sheet in `src/ui/arrange.js`.
 
 ## Groups
 
-- **GROUP-1** **Agrupar por** has **Listas**, **Secciones** and **Nada**. One choice, `group`,
-  applies to `Listas`. The default is `shop`.
+- **GROUP-1** **Agrupar por** has **Secciones** and **Nada**. One choice, `group`, applies to each
+  list. The default is `aisle`.
 - **GROUP-2** A choice shows only when the view can show it:
   - **Listas**: when an item of the view has a shop, and not in a shop list (SHOP-19).
   - **Secciones**: when an item of the view has an aisle, also in a shop list (GROUP-17).
@@ -56,17 +56,15 @@ the arrange sheet in `src/ui/arrange.js`.
 
 ### By shop
 
-- **GROUP-11** The groups are the shops of the items of the view, in name order. The head of a
-  group shows the name of the shop and the count of its items, muted and small, then the icon
-  `chevron-down` while it is open.
-- **GROUP-12** An item of two shops shows in the two groups.
-- **GROUP-13** The items with no shop show below the head `Sin lista`, with their count.
-- **GROUP-14** A row in a list by shop does not show the shops of the item below its name.
+- **GROUP-11** Removed: an item has no shops, so a list has no groups by shop.
+- **GROUP-12** Removed: an item has no shops, so a list has no groups by shop.
+- **GROUP-13** Removed: an item has no shops, so a list has no groups by shop.
+- **GROUP-14** Removed: an item has no shops, so a list has no groups by shop.
 
 ### By aisle
 
 - **GROUP-17** The groups are the aisles of the items of the view, in the order of `aisles`
-  (AISLE-1), not in name order. The heads have the counts of GROUP-11. A shop list can show its
+  (AISLE-1), not in name order. The head of a group shows the name of the aisle and the count of its items, muted and small, then the icon `chevron-down` while it is open. A shop list can show its
   items by aisle: at one shop, the list follows the walk through it.
 - **GROUP-18** An aisle with no item in the view does not show. The items with no aisle show last,
   below the head `Sin sección`, with their count.

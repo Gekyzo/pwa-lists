@@ -88,7 +88,6 @@
 | Test file | Covers |
 |---|---|
 | `tests/store.test.js` | Items, the tick, the order, the search, the arrival message |
-| `tests/shops.test.js` | Shops and the list by shop |
 | `tests/lists.test.js` | The lists of the first level, their order and view, the items of one list, the move of an item |
 | `tests/aisles.test.js` | Aisles, the aisle of an item and the list by aisle |
 | `tests/storage.test.js` | Load, save, validation, migration, export, import, the language key and the device preferences |

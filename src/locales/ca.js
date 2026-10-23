@@ -127,7 +127,7 @@ export default {
   'toast.existsNowIn': '«{name}» ja existeix. Ara és a {list}.',
   'toast.addedTo': '«{name}» afegit a {list}.',
   'toast.imported': 'Còpia importada.',
-  'toast.arrival': { one: '{count} element pendent a {list}.', other: '{count} elements pendents a {list}.' },
+  'toast.arrival': { one: '{count} element pendent.', other: '{count} elements pendents.' },
 
   'error.notSaved': 'El canvi no s’ha desat: l’emmagatzematge no està disponible.',
   'error.noStorage': 'L’emmagatzematge no està disponible: els canvis no es desen.',

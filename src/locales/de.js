@@ -127,7 +127,7 @@ export default {
   'toast.existsNowIn': '„{name}“ existiert schon. Jetzt in {list}.',
   'toast.addedTo': '„{name}“ zu {list} hinzugefügt.',
   'toast.imported': 'Sicherung importiert.',
-  'toast.arrival': { one: 'Noch {count} Eintrag offen in {list}.', other: 'Noch {count} Einträge offen in {list}.' },
+  'toast.arrival': { one: 'Noch {count} Eintrag offen.', other: 'Noch {count} Einträge offen.' },
 
   'error.notSaved': 'Die Änderung wurde nicht gespeichert: Der Speicher ist nicht verfügbar.',
   'error.noStorage': 'Der Speicher ist nicht verfügbar: Änderungen werden nicht gespeichert.',

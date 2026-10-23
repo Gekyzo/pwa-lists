@@ -12,7 +12,7 @@ Rules of `src/storage.js`, and of its use in `src/ui/context.js` and `src/ui/set
 | `localStorage` | `lists.hand` | `left` when the user chose **Izquierda** ([07-screen.md](07-screen.md), NAV-12) |
 | `localStorage` | `lists.theme` | `light` or `dark` when the user chose **Claro** or **Oscuro** ([07-screen.md](07-screen.md), NAV-17) |
 | `localStorage` | `lists.density` | `compact` when the user chose **Compacta** ([07-screen.md](07-screen.md), NAV-21) |
-| `localStorage` | `lists.shopLists` | `hide` when the user hid the row of shop lists ([05-shops.md](05-shops.md), SHOP-25) |
+| `localStorage` | `lists.shopLists` | Retired: the choice of the row of shop lists. No code reads it; **Borrar todos los datos** removes it |
 | `localStorage` | `lists.swipeHint` | `1` after `Listas` showed the slide of a row one time ([07-screen.md](07-screen.md), ROW-14) |
 | `localStorage` | `lists.onboarded` | `1` after the walkthrough of the first start closed ([07-screen.md](07-screen.md), ONB-7) |
 | Cache API | `lists-shell-v3` | The app shell ([10-offline-version.md](10-offline-version.md)) |
@@ -36,11 +36,15 @@ The `v1` of the key is the version of the key, not of the state. The state has i
   to `lists.v1.corrupt` and starts with the empty state. The first change then replaces
   `lists.v1`.
 - **STORE-6** A state is not valid when one of these is true:
-  - it is not an object, its `version` is not 1 to 11, or `items` is not a list;
-  - an item has no string `id`, no name, a `list` that is present and not `active`, `saved` or
-    the old `next` (STORE-8), a `bought` that is present and not a boolean, or an `again` that is
-    present and not a boolean;
-  - two items have the same id or the same name (DATA-2, DATA-3).
+  - it is not an object, its `version` is not 1 to 12, or `items` is not a list;
+  - an item has no string `id`, no name, a `bought` that is present and not a boolean, or an
+    `again` that is present and not a boolean;
+  - before version 12, an item has a `list` that is present and not `active`, `saved` or the old
+    `next` (STORE-8), or two items have the same name;
+  - in version 12, `lists` is not a list, a list has no string `id` or no name, two lists have the
+    same id or the same name with no case distinction, an item has a `list` that is not the id of
+    a list, or two items of one list have the same name (DATA-3, DATA-16);
+  - two items have the same id (DATA-2).
 
   The recipes, `sent` and the menu of a Bodega state are not checked: STORE-7 drops them. The
   `recurrent` of a Bodega item is not checked: STORE-8 reads it, then drops it.
@@ -48,8 +52,8 @@ The `v1` of the key is the version of the key, not of the state. The state has i
 
   | Field | Repair |
   |---|---|
-  | Names of items, shops | Trimmed |
-  | `list`, `bought` of an item | Read for STORE-8, then dropped. With no `list` and no `bought`, the item is to buy |
+  | Names of items, shops, lists | Trimmed |
+  | `list`, `bought` of an item | Before version 12: read for STORE-8, then dropped. With no `list` and no `bought`, the item is to buy |
   | `quantity` | Not text: `''`. Text: trimmed |
   | `shops` | Not a list: empty. An entry that is not text, is empty or is a duplicate: dropped |
   | `aisles` | Not a list: empty. An entry that is not text, is empty or is a duplicate with no case distinction: dropped. The rest trimmed |
@@ -57,18 +61,20 @@ The `v1` of the key is the version of the key, not of the state. The state has i
   | Shop spellings | Each shop gets the spelling of its first use |
   | `recipes`, `sent`, `menu` of a Bodega state | Dropped, valid or not |
   | `recurrent` of a Bodega item | Read for `again` (STORE-8), then dropped, valid or not |
-  | `group` | Not `shop`, `aisle` or `none`, such as the `recipe` of Bodega: `none` when `grouped` is `false` (STORE-8), else `shop` |
+  | `group` | Not `aisle` or `none`, such as `shop` or the `recipe` of Bodega: `none` when `grouped` is `false` and there is no `group` (STORE-8), else `aisle` |
+| `view` | Unknown: `rows` |
+| `listSort` | Unknown: `custom` |
   | `sort` | Unknown: `custom` |
   | Unknown fields | Dropped |
 
 - **STORE-8** Versions 1 to 9 are the states of Bodega; version 10 is the first state of Stash,
-  and version 11 the first with no saved and no ticked items. A Bodega backup and a Stash state
-  thus never have the same version. An older state is migrated when it is read, and saved as
-  version 11 at the next change:
+  version 11 the first with no saved and no ticked items, and version 12 the first with lists. A
+  Bodega backup and a Stash state thus never have the same version. An older state is migrated
+  when it is read, and saved as version 12 at the next change:
 
   | From | Change |
   |---|---|
-  | Version 1 or 2 | `group` is `none` when `grouped` is `false`, and `shop` if not. Each item gets `shops: []`. `sort` is `custom` when absent |
+  | Version 1 or 2 | `group` is `none` when `grouped` is `false`, and `aisle` if not. Each item gets `shops: []`. `sort` is `custom` when absent |
   | Version 1 to 4 | Each item gets `quantity: ''` |
   | Version 1 to 5 | No change of the data: version 6 adds `list: 'saved'` |
   | Version 1 to 6 | `aisles: []`, and each item gets `aisle: ''` |
@@ -76,6 +82,7 @@ The `v1` of the key is the version of the key, not of the state. The state has i
   | Version 1 to 8 | No change of the data: version 9 of Bodega adds the dish of a meal, which Stash drops |
   | Version 1 to 9 | No change of the data: the drops of STORE-7 make it a version 10 state |
   | Version 1 to 10 | A saved item (`list: 'saved'`) and a ticked item (`bought: true`, after the row of version 1 to 7) are dropped: they are not to buy. Each other item loses `list` and `bought` |
+  | Version 1 to 11 | Each shop becomes a list, `list-1`, `list-2`…, in shop name order. An item of two shops becomes one item in each list: the first keeps its id, the next ones get `<id>-2`, `<id>-3`. The items with no shop go to a list `General`, last; a shop called `General` in any case takes them instead. `group` `shop` becomes `aisle`. `view` is `rows` and `listSort` is `custom`. The ids follow from the data, so two reads of one stored state give the same state |
 
 ## Failures
 
@@ -93,8 +100,8 @@ The `v1` of the key is the version of the key, not of the state. The state has i
 - **BACKUP-1** **Exportar** downloads the file `stash-YYYY-MM-DD-HHMMSS.json`, with the
   local date and time. Two exports of one day get two names.
   Its content is the state, as JSON with an indent of 2 spaces.
-- **BACKUP-2** The backup holds the items (`id`, `name`, `shops`, `quantity`, `aisle`), `group`,
-  `sort` and `aisles`. It does not hold the language, the hand, the theme, the density or the flag
+- **BACKUP-2** The backup holds the lists (`id`, `name`), the items (`id`, `name`, `list`,
+  `quantity`, `aisle`), `group`, `sort`, `aisles`, `view` and `listSort`. It does not hold the language, the hand, the theme, the density or the flag
   of the walkthrough.
 - **BACKUP-3** **Importar** opens a file choice for a JSON file. A file that is not JSON
   gives `error.invalidJson`. A JSON that is not a valid state (STORE-6) gives `error.notBackup`.

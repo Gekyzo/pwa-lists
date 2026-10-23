@@ -1,11 +1,12 @@
-import { emptyState, GROUPS, SORTS } from '#store';
+import { emptyState, compareNames, GROUPS, LIST_VIEWS, SORTS } from '#store';
 
 export const STORAGE_KEY = 'lists.v1';
 export const CORRUPT_KEY = `${STORAGE_KEY}.corrupt`;
 
 // Versions 1 to 10 put an item in a list, `active` or `saved`, and mark a ticked one with `bought`.
 // Versions 1 to 7 have a third list, `next`, and `again`, the mark of a ticked one-time item that
-// comes back at the next trip. Version 11 has no list and no tick: each item is to buy.
+// comes back at the next trip. Version 11 has no list and no tick: each item is to buy, with its
+// shops. Version 12 puts each item in one list of `lists`, a record that the user creates.
 const LISTS = ['active', 'saved', 'next'];
 
 const unique = (values) => new Set(values).size === values.length;
@@ -85,32 +86,84 @@ const oneSpelling = (items) => {
   return items.map((item) => ({ ...item, shops: item.shops.map((shop) => first.get(lower(shop))) }));
 };
 
-// Versions 1 and 2 have `grouped`, a boolean for the recipe grouping. Stash has no recipes, so the
-// recipe grouping of a Bodega state becomes the shop grouping.
+// Versions 1 and 2 have `grouped`, a boolean for the recipe grouping. Stash has no recipes and no
+// shops, so the recipe and the shop grouping become the aisle grouping.
 const groupOf = (data) => {
   if (GROUPS.includes(data.group)) return data.group;
-  return data.grouped === false ? 'none' : 'shop';
+  return data.grouped === false && data.group === undefined ? 'none' : 'aisle';
 };
 
-// Versions 1 to 9 are the states of Bodega; version 10 is the first of Stash, and version 11 the
-// first with no saved and no ticked items.
-const VERSIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+// The list of the items with no shop, when a state of version 11 or older becomes version 12.
+const GENERAL = 'General';
 
-// Returns a clean version 11 state, or null when the data is not a known state. The recipes, the
+// A version 11 item of each of its shops becomes one item in the list of that shop. The lists come in
+// shop name order, then General for the items with no shop; a shop called General takes them. The
+// ids follow from the data, so two reads of one stored state give the same ids: the first copy of an
+// item keeps its id, the next ones get `<id>-2`, `<id>-3`.
+const shopsToLists = (items) => {
+  const names = oneSpelling(items).flatMap((item) => item.shops);
+  const shops = [...new Map(names.map((name) => [lower(name), name])).values()].sort(compareNames);
+  const homeless = items.some((item) => item.shops.length === 0);
+  const general = shops.find((shop) => lower(shop) === lower(GENERAL));
+  const listNames = homeless && !general ? [...shops, GENERAL] : shops;
+  const lists = listNames.map((name, index) => ({ id: `list-${index + 1}`, name }));
+  const idOf = (name) => lists.find((list) => lower(list.name) === lower(name)).id;
+  const placed = items.flatMap(({ shops: own, ...item }) => {
+    const homes = own.length ? own : [general ?? GENERAL];
+    return homes.map((shop, index) => ({ ...item, id: index ? `${item.id}-${index + 1}` : item.id, list: idOf(shop) }));
+  });
+  return { lists, items: placed };
+};
+
+// The lists of a version 12 state, trimmed, or null when one is not valid: each has a text id and a
+// name, and ids and names are unique with no case distinction.
+const normalizeLists = (lists) => {
+  if (!Array.isArray(lists) || lists.some((list) => typeof list !== 'object' || list === null)) return null;
+  const clean = lists.map(({ id, name }) => ({ id, name: typeof name === 'string' ? name.trim() : '' }));
+  const valid = clean.every(({ id, name }) => typeof id === 'string' && id !== '' && name !== '');
+  return valid && unique(clean.map((list) => list.id)) && unique(clean.map((list) => lower(list.name))) ? clean : null;
+};
+
+// Versions 1 to 9 are the states of Bodega; version 10 is the first of Stash, version 11 the first
+// with no saved and no ticked items, and version 12 the first with lists.
+const VERSIONS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
+// The items of the state, or null when one is not valid. Item ids are unique; item names are unique in
+// one list, and before version 12 in the whole state.
+const readItems = (data, lists) => {
+  if (data.items.some((item) => typeof item !== 'object' || item === null)) return null;
+  const scope = (item) => (lists ? `${item.list}\n` : '');
+  const valid = unique(data.items.map((item) => item.id)) &&
+    unique(data.items.map((item) => scope(item) + lower(String(item.name ?? '').trim())));
+  // In version 12 `list` is the id of a list, not the list of a trip.
+  const items = data.items.map((item) => normalizeItem(lists ? { ...item, list: undefined } : item));
+  if (!valid || items.includes(null)) return null;
+  if (!lists) return items.filter(Boolean);
+  const ids = new Set(lists.map((list) => list.id));
+  if (data.items.some((item) => !ids.has(item.list))) return null;
+  return items.map((item, index) => item && (({ shops, ...rest }) => ({ ...rest, list: data.items[index].list }))(item)).filter(Boolean);
+};
+
+// Returns a clean version 12 state, or null when the data is not a known state. The recipes, the
 // sent recipes and the menu of a Bodega state are dropped, and so are the saved and ticked items.
+// The shops of an older state become lists.
 const normalizeState = (data) => {
   if (typeof data !== 'object' || data === null || !VERSIONS.includes(data.version) || !Array.isArray(data.items)) return null;
-  if (data.items.some((item) => typeof item !== 'object' || item === null)) return null;
-  const valid = unique(data.items.map((item) => item.id)) && unique(data.items.map((item) => lower(String(item.name ?? '').trim())));
-  const items = data.items.map(normalizeItem);
-  if (!valid || items.includes(null)) return null;
+  const own = data.version === 12 ? normalizeLists(data.lists) : null;
+  if (data.version === 12 && !own) return null;
+  const read = readItems(data, own);
+  if (!read) return null;
+  const { lists, items } = own ? { lists: own, items: read } : shopsToLists(oneSpelling(read));
   const aisles = normalizeAisles(data.aisles);
   return {
-    version: 11,
-    items: knownAisles(oneSpelling(items.filter(Boolean)), aisles),
+    version: 12,
+    lists,
+    items: knownAisles(items, aisles),
     group: groupOf(data),
     sort: SORTS.includes(data.sort) ? data.sort : 'custom',
     aisles,
+    view: LIST_VIEWS.includes(data.view) ? data.view : 'rows',
+    listSort: SORTS.includes(data.listSort) ? data.listSort : 'custom',
   };
 };
 
@@ -208,28 +261,9 @@ export const saveHand = (storage, hand) => {
   }
 };
 
-// Whether Compra shows the row of shop lists. A preference of the device, as the hand is.
+// Retired: the choice of the row of shop lists. No code reads it; Borrar todos los datos still
+// removes a stored value.
 export const SHOP_LISTS_KEY = 'lists.shopLists';
-
-// `hide` when stored, else `show`.
-export const loadShopLists = (storage) => {
-  try {
-    return storage.getItem(SHOP_LISTS_KEY) === 'hide' ? 'hide' : 'show';
-  } catch {
-    return 'show';
-  }
-};
-
-// `show` is the choice of an app with no choice: it removes the key.
-export const saveShopLists = (storage, choice) => {
-  try {
-    if (choice === 'hide') storage.setItem(SHOP_LISTS_KEY, 'hide');
-    else storage.removeItem(SHOP_LISTS_KEY);
-    return true;
-  } catch {
-    return false;
-  }
-};
 
 // The colours of the app: `light`, `dark`, or `system` to follow the phone. A preference of the
 // device, as the hand is.

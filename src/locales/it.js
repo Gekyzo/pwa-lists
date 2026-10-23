@@ -127,7 +127,7 @@ export default {
   'toast.existsNowIn': '«{name}» esiste già. Ora è in {list}.',
   'toast.addedTo': '«{name}» aggiunto a {list}.',
   'toast.imported': 'Copia importata.',
-  'toast.arrival': { one: '{count} elemento in sospeso in {list}.', other: '{count} elementi in sospeso in {list}.' },
+  'toast.arrival': { one: '{count} elemento in sospeso.', other: '{count} elementi in sospeso.' },
 
   'error.notSaved': 'La modifica non è stata salvata: la memoria non è disponibile.',
   'error.noStorage': 'La memoria non è disponibile: le modifiche non vengono salvate.',

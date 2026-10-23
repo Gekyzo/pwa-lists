@@ -29,7 +29,7 @@ the 🎯 indicators (terminal status bar, tab ring, overlord tile) draw from thi
 | # | Task | Status | Commit (subject) | Landed | Notes |
 |---|---|---|---|---|---|
 | 1 | Pure list operations | ☑ |  | 2026-10-23 |  |
-| 2 | State version 12 and the migration of shops | ☐ |  |  |  |
+| 2 | State version 12 and the migration of shops | ☑ |  | 2026-10-23 |  |
 | 3 | Two levels in Listas | ☐ |  |  |  |
 | 4 | Cards and the arrange sheet of the first level | ☐ |  |  |  |
 | 5 | Create, rename and delete a list | ☐ |  |  |  |

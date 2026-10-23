@@ -127,7 +127,7 @@ export default {
   'toast.existsNowIn': '"{name}" ya existe. Ahora está en {list}.',
   'toast.addedTo': '"{name}" añadido a {list}.',
   'toast.imported': 'Copia importada.',
-  'toast.arrival': { one: '{count} elemento pendiente en {list}.', other: '{count} elementos pendientes en {list}.' },
+  'toast.arrival': { one: '{count} elemento pendiente.', other: '{count} elementos pendientes.' },
 
   'error.notSaved': 'El cambio no se ha guardado: el almacenamiento no está disponible.',
   'error.noStorage': 'El almacenamiento no está disponible: los cambios no se guardan.',

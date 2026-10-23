@@ -4,15 +4,25 @@ export const SORTS = ['custom', 'name'];
 // The views of the first level of Listas: a row or a card for each list.
 export const LIST_VIEWS = ['rows', 'cards'];
 
-// The groups of a list: by the shops of each item, by the aisle of each item, or none.
-export const GROUPS = ['shop', 'aisle', 'none'];
+// The groups of a list: by the aisle of each item, or none.
+export const GROUPS = ['aisle', 'none'];
 
 // `group` is the choice of the user to show a list in groups, and `sort` the order of the list.
-// `aisles` are the sections of the store, in the order of the walk.
-export const emptyState = () => ({ version: 11, items: [], group: 'shop', sort: 'custom', aisles: [] });
+// `aisles` are the sections of the store, in the order of the walk. `lists` are the lists of the
+// first level, `view` shows them as rows or cards and `listSort` orders them.
+export const emptyState = () => ({
+  version: 12,
+  lists: [],
+  items: [],
+  group: 'aisle',
+  sort: 'custom',
+  aisles: [],
+  view: 'rows',
+  listSort: 'custom',
+});
 
-// An error is a message: the key of its text, with the parameters of the text. A `list`
-// parameter holds a list id. The screen turns the message into text.
+// An error is a message: the key of its text, with the parameters of the text. The screen turns
+// the message into text.
 const reject = (state, key, params) => ({ state, error: params ? { key, params } : { key } });
 
 const findItem = (state, id) => state.items.find((item) => item.id === id);
@@ -21,26 +31,31 @@ const patchItem = (state, id, patch) => ({
   state: { ...state, items: state.items.map((item) => (item.id === id ? { ...item, ...patch } : item)) },
 });
 
-const nameError = (state, name, ownId) => {
+// Item names are unique in one list. `ownId` is the item that the name replaces.
+const nameError = (state, listId, name, ownId) => {
   if (!name) return ['error.nameRequired'];
   const key = name.toLowerCase();
-  const duplicate = state.items.find((item) => item.id !== ownId && item.name.toLowerCase() === key);
-  return duplicate ? ['error.duplicateItem', { name: duplicate.name, list: 'active' }] : null;
+  const duplicate = state.items.find((item) => item.list === listId && item.id !== ownId && item.name.toLowerCase() === key);
+  if (!duplicate) return null;
+  const list = state.lists.find((entry) => entry.id === listId);
+  return ['error.duplicateItem', { name: duplicate.name, list: list?.name ?? '' }];
 };
 
-// An item exists while it is to buy: a tick deletes it.
-export const addItem = (state, rawName, newId = () => crypto.randomUUID()) => {
+// An item exists while it is pending: a tick deletes it. It goes to the end of its list.
+export const addItem = (state, listId, rawName, newId = () => crypto.randomUUID()) => {
+  if (!state.lists.some((list) => list.id === listId)) return reject(state, 'error.listNotFound');
   const name = String(rawName ?? '').trim();
-  const error = nameError(state, name);
+  const error = nameError(state, listId, name);
   if (error) return reject(state, ...error);
-  const item = { id: newId(), name, shops: [], quantity: '', aisle: '' };
+  const item = { id: newId(), name, list: listId, quantity: '', aisle: '' };
   return { state: { ...state, items: [...state.items, item] } };
 };
 
 export const renameItem = (state, id, rawName) => {
-  if (!findItem(state, id)) return reject(state, 'error.itemNotFound');
+  const item = findItem(state, id);
+  if (!item) return reject(state, 'error.itemNotFound');
   const name = String(rawName ?? '').trim();
-  const error = nameError(state, name, id);
+  const error = nameError(state, item.list, name, id);
   return error ? reject(state, ...error) : patchItem(state, id, { name });
 };
 
@@ -99,11 +114,10 @@ export const fold = (text) =>
     .normalize('NFD')
     .replace(/\p{Diacritic}/gu, '');
 
-// True when the name, one of the shops or the aisle of the item contains the query. Each item for
-// no query.
+// True when the name or the aisle of the item contains the query. Each item for no query.
 export const matchesItem = (item, query) => {
   const key = fold(query);
-  return !key || [item.name, ...item.shops, item.aisle].some((text) => fold(text).includes(key));
+  return !key || [item.name, item.aisle].some((text) => fold(text).includes(key));
 };
 
 // A list by group with only the items that match the query. A query takes away a group with no
@@ -139,8 +153,9 @@ export const searchItems = (state, query, limit = 5) => {
     .slice(0, limit);
 };
 
-// The message of the toast that an arrival at the shop shows, or null when the list is empty.
+// The message of the toast that an arrival at the shop shows: the items of all lists. Null when
+// there is no item.
 export const arrivalMessage = (state) => {
   const count = state.items.length;
-  return count === 0 ? null : { key: 'toast.arrival', params: { count, list: 'active' } };
+  return count === 0 ? null : { key: 'toast.arrival', params: { count } };
 };

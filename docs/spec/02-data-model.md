@@ -6,15 +6,29 @@ The app has one state object. Each operation returns a new object and never chan
 
 ```js
 {
-  version: 11,
+  version: 12,
+  lists: [List],      // the lists of the first level, in the custom order
   items: [Item],      // insertion order, changed only by a manual move
-  group: 'shop',      // 'shop' | 'aisle' | 'none'
+  group: 'aisle',     // 'aisle' | 'none'
   sort: 'custom',     // 'custom' | 'name'
   aisles: [string],   // the sections of the store, in the order of the walk
+  view: 'rows',       // 'rows' | 'cards': the first level of Listas
+  listSort: 'custom', // 'custom' | 'name': the order of the lists
 }
 ```
 
-The empty state is `{ version: 11, items: [], group: 'shop', sort: 'custom', aisles: [] }`.
+The empty state is `{ version: 12, lists: [], items: [], group: 'aisle', sort: 'custom', aisles: [], view: 'rows', listSort: 'custom' }`.
+
+## List
+
+```js
+{
+  id: string,         // crypto.randomUUID(); `list-N` for a list that the migration made (STORE-8)
+  name: string,       // trimmed, not empty
+}
+```
+
+See [06-lists-level.md](06-lists-level.md).
 
 ## Item
 
@@ -22,7 +36,7 @@ The empty state is `{ version: 11, items: [], group: 'shop', sort: 'custom', ais
 {
   id: string,         // crypto.randomUUID()
   name: string,       // trimmed, not empty
-  shops: [string],    // shop names
+  list: string,       // the id of its list
   quantity: string,   // free text, such as '2' or '1 kg'; trimmed; '' for none
   aisle: string,      // one name of `aisles`, or '' for none
 }
@@ -32,22 +46,24 @@ The empty state is `{ version: 11, items: [], group: 'shop', sort: 'custom', ais
 
 - **DATA-1** An item is one record. It is never copied; a view computes where it shows.
 - **DATA-2** Item ids are unique.
-- **DATA-3** Item names are unique with no case distinction. `Leche` and `leche` are one name;
-  `Cafe` and `Café` are two.
+- **DATA-3** Item names are unique in one list with no case distinction. `Leche` and `leche` are
+  one name; `Cafe` and `Café` are two. Two lists can each hold an item `Leche`.
 - **DATA-4** Removed: the state has no recipes.
 - **DATA-5** Removed: the state has no recipes.
 - **DATA-6** Removed: an item has no `list` and no `bought`. An item exists while it is to buy: a
   tick deletes it (LIST-12).
 - **DATA-7** Removed: an item has no `again` field (STORE-8).
-- **DATA-8** The shops of one item are unique with no case distinction, trimmed and not empty.
-- **DATA-9** One shop has one spelling in the full state: the spelling of its first use.
+- **DATA-8** Removed: an item has no shops; it is in one list (DATA-16).
+- **DATA-9** Removed: an item has no shops; it is in one list (DATA-16).
 - **DATA-10** Removed: the state has no `sent`.
 - **DATA-11** Removed: the state has no recipes.
-- **DATA-12** A shop has no record. It exists while an item has it.
+- **DATA-12** Removed: an item has no shops; it is in one list (DATA-16).
 - **DATA-13** Removed: the state has no `menu`.
 - **DATA-14** The names of `aisles` are trimmed, not empty and unique with no case distinction.
 - **DATA-15** `item.aisle` is `''` or a name of `aisles`, in the spelling of `aisles`. An item has
   one aisle at most. See [17-aisles.md](17-aisles.md).
+- **DATA-16** `item.list` is the id of a list of `lists`. An item is in one list. List ids are
+  unique, and list names are unique with no case distinction (LVL-2).
 
 ## Derived views
 

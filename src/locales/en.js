@@ -127,7 +127,7 @@ export default {
   'toast.existsNowIn': '“{name}” already exists. It is now in {list}.',
   'toast.addedTo': '“{name}” added to {list}.',
   'toast.imported': 'Backup imported.',
-  'toast.arrival': { one: '{count} item pending in {list}.', other: '{count} items pending in {list}.' },
+  'toast.arrival': { one: '{count} item pending.', other: '{count} items pending.' },
 
   'error.notSaved': 'The change was not saved: the storage is not available.',
   'error.noStorage': 'The storage is not available: changes are not saved.',

@@ -9,10 +9,10 @@ const newId = () => `id-${++counter}`;
 // Each spec is [name, patch].
 const build = (aisles, ...specs) =>
   specs.reduce((state, [name, patch = {}]) => {
-    const { state: added } = addItem(state, name, newId);
+    const { state: added } = addItem(state, 'L', name, newId);
     const items = added.items.map((item) => (item.name === name ? { ...item, ...patch } : item));
     return { ...added, items };
-  }, { ...emptyState(), aisles });
+  }, { ...emptyState(), lists: [{ id: 'L', name: 'Casa' }], aisles });
 
 const find = (state, name) => state.items.find((item) => item.name === name);
 const names = (items) => items.map((item) => item.name);

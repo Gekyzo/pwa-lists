@@ -25,55 +25,70 @@ import * as store from '#store';
 let counter = 0;
 const newId = () => `id-${++counter}`;
 
-// Each spec is [name, patch].
+// The start state of a test: two lists, `L` and `M`, with no item.
+const base = () => ({ ...emptyState(), lists: [{ id: 'L', name: 'Casa' }, { id: 'M', name: 'IKEA' }] });
+
+// Each spec is [name, patch]. The items go to the list `L`.
 const build = (...specs) =>
   specs.reduce((state, [name, patch = {}]) => {
-    const { state: added } = addItem(state, name, newId);
+    const { state: added } = addItem(state, 'L', name, newId);
     const items = added.items.map((item) => (item.name === name ? { ...item, ...patch } : item));
     return { ...added, items };
-  }, emptyState());
+  }, base());
 
 const find = (state, name) => state.items.find((item) => item.name === name);
 const names = (items) => items.map((item) => item.name);
 
 test('addItem adds an item to the list', () => {
-  const { state, error } = addItem(emptyState(), 'Bread', newId);
+  const { state, error } = addItem(base(), 'L', 'Bread', newId);
   assert.equal(error, undefined);
   assert.equal(state.items.length, 1);
   const { id, ...rest } = state.items[0];
   assert.ok(id);
-  assert.deepEqual(rest, { name: 'Bread', shops: [], quantity: '', aisle: '' });
+  assert.deepEqual(rest, { name: 'Bread', list: 'L', quantity: '', aisle: '' });
 });
 
-test('addItem gives an item with no list and no bought', () => {
-  const item = addItem(emptyState(), 'Tea', newId).state.items[0];
-  assert.equal('list' in item, false);
+test('addItem gives an item with no shops and no bought', () => {
+  const item = addItem(base(), 'L', 'Tea', newId).state.items[0];
+  assert.equal('shops' in item, false);
   assert.equal('bought' in item, false);
   assert.equal('recurrent' in item, false);
   assert.equal('again' in item, false);
 });
 
 test('addItem trims the name and rejects an empty one', () => {
-  const { state } = addItem(emptyState(), '  Eggs  ', newId);
+  const { state } = addItem(base(), 'L', '  Eggs  ', newId);
   assert.equal(state.items[0].name, 'Eggs');
-  const start = emptyState();
-  const rejected = addItem(start, '   ', newId);
+  const start = base();
+  const rejected = addItem(start, 'L', '   ', newId);
   assert.equal(rejected.state, start);
   assert.deepEqual(rejected.error, { key: 'error.nameRequired' });
 });
 
-test('addItem rejects a duplicate without case distinction', () => {
+test('addItem rejects a duplicate in the same list without case distinction', () => {
   const start = build(['Milk'], ['Bread']);
-  const duplicate = addItem(start, ' milk ', newId);
+  const duplicate = addItem(start, 'L', ' milk ', newId);
   assert.equal(duplicate.state, start);
-  assert.deepEqual(duplicate.error, { key: 'error.duplicateItem', params: { name: 'Milk', list: 'active' } });
-  assert.deepEqual(addItem(start, 'BREAD', newId).error, { key: 'error.duplicateItem', params: { name: 'Bread', list: 'active' } });
+  assert.deepEqual(duplicate.error, { key: 'error.duplicateItem', params: { name: 'Milk', list: 'Casa' } });
+  assert.deepEqual(addItem(start, 'L', 'BREAD', newId).error, { key: 'error.duplicateItem', params: { name: 'Bread', list: 'Casa' } });
+});
+
+test('addItem accepts a name that another list has', () => {
+  const start = build(['Tornillos']);
+  const { state, error } = addItem(start, 'M', 'tornillos', newId);
+  assert.equal(error, undefined);
+  assert.deepEqual(state.items.map((item) => [item.name, item.list]), [['Tornillos', 'L'], ['tornillos', 'M']]);
+});
+
+test('addItem rejects an unknown list', () => {
+  const start = base();
+  assert.deepEqual(addItem(start, 'nope', 'Milk', newId), { state: start, error: { key: 'error.listNotFound' } });
 });
 
 test('addItem does not change the input state', () => {
-  const start = emptyState();
-  addItem(start, 'Bread', newId);
-  assert.deepEqual(start, emptyState());
+  const start = base();
+  addItem(start, 'L', 'Bread', newId);
+  assert.deepEqual(start, base());
 });
 
 test('renameItem renames and trims', () => {
@@ -87,8 +102,14 @@ test('renameItem rejects an empty name and a duplicate of another item', () => {
   const { id } = find(start, 'Bread');
   assert.deepEqual(renameItem(start, id, ' ').error, { key: 'error.nameRequired' });
   const duplicate = renameItem(start, id, 'MILK');
-  assert.deepEqual(duplicate.error, { key: 'error.duplicateItem', params: { name: 'Milk', list: 'active' } });
+  assert.deepEqual(duplicate.error, { key: 'error.duplicateItem', params: { name: 'Milk', list: 'Casa' } });
   assert.equal(duplicate.state, start);
+});
+
+test('renameItem accepts the name of an item of another list', () => {
+  const start = addItem(build(['Bread']), 'M', 'Milk', newId).state;
+  const { error } = renameItem(start, find(start, 'Bread').id, 'milk');
+  assert.equal(error, undefined);
 });
 
 test('renameItem accepts a change of case of the same item', () => {
@@ -108,7 +129,7 @@ test('operations reject an unknown id', () => {
 });
 
 test('tickItem removes the item and keeps the order of the others', () => {
-  const start = build(['Bread'], ['Milk', { shops: ['Lidl'] }], ['Salt']);
+  const start = build(['Bread'], ['Milk', { quantity: '1 l' }], ['Salt']);
   const copy = structuredClone(start);
   const { state, error } = tickItem(start, find(start, 'Milk').id);
   assert.equal(error, undefined);
@@ -165,19 +186,19 @@ test('findByName finds the item with the same name, trimmed and without case dis
   assert.equal(findByName(state, ''), undefined);
 });
 
-test('emptyState is version 11 with no items, and groups by shop', () => {
-  assert.deepEqual(emptyState(), { version: 11, items: [], group: 'shop', sort: 'custom', aisles: [] });
+test('emptyState is version 12 with no list and no item, and groups by aisle', () => {
+  assert.deepEqual(emptyState(), { version: 12, lists: [], items: [], group: 'aisle', sort: 'custom', aisles: [], view: 'rows', listSort: 'custom' });
 });
 
 test('arrivalMessage counts the items', () => {
   const state = build(['Milk'], ['Bread']);
   const before = structuredClone(state);
-  assert.deepEqual(arrivalMessage(state), { key: 'toast.arrival', params: { count: 2, list: 'active' } });
+  assert.deepEqual(arrivalMessage(state), { key: 'toast.arrival', params: { count: 2 } });
   assert.deepEqual(state, before);
 });
 
 test('arrivalMessage uses the singular for one item', () => {
-  assert.deepEqual(arrivalMessage(build(['Milk'])), { key: 'toast.arrival', params: { count: 1, list: 'active' } });
+  assert.deepEqual(arrivalMessage(build(['Milk'])), { key: 'toast.arrival', params: { count: 1 } });
 });
 
 test('arrivalMessage is null when the list is empty', () => {
@@ -282,11 +303,11 @@ test('reorderItems from the name order rejects an unknown id and keeps the name 
 
 test('setGroup sets each known group and rejects another one', () => {
   const start = emptyState();
-  assert.equal(start.group, 'shop');
-  assert.deepEqual(GROUPS, ['shop', 'aisle', 'none']);
+  assert.equal(start.group, 'aisle');
+  assert.deepEqual(GROUPS, ['aisle', 'none']);
   GROUPS.forEach((group) => assert.equal(setGroup(start, group).state.group, group));
-  assert.equal(start.group, 'shop');
-  for (const group of ['floor', 'recipe']) {
+  assert.equal(start.group, 'aisle');
+  for (const group of ['floor', 'recipe', 'shop']) {
     const rejected = setGroup(start, group);
     assert.equal(rejected.state, start);
     assert.deepEqual(rejected.error, { key: 'error.unknownGroup' });
@@ -298,8 +319,8 @@ test('compareNames has no case and no accent distinction', () => {
   assert.equal(compareNames('lidl', 'Lidl'), 0);
 });
 
-const milk = { id: 'a', name: 'Leche', shops: ['Mercadona'], aisle: 'Lácteos' };
-const coffee = { id: 'b', name: 'Café', shops: [], aisle: '' };
+const milk = { id: 'a', name: 'Leche', list: 'L', aisle: 'Lácteos' };
+const coffee = { id: 'b', name: 'Café', list: 'L', aisle: '' };
 
 test('matchesItem matches a part of the name with no case and no accent distinction', () => {
   assert.equal(matchesItem(milk, 'ECH'), true);
@@ -307,9 +328,8 @@ test('matchesItem matches a part of the name with no case and no accent distinct
   assert.equal(matchesItem(milk, 'cafe'), false);
 });
 
-test('matchesItem matches a part of a shop', () => {
-  assert.equal(matchesItem(milk, 'merca'), true);
-  assert.equal(matchesItem(coffee, 'merca'), false);
+test('matchesItem does not match the id of the list', () => {
+  assert.equal(matchesItem(coffee, 'L'), false);
 });
 
 test('matchesItem matches a part of the aisle with no accent distinction', () => {

@@ -6,10 +6,10 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 
 - **LIST-1** A new item has a name that is trimmed and not empty. An empty name gives
   `error.nameRequired`.
-- **LIST-2** A name that an item has already gives `error.duplicateItem` with the name of that
-  item and the list `Listas` (DATA-3).
-- **LIST-3** A new item goes to `Listas`.
-- **LIST-4** A new item goes to the end of `items`, with no shop, no quantity and no aisle.
+- **LIST-2** A name that an item of the same list has already gives `error.duplicateItem` with the
+  name of that item and the name of the list (DATA-3).
+- **LIST-3** A new item goes to the list in view. An unknown list gives `error.listNotFound`.
+- **LIST-4** A new item goes to the end of `items`, with no quantity and no aisle.
 - **LIST-5** A rename has the rules LIST-1 and LIST-2. The item keeps its own name without an
   error. A rename to the same text changes nothing.
 - **LIST-6** A name field of the screen takes 80 characters at most. The store has no limit.

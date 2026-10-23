@@ -15,8 +15,6 @@ import {
   saveLanguage,
   loadHand,
   saveHand,
-  loadShopLists,
-  saveShopLists,
   THEME_KEY,
   loadTheme,
   saveTheme,
@@ -89,17 +87,38 @@ const sample = () => {
 
 const sampleV3 = () => ({ ...sample(), version: 3 });
 
-// The items of sampleV1 and sampleV2, as a version 11 state has them: the item of Next and the
-// ticked item with again are both items to buy, with no list, bought or again field.
+// sample() as version 12 has it: a list for each shop in name order, then General for the item with
+// no shop. The item of two shops is one item in each list; the copy gets the id `<id>-2`.
+const current = () => ({
+  version: 12,
+  lists: [{ id: 'list-1', name: 'Lidl' }, { id: 'list-2', name: 'Market' }, { id: 'list-3', name: 'General' }],
+  items: [
+    { id: 'a', name: 'Bread', list: 'list-1', quantity: '2', aisle: 'Bakery' },
+    { id: 'a-2', name: 'Bread', list: 'list-2', quantity: '2', aisle: 'Bakery' },
+    { id: 'b', name: 'Milk', list: 'list-3', quantity: '', aisle: '' },
+  ],
+  group: 'aisle',
+  sort: 'custom',
+  aisles: ['Bakery', 'Dairy'],
+  view: 'rows',
+  listSort: 'custom',
+});
+
+// The items of sampleV1 and sampleV2, as a version 12 state has them: the item of Next and the
+// ticked item with again are both items to buy, in General, with no bought or again field.
 const migratedItems = () => [
-  { id: 'a', name: 'Bread', shops: [], quantity: '', aisle: '' },
-  { id: 'b', name: 'Milk', shops: [], quantity: '', aisle: '' },
+  { id: 'a', name: 'Bread', list: 'list-1', quantity: '', aisle: '' },
+  { id: 'b', name: 'Milk', list: 'list-1', quantity: '', aisle: '' },
 ];
+const general = [{ id: 'list-1', name: 'General' }];
+const listNames = (state) => state.lists.map((list) => list.name);
+// The names of the lists that hold an item of the name.
+const listsOf = (state, name) => state.items.filter((item) => item.name === name).map((item) => state.lists.find((list) => list.id === item.list).name);
 
 test('save then load returns the same state', () => {
   const storage = fakeStorage();
-  assert.equal(save(storage, sample()), true);
-  assert.deepEqual(load(storage), sample());
+  assert.equal(save(storage, current()), true);
+  assert.deepEqual(load(storage), current());
 });
 
 test('load returns an empty state when the key is absent', () => {
@@ -121,7 +140,7 @@ test('load treats valid JSON with an invalid shape as corrupt', () => {
 
 test('load and save survive a storage that throws', () => {
   assert.deepEqual(load(brokenStorage()), emptyState());
-  assert.equal(save(brokenStorage(), sample()), false);
+  assert.equal(save(brokenStorage(), current()), false);
 });
 
 test('exportFilename names the file with the local date and time', () => {
@@ -136,15 +155,15 @@ test('exportFilename gives two exports of one day different names', () => {
 });
 
 test('exportJson then importJson returns the same state', () => {
-  assert.deepEqual(importJson(exportJson(sample())), { state: sample() });
+  assert.deepEqual(importJson(exportJson(current())), { state: current() });
 });
 
 test('importJson rejects text that is not JSON', () => {
   assert.deepEqual(importJson('nope'), { error: { key: 'error.invalidJson' } });
 });
 
-test('version 12 is not a backup', () => {
-  const text = JSON.stringify({ ...sample(), version: 12 });
+test('version 13 is not a backup', () => {
+  const text = JSON.stringify({ ...current(), version: 13 });
   assert.deepEqual(importJson(text), { error: { key: 'error.notBackup' } });
 });
 
@@ -154,7 +173,7 @@ test('importJson rejects invalid items', () => {
     [],
     { version: 1 },
     { version: 1, items: 'x' },
-    { ...sample(), version: 12 },
+    { ...current(), version: 13 },
     { ...sample(), version: 0 },
     { version: 1, items: [{ ...sample().items[0], list: 'other' }] },
     { version: 1, items: [{ ...sample().items[0], name: '  ' }] },
@@ -178,28 +197,30 @@ test('importJson drops unknown fields, moves Next to Actual and drops again', ()
   };
   assert.deepEqual(importJson(JSON.stringify(data)), {
     state: {
-      version: 11,
+      version: 12,
+      lists: general,
       items: [
-        { id: 'a', name: 'Milk', shops: [], quantity: '', aisle: '' },
-        { id: 'b', name: 'Soap', shops: [], quantity: '', aisle: '' },
+        { id: 'a', name: 'Milk', list: 'list-1', quantity: '', aisle: '' },
+        { id: 'b', name: 'Soap', list: 'list-1', quantity: '', aisle: '' },
       ],
-      group: 'shop',
+      group: 'aisle',
       sort: 'custom',
       aisles: [],
+      view: 'rows',
+      listSort: 'custom',
     },
   });
 });
 
 const migratedV1 = () => ({
-  version: 11,
+  version: 12,
+  lists: general,
   items: migratedItems(),
-  group: 'shop',
+  group: 'aisle',
   sort: 'custom',
   aisles: [],
-});
-
-test('emptyState is a version 11 state with no items and the shop grouping', () => {
-  assert.deepEqual(emptyState(), { version: 11, items: [], group: 'shop', sort: 'custom', aisles: [] });
+  view: 'rows',
+  listSort: 'custom',
 });
 
 test('load migrates a version 1 state', () => {
@@ -214,48 +235,109 @@ test('importJson migrates a version 1 backup', () => {
 
 test('load migrates a version 2 state', () => {
   const storage = fakeStorage({ [STORAGE_KEY]: JSON.stringify(sampleV2()) });
-  const { grouped, recipes, sent, ...rest } = sampleV2();
-  assert.deepEqual(load(storage), { ...rest, version: 11, items: migratedItems(), group: 'shop', aisles: [] });
+  assert.deepEqual(load(storage), migratedV1());
   assert.equal(storage.getItem(CORRUPT_KEY), null);
 });
 
-test('importJson reads the grouping of a version 2 backup, with the shops in place of the recipes', () => {
+test('importJson reads the grouping of a version 2 backup, with the aisles in place of the recipes', () => {
   const stateOf = (grouped) => importJson(JSON.stringify({ ...sampleV2(), grouped })).state;
   assert.equal(stateOf(false).group, 'none');
-  [true, undefined, null, 'no', 0].forEach((value) => assert.equal(stateOf(value).group, 'shop', String(value)));
+  [true, undefined, null, 'no', 0].forEach((value) => assert.equal(stateOf(value).group, 'aisle', String(value)));
   assert.equal('grouped' in stateOf(false), false);
 });
 
-test('importJson keeps a known group and turns any other value, the recipe grouping too, into the shop grouping', () => {
+test('importJson keeps a known group and turns any other value, the shop and the recipe grouping too, into the aisle grouping', () => {
   const groupOf = (group) => importJson(JSON.stringify({ ...sample(), group })).state.group;
-  ['shop', 'aisle', 'none'].forEach((group) => assert.equal(groupOf(group), group));
-  ['recipe', undefined, null, 'floor', 1, true].forEach((value) => assert.equal(groupOf(value), 'shop', String(value)));
+  ['aisle', 'none'].forEach((group) => assert.equal(groupOf(group), group));
+  ['shop', 'recipe', undefined, null, 'floor', 1, true].forEach((value) => assert.equal(groupOf(value), 'aisle', String(value)));
 });
 
 test('a known group wins over the old grouped field', () => {
-  assert.equal(importJson(JSON.stringify({ ...sample(), group: 'shop', grouped: false })).state.group, 'shop');
+  assert.equal(importJson(JSON.stringify({ ...sample(), group: 'aisle', grouped: false })).state.group, 'aisle');
 });
 
-test('importJson repairs the shops of an item', () => {
+test('importJson repairs the shops of an item before they become lists', () => {
   const shopsOf = (shops) => {
     const [bread, milk] = sample().items;
-    return importJson(JSON.stringify({ ...sample(), items: [{ ...bread, shops }, milk] })).state.items[0].shops;
+    return listsOf(importJson(JSON.stringify({ ...sample(), items: [{ ...bread, shops }, milk] })).state, 'Bread');
   };
-  [undefined, null, 'Lidl', 7, {}].forEach((value) => assert.deepEqual(shopsOf(value), [], String(value)));
+  [undefined, null, 'Lidl', 7, {}].forEach((value) => assert.deepEqual(shopsOf(value), ['General'], String(value)));
   assert.deepEqual(shopsOf([' Lidl ', '', '  ', 7, null, 'lidl', 'Market']), ['Lidl', 'Market']);
 });
 
-test('importJson gives each shop the spelling of its first use', () => {
+test('importJson gives each list the spelling of the first use of its shop', () => {
   const [bread, milk] = sample().items;
   const data = { ...sample(), items: [{ ...bread, shops: ['Lidl'] }, { ...milk, shops: ['market', 'LIDL'] }] };
-  const { items } = importJson(JSON.stringify(data)).state;
-  assert.deepEqual(items.map((item) => item.shops), [['Lidl'], ['market', 'Lidl']]);
+  const { state } = importJson(JSON.stringify(data));
+  assert.deepEqual(listNames(state), ['Lidl', 'market']);
+  assert.deepEqual(listsOf(state, 'Milk'), ['market', 'Lidl']);
+});
+
+test('a version 11 state with every item in a shop gets no General', () => {
+  const [bread, milk] = sample().items;
+  const data = { ...sample(), items: [bread, { ...milk, shops: ['Lidl'] }] };
+  assert.deepEqual(listNames(importJson(JSON.stringify(data)).state), ['Lidl', 'Market']);
+});
+
+test('the items with no shop join a shop called general in any case, and no second General comes', () => {
+  const [bread, milk] = sample().items;
+  const data = { ...sample(), items: [{ ...bread, shops: ['general'] }, milk] };
+  const { state } = importJson(JSON.stringify(data));
+  assert.deepEqual(state.lists, [{ id: 'list-1', name: 'general' }]);
+  assert.deepEqual(state.items.map((item) => item.list), ['list-1', 'list-1']);
+});
+
+test('a migrated state gets the same ids at each read, so a reload before a save keeps them', () => {
+  const storage = fakeStorage({ [STORAGE_KEY]: JSON.stringify(sample()) });
+  assert.deepEqual(load(storage), load(storage));
+});
+
+test('a version 12 state keeps its lists, its view and its order of lists', () => {
+  const state = { ...current(), view: 'cards', listSort: 'name' };
+  assert.deepEqual(importJson(JSON.stringify(state)), { state });
+});
+
+test('a version 12 state turns an unknown view into rows, an unknown order of lists into custom and an unknown group into aisle', () => {
+  const { state } = importJson(JSON.stringify({ ...current(), view: 'grid', listSort: 'size', group: 'shop' }));
+  assert.equal(state.view, 'rows');
+  assert.equal(state.listSort, 'custom');
+  assert.equal(state.group, 'aisle');
+});
+
+test('a version 12 state trims the names of its lists and of its items', () => {
+  const data = current();
+  data.lists[0].name = ' Lidl ';
+  data.items[0].name = ' Bread ';
+  assert.deepEqual(importJson(JSON.stringify(data)), { state: current() });
+});
+
+test('a version 12 state with a broken list or item is not a backup', () => {
+  const broken = [
+    (data) => { data.items[0].list = 'nope'; },
+    (data) => { delete data.items[0].list; },
+    (data) => { data.lists[1].name = 'lidl'; },
+    (data) => { data.lists[1].name = '  '; },
+    (data) => { data.lists[1].id = 'list-1'; },
+    (data) => { data.lists = 'x'; },
+    (data) => { data.lists[0] = null; },
+    (data) => { data.items[1] = { ...data.items[1], list: 'list-1', name: 'bread' }; },
+    (data) => { data.items[1].id = 'a'; },
+  ];
+  broken.forEach((change, index) => {
+    const data = current();
+    change(data);
+    assert.deepEqual(importJson(JSON.stringify(data)), { error: { key: 'error.notBackup' } }, String(index));
+  });
+});
+
+test('a version 12 state may hold one name in two lists', () => {
+  assert.deepEqual(importJson(JSON.stringify(current())).state.items.filter((item) => item.name === 'Bread').length, 2);
 });
 
 test('importJson drops the recipes and the sent recipes of a Bodega backup, valid or not', () => {
   for (const recipes of [sampleV2().recipes, 'x', [null], [{ id: '', name: ' ' }]]) {
     const { state } = importJson(JSON.stringify({ ...sample(), recipes, sent: ['r1', 7] }));
-    assert.deepEqual(state, sample());
+    assert.deepEqual(state, current());
   }
 });
 
@@ -334,26 +416,10 @@ test('the hand is not part of the state', () => {
   assert.equal(storage.getItem(STORAGE_KEY), null);
 });
 
-test('loadShopLists returns hide when stored and show for no value and an unknown value', () => {
-  assert.equal(loadShopLists(fakeStorage({ [SHOP_LISTS_KEY]: 'hide' })), 'hide');
-  assert.equal(loadShopLists(fakeStorage()), 'show');
-  assert.equal(loadShopLists(fakeStorage({ [SHOP_LISTS_KEY]: 'off' })), 'show');
-});
-
-test('saveShopLists stores hide and show removes the key', () => {
-  const storage = fakeStorage();
-  assert.equal(saveShopLists(storage, 'hide'), true);
-  assert.equal(storage.getItem(SHOP_LISTS_KEY), 'hide');
-  assert.equal(saveShopLists(storage, 'show'), true);
-  assert.equal(storage.getItem(SHOP_LISTS_KEY), null);
-});
-
-test('the shop list functions do not throw when the storage does, and are not part of the state', () => {
-  assert.equal(loadShopLists(brokenStorage()), 'show');
-  assert.equal(saveShopLists(brokenStorage(), 'hide'), false);
-  const storage = fakeStorage();
-  saveShopLists(storage, 'hide');
-  assert.deepEqual(load(storage), emptyState());
+test('the retired key of the row of shop lists has no reader', async () => {
+  const storage = await import('#storage');
+  assert.equal('loadShopLists' in storage, false);
+  assert.equal('saveShopLists' in storage, false);
 });
 
 test('loadTheme returns the stored theme', () => {
@@ -483,25 +549,25 @@ test('the flag of the walkthrough is not part of the stored state', () => {
 
 test('load migrates a version 3 state', () => {
   const storage = fakeStorage({ [STORAGE_KEY]: JSON.stringify(sampleV3()) });
-  assert.deepEqual(load(storage), sample());
+  assert.deepEqual(load(storage), current());
   assert.equal(storage.getItem(CORRUPT_KEY), null);
 });
 
 test('importJson migrates a version 3 backup', () => {
-  assert.deepEqual(importJson(JSON.stringify(sampleV3())).state, sample());
+  assert.deepEqual(importJson(JSON.stringify(sampleV3())).state, current());
 });
 
 test('load reads a version 8 state and drops its menu', () => {
   const v8 = { ...sample(), version: 8, menu: [{ day: 0, meal: 'lunch', recipe: 'r1' }, { day: 1, meal: 'dinner', dish: 'Paella' }] };
-  assert.deepEqual(load(fakeStorage({ [STORAGE_KEY]: JSON.stringify(v8) })), sample());
+  assert.deepEqual(load(fakeStorage({ [STORAGE_KEY]: JSON.stringify(v8) })), current());
 });
 
 test('load migrates a version 4 state with no quantity on each item', () => {
   const { items, ...rest } = sample();
   const v4 = { ...rest, version: 4, items: items.map(({ quantity, ...item }) => item) };
   assert.deepEqual(load(fakeStorage({ [STORAGE_KEY]: JSON.stringify(v4) })), {
-    ...sample(),
-    items: sample().items.map((item) => ({ ...item, quantity: '' })),
+    ...current(),
+    items: current().items.map((item) => ({ ...item, quantity: '' })),
   });
 });
 
@@ -513,7 +579,7 @@ test('importJson trims a quantity and reads a quantity that is not text as none'
 
 test('load migrates a version 5 state with no change of its items', () => {
   const v5 = { ...sample(), version: 5 };
-  assert.deepEqual(load(fakeStorage({ [STORAGE_KEY]: JSON.stringify(v5) })), sample());
+  assert.deepEqual(load(fakeStorage({ [STORAGE_KEY]: JSON.stringify(v5) })), current());
 });
 
 test('a version 10 state drops its saved and ticked items', () => {
@@ -528,23 +594,24 @@ test('a version 10 state drops its saved and ticked items', () => {
     ],
   };
   const storage = fakeStorage({ [STORAGE_KEY]: JSON.stringify(v10) });
-  assert.deepEqual(load(storage), { ...sample(), items: [bread] });
+  const expected = { ...current(), lists: current().lists.slice(0, 2), items: current().items.slice(0, 2) };
+  assert.deepEqual(load(storage), expected);
   assert.equal(storage.getItem(CORRUPT_KEY), null);
-  assert.deepEqual(importJson(JSON.stringify(v10)), { state: { ...sample(), items: [bread] } });
+  assert.deepEqual(importJson(JSON.stringify(v10)), { state: expected });
 });
 
 test('a version 10 or 11 item with no list and no bought is an item to buy', () => {
-  assert.deepEqual(importJson(JSON.stringify({ ...sample(), version: 10 })), { state: sample() });
-  assert.deepEqual(importJson(JSON.stringify(sample())), { state: sample() });
+  assert.deepEqual(importJson(JSON.stringify({ ...sample(), version: 10 })), { state: current() });
+  assert.deepEqual(importJson(JSON.stringify(sample())), { state: current() });
 });
 
 test('load migrates a version 6 state with no aisles', () => {
   const { aisles, items, ...rest } = sample();
   const v6 = { ...rest, version: 6, items: items.map(({ aisle, ...item }) => item) };
   assert.deepEqual(load(fakeStorage({ [STORAGE_KEY]: JSON.stringify(v6) })), {
-    ...sample(),
+    ...current(),
     aisles: [],
-    items: sample().items.map((item) => ({ ...item, aisle: '' })),
+    items: current().items.map((item) => ({ ...item, aisle: '' })),
   });
 });
 
@@ -574,10 +641,10 @@ test('a Bodega backup keeps next items and items unticked by again, and drops sa
   };
   const storage = fakeStorage({ [STORAGE_KEY]: JSON.stringify(v7) });
   const state = load(storage);
-  assert.equal(state.version, 11);
+  assert.equal(state.version, 12);
   assert.deepEqual(state.items, [
-    { id: 'a', name: 'Bread', shops: [], quantity: '', aisle: '' },
-    { id: 'b', name: 'Soap', shops: [], quantity: '', aisle: '' },
+    { id: 'a', name: 'Bread', list: 'list-1', quantity: '', aisle: '' },
+    { id: 'b', name: 'Soap', list: 'list-1', quantity: '', aisle: '' },
   ]);
   assert.deepEqual(importJson(JSON.stringify(v7)).state, state);
   assert.equal(storage.getItem(CORRUPT_KEY), null);
@@ -589,17 +656,17 @@ test('a ticked recurrent item with again stays ticked in Bodega, so a version 7 
 });
 
 test('importJson accepts an item with no again field and rejects again that is not a boolean', () => {
-  assert.deepEqual(importJson(JSON.stringify({ ...sample(), version: 7 })), { state: sample() });
+  assert.deepEqual(importJson(JSON.stringify({ ...sample(), version: 7 })), { state: current() });
   const bad = { ...sample(), version: 7, items: [{ ...sample().items[0], again: 'yes' }] };
   assert.deepEqual(importJson(JSON.stringify(bad)), { error: { key: 'error.notBackup' } });
 });
 
-test('the stored state is version 11', () => {
+test('the stored state is version 12', () => {
   const storage = fakeStorage({ [STORAGE_KEY]: JSON.stringify({ ...sample(), version: 7 }) });
   save(storage, load(storage));
   const stored = JSON.parse(storage.getItem(STORAGE_KEY));
-  assert.equal(stored.version, 11);
-  for (const field of ['list', 'bought', 'again']) assert.equal(stored.items.some((item) => field in item), false, field);
+  assert.equal(stored.version, 12);
+  for (const field of ['shops', 'bought', 'again']) assert.equal(stored.items.some((item) => field in item), false, field);
 });
 
 test('loadSwipeHint is false when no hint was shown', () => {
@@ -643,7 +710,7 @@ test('APP_KEYS has no tripEnd key', () => {
 
 test('after resetAll the install counts as new', () => {
   const storage = fakeStorage();
-  save(storage, sample());
+  save(storage, current());
   saveOnboarded(storage);
   resetAll(storage);
   assert.equal(hasStoredState(storage), false);
@@ -662,17 +729,17 @@ test('each key of the app starts with lists., apart from the keys of Bodega on t
 test('a recurrent item of a Bodega state loads as a plain item, with no recurrent key', () => {
   for (const recurrent of [true, false]) {
     const data = { ...sample(), items: sample().items.map((item) => ({ ...item, recurrent })) };
-    assert.deepEqual(importJson(JSON.stringify(data)).state, sample());
+    assert.deepEqual(importJson(JSON.stringify(data)).state, current());
   }
 });
 
 test('an item with no recurrent key is valid, and a recurrent key that is not a boolean is ignored', () => {
-  assert.deepEqual(importJson(JSON.stringify(sample())).state, sample());
+  assert.deepEqual(importJson(JSON.stringify(sample())).state, current());
   const data = { ...sample(), items: sample().items.map((item) => ({ ...item, recurrent: 'yes' })) };
-  assert.deepEqual(importJson(JSON.stringify(data)).state, sample());
+  assert.deepEqual(importJson(JSON.stringify(data)).state, current());
 });
 
-test('a Bodega version 9 backup imports as a version 11 state with its items, shops, quantity and aisle', () => {
+test('a Bodega version 9 backup imports as a version 12 state with its items, a list for its shop, quantity and aisle', () => {
   const backup = {
     version: 9,
     items: [{ id: 'm', name: 'Leche', recurrent: true, list: 'active', bought: false, shops: ['Mercadona'], quantity: '2', aisle: 'Lácteos' }],
@@ -685,16 +752,19 @@ test('a Bodega version 9 backup imports as a version 11 state with its items, sh
   };
   assert.deepEqual(importJson(JSON.stringify(backup)), {
     state: {
-      version: 11,
-      items: [{ id: 'm', name: 'Leche', shops: ['Mercadona'], quantity: '2', aisle: 'Lácteos' }],
-      group: 'shop',
+      version: 12,
+      lists: [{ id: 'list-1', name: 'Mercadona' }],
+      items: [{ id: 'm', name: 'Leche', list: 'list-1', quantity: '2', aisle: 'Lácteos' }],
+      group: 'aisle',
       sort: 'custom',
       aisles: ['Lácteos'],
+      view: 'rows',
+      listSort: 'custom',
     },
   });
 });
 
-test('a stored version 9 state loads as version 11', () => {
+test('a stored version 9 state loads as version 12', () => {
   const storage = fakeStorage({ [STORAGE_KEY]: JSON.stringify({ ...sample(), version: 9 }) });
-  assert.deepEqual(load(storage), sample());
+  assert.deepEqual(load(storage), current());
 });

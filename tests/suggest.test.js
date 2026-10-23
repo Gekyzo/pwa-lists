@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { emptyState, addItem } from '#store';
 import { suggestionRows } from '#suggest';
 
-const withItems = (...names) => names.reduce((state, name, index) => addItem(state, name, () => `id${index}`).state, emptyState());
+const withItems = (...names) => names.reduce((state, name, index) => addItem(state, 'L', name, () => `id${index}`).state, { ...emptyState(), lists: [{ id: 'L', name: 'Casa' }] });
 
 test('empty or blank text gives no rows', () => {
   const state = withItems('Pan');
