@@ -5,7 +5,7 @@ Rules of `index.html`, `styles.css`, `src/app.js`, `src/ui/`, `src/swipe.js` and
 ## Layout
 
 From top to bottom: the header (ring, title, subtitle, search button, arrange button), the content of the section, the `+` button above the bottom bar, and the bottom bar.
-Below 600px wide the dock of `Compra` stands between the `+` button and the bottom bar (SHOP-26),
+Below 600px wide the dock of `Listas` stands between the `+` button and the bottom bar (SHOP-26),
 and the header has no search button while the dock shows. The title keeps one line, with an
 ellipsis. The message shows below the top
 edge. A sheet comes up from the bottom, over a veil. The walkthrough of the first start covers all
@@ -17,14 +17,14 @@ the bottom bar at each width.
 
 ## Sections
 
-- **NAV-1** The bottom bar has two sections, in this order: `Compra` and `Ajustes`. The app
-  starts in `Compra`. A
+- **NAV-1** The bottom bar has two sections, in this order: `Listas` and `Ajustes`. The app
+  starts in `Listas`. A
   section shows no count.
 - **NAV-2** A tap on the bottom bar changes the section. A change closes each open row, ends an
   edit and closes the search of a list (LIST-24).
 - **NAV-3** A horizontal slide changes the section: to the left for the next one, to the right for
   the previous one. The slide is 60 px long at least and its horizontal part is two times its
-  vertical part at least. It stops at `Compra` and at `Ajustes`.
+  vertical part at least. It stops at `Listas` and at `Ajustes`.
 - **NAV-4** The slide starts on the header or on the content, but not on an item row, not on the
   row of shop lists (SHOP-17), not on the dock (SHOP-26) and not on a text field. It does nothing while a sheet is open, a row is lifted or the walkthrough is open
   (ONB-10).
@@ -35,40 +35,40 @@ the bottom bar at each width.
   **Secciones**, **Aplicación** (**Instalar la aplicación**) and
   **Ayuda** (**Ver la introducción**). A row is 56 px high or more.
   It has its name at the start. A row that opens something ends with a `›`; **Exportar**,
-  **Importar**, **Secciones de la tienda** and **Ver la introducción** do. A row of **Preferencias**
+  **Importar**, **Secciones de las listas** and **Ver la introducción** do. A row of **Preferencias**
   also shows its current value before the `›`, and a tap on the row opens the picker of the device
-  (a `select` laid over the row). **Secciones de la tienda** shows the number of sections.
+  (a `select` laid over the row). **Secciones de las listas** shows the number of sections.
   **Borrar todos los datos** (BACKUP-7) has the colour of danger and no `›`. **Aplicación** is hidden,
   with its title, while the install is not offered (INS-1). The version line is at the end of
   `Ajustes`; while a newer version is deployed, a banner above it says `Versión X disponible` and
   `Tienes la Y.` (the version in use), with the button **Actualizar** across the full width.
-- **NAV-7** An empty `Compra` shows a text in the lower half of the list area. It shows no
+- **NAV-7** An empty `Listas` shows a text in the lower half of the list area. It shows no
   title, as its header already says `La lista está vacía`. It says `Toca + para añadir un
-  artículo.`, with no button: the `+` button is the action. A search with no match says
-  `Ningún artículo coincide con «text».`, with the button **+ Añadir «text»** below it, which adds
+  elemento.`, with no button: the `+` button is the action. A search with no match says
+  `Ningún elemento coincide con «text».`, with the button **+ Añadir «text»** below it, which adds
   the name as the add sheet does and ends the search. While the button shows, the `+` button
   hides.
-- **NAV-18** `Compra` shows a line drawing of the basket of the app icon
+- **NAV-18** `Listas` shows a line drawing of the basket of the app icon
   behind the content, in the bottom corner on the other side of the `+` button (NAV-13). It is
   tilted 30° and at 6 % opacity, and the corner and the bottom bar (the rail from 600px) cut part of it. It takes the
   colour of the text, takes no tap and does not move with the scroll.
 
 ## Item rows
 
-- **ROW-1** A row of `Compra` has a check mark, the name with its quantity after it in a muted
+- **ROW-1** A row of `Listas` has a check mark, the name with its quantity after it in a muted
   colour, a line below it with the shops (SHOP-7) when the list is not by shop (GROUP-14), and an
   edit button **Editar** at its end. The name keeps two lines, then ends with an ellipsis. A tap on
   the body of the row ticks the item (LIST-11); the check mark shows the tick while the row closes. A
   tap on the edit button opens the edit sheet (ROW-7) and does not tick. With **Izquierda**
   (NAV-12) the edit button is at the start of the row and the check mark at its end. For the
   keyboard and a screen reader, the name is a checkbox: `Space` or `Enter` ticks it.
-- **ROW-2** Removed: the app has one list, `Compra` (ROW-1).
+- **ROW-2** Removed: the app has one list, `Listas` (ROW-1).
 - **ROW-3** A slide of a row to the left shows its actions, as buttons 72 px wide with an icon and
   its name below it:
 
   | Row | Slide to the left |
   |---|---|
-  | `Compra` | **Editar**, **Eliminar** |
+  | `Listas` | **Editar**, **Eliminar** |
 
 - **ROW-4** A drag becomes a slide after 10 px of horizontal move. A drag that is first vertical
   scrolls the list.
@@ -79,7 +79,7 @@ the bottom bar at each width.
   does its own work. A tap on the body of the open row only closes it. An action closes the row,
   then runs.
 - **ROW-7** The edit sheet `Editar` has the field **Nombre**, 80 characters at most, the field
-  **Cantidad**, 20 characters at most (LIST-27), then the titled part **Tiendas** (SHOP-8 to SHOP-15). The name of
+  **Cantidad**, 20 characters at most (LIST-27), then the titled part **Listas** (SHOP-8 to SHOP-15). The name of
   a field shows inside it while it is empty, and moves onto its top border when it has a value or
   the focus. `Enter` or a
   loss of focus saves a field (LIST-5); an error shows its message and the field shows the old
@@ -90,18 +90,18 @@ the bottom bar at each width.
 - **ROW-9** No row appears or disappears at once. A ticked row closes in 200 ms before the item
   goes (LIST-12). After each
   other change of the state (add, delete, move, `Deshacer`) and each open
-  or close of a section, a new row of `Compra` opens in 200 ms, and a row that is gone stays in its place and closes in
+  or close of a section, a new row of `Listas` opens in 200 ms, and a row that is gone stays in its place and closes in
   200 ms. A change of the grouping or of the order moves the rows ([04-arrange.md](04-arrange.md)). With
   `prefers-reduced-motion` nothing moves.
 - **ROW-10** A long press of a finger on a row does not open the menu of the browser.
-- **ROW-11** A slide of a row to the right runs an action at the release: in `Compra` it ticks the
+- **ROW-11** A slide of a row to the right runs an action at the release: in `Listas` it ticks the
   item (LIST-11), with `Deshacer` (LIST-13). It runs when the slide passed 35 % of the width of the row, 80 px at least; a
   shorter slide puts the row back. The row slides over a backdrop with the icon of the action,
   which fills with the accent colour once the slide is long enough. At that moment the phone
   vibrates for 10 ms. A row with its left side open closes it.
 - **ROW-12** Removed: the app has no recipe rows.
 - **ROW-13** Removed: a saved item has no row (LIST-35).
-- **ROW-14** The first time `Compra` shows a row, after 600 ms the body of its first row slides
+- **ROW-14** The first time `Listas` shows a row, after 600 ms the body of its first row slides
   24 px to the left and back, so the user sees that a row slides. Then `lists.swipeHint` is
   `1` and the hint does not play again. With `prefers-reduced-motion` it does not play.
 
@@ -135,7 +135,7 @@ the bottom bar at each width.
   One is open at a time. A tap on the
   veil, **Listo** or `Escape` closes it. The `+` button does not show while a sheet is open.
 - **NAV-22** Each sheet has a head: the grab, a title on one line and the button **Listo**. The
-  title of the edit sheet is the name of the item, of the add sheet `Añadir artículo a la lista`.
+  title of the edit sheet is the name of the item, of the add sheet `Añadir elemento a la lista`.
   Only the body below the head scrolls. The edit sheet has a foot: **Eliminar** deletes the item
   with `Deshacer` (the message of a delete from the row) and closes the sheet; `Guardado` shows for
   1.2 s after each save that changed the item (a field, a shop, the aisle), and not after a loss of focus with no change or an error. A closed sheet shows no
@@ -189,7 +189,7 @@ the bottom bar at each width.
 
 - **NAV-19** **Densidad** of `Ajustes` has two values: `Normal` and `Compacta`. An app with no
   choice uses `Normal`.
-- **NAV-20** `Compacta` is the compact token set of the design system: the rows of `Compra` and the `+`
+- **NAV-20** `Compacta` is the compact token set of the design system: the rows of `Listas` and the `+`
   button are 48 px high in place of 56 px, the bottom bar 56 px in place of
   64 px and the dock 48 px in place of 56 px, so more rows fit on one screen. A tap target stays
   48 px at the least. The sheets and `Ajustes` do not change. A change shows at once, with no restart.
@@ -202,9 +202,9 @@ the bottom bar at each width.
 
   | Page | Title | Teaches |
   |---|---|---|
-  | 1 | `Lo que necesitas comprar` | `Compra` holds what you need to buy; a tick deletes the item (LIST-12) |
+  | 1 | `Lo que tienes pendiente` | `Listas` holds what is pending; a tick deletes the item (LIST-12) |
   | 2 | `Desliza una fila` | The tap on a row (ROW-1) and its two slides (ROW-3, ROW-11) |
-  | 3 | `Una lista por tienda` | The shops of an item in **Editar** (SHOP-8), and the list by shop that they give (SHOP-16) |
+  | 3 | `Varias listas` | The shops of an item in **Editar** (SHOP-8), and the list by shop that they give (SHOP-16) |
 
 - **ONB-2** A page has a drawing, a title and a text. A drawing has no text and does not move.
   A line break in the text of a catalog starts a new line. A text between two backticks, such as

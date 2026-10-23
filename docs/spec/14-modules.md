@@ -1,6 +1,6 @@
 # Modules
 
-Removed: `Ajustes` has no group **Módulos**. The bottom bar has the sections `Compra` and
+Removed: `Ajustes` has no group **Módulos**. The bottom bar has the sections `Listas` and
 `Ajustes` only. The last version with the modules is the tag `archive/settings-modules`.
 
 - **MOD-1** Removed: the group **Módulos** of `Ajustes` is gone.

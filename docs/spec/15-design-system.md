@@ -43,7 +43,7 @@ This document holds the rules of the app only.
 ## Layout
 
 - **DSV-8** The app follows LAY-1 to LAY-4 with no exception, and `tests/design.test.js` skips no
-  rule. Below 600px the bar is at the bottom, and the dock of `Compra` stands above it (SHOP-26).
+  rule. Below 600px the bar is at the bottom, and the dock of `Listas` stands above it (SHOP-26).
   From 600px the bar is the rail at the side of the hand (NAV-13): the root always has `data-hand`,
   so LAY-2 puts the rail at the right with `Derecha` and at the left with `Izquierda`; the toast and
   the `+` button clear it. `body` pads the side of the rail and both safe-area insets (LAY-4). The

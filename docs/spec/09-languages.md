@@ -47,13 +47,13 @@ Rules of `src/i18n.js`, `src/locales/` and of the language setting in `src/ui/se
 - **LANG-14** The data of the user: the names of items, shops and aisles stay as typed.
 - **LANG-15** The order by name uses the Spanish collation in each language (SORT-6).
 - **LANG-16** The name of the app is `Stash` in each language: the short name of
-  `manifest.webmanifest` and the subtitle of `Ajustes`. The title of the page is `Stash - Lista
-  de la compra`, with the second part in the language of the screen (`app.title`). The title
+  `manifest.webmanifest` and the subtitle of `Ajustes`. The title of the page is `Stash -
+  Listas`, with the second part in the language of the screen (`app.title`). The title
   before the script runs is in Spanish. The name, the description and the shortcut names of the manifest
   follow the language of the screen (`app.title`, `app.description`, SHORT-3) through the worker (SW-13); before the
   page first sends them, and with no worker, they are in Spanish. An installed app shows a new
   name only after the next update check of Chrome, and Android can ask the user to confirm it.
-- **LANG-17** The name of the backup file starts with `compra-` in each language.
+- **LANG-17** The name of the backup file starts with `stash-` in each language.
 
 ## Add a language
 

@@ -117,8 +117,8 @@ test('the Spanish catalog has each message key of the pure modules', () => {
 });
 
 test('Portuguese uses the European plural rule: zero is plural', () => {
-  assert.equal(translator('pt')('count.items', { count: 0 }), '0 artigos');
-  assert.equal(translator('pt')('count.items', { count: 1 }), '1 artigo');
+  assert.equal(translator('pt')('count.items', { count: 0 }), '0 elementos');
+  assert.equal(translator('pt')('count.items', { count: 1 }), '1 elemento');
 });
 
 test('intlTag gives the regional tag of Portuguese and the code of each other language', () => {
@@ -157,6 +157,16 @@ test('no text names a removed feature: recipes, the menu or recurrent items', ()
     for (const [key, entry] of Object.entries(CATALOGS[lang])) {
       const texts = typeof entry === 'string' ? [entry] : [entry.one, entry.other];
       for (const text of texts) assert.doesNotMatch(text, removed, `${lang} ${key}`);
+    }
+  }
+});
+
+test('no text names shopping: Stash holds lists of things, not a shopping list', () => {
+  const shopping = /compra|comprad|comprat|\bcompr[ae]r\b|comprare|\bshop|\bstores?\b|\bbuy|bought|tienda|botig|\bloja|negozi|magasin|courses|achet|spesa|kauf|geschäft|\bladen|artículo|\barticle|articolo|artigo|artikel/i;
+  for (const lang of LANGUAGES) {
+    for (const [key, entry] of Object.entries(CATALOGS[lang])) {
+      const texts = typeof entry === 'string' ? [entry] : [entry.one, entry.other];
+      for (const text of texts) assert.doesNotMatch(text.replace(/\{\w+\}/g, ''), shopping, `${lang} ${key}`);
     }
   }
 });

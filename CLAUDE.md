@@ -1,8 +1,8 @@
 # lists
 
-Stash: an offline shopping list PWA for one Android phone, by store. One list, `Compra`,
-holds the items to buy; each item has its shops, `Compra` has a list for each shop,
-and the aisles of the store group it by section. A tick deletes the item. A fork of Bodega
+Stash: an offline PWA of lists of things for one Android phone. One list, `Listas`,
+holds the pending items; each item has its shops (the screen says `Lista`), `Listas` has a
+list for each shop, and the aisles (the screen says `Sección`) group it by section. A tick deletes the item. A fork of Bodega
 (`../pwa-shopping-list`) with no recipes, no menu of the week, no recurrent items and no trip. Plain HTML, CSS and ES modules;
 no build step and no dependencies. `docs/spec/` is the specification.
 

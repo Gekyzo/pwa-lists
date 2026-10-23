@@ -7,7 +7,7 @@ the arrange sheet in `src/ui/arrange.js`.
 ## Arrange sheet
 
 - **SORT-1** The button at the right of the header opens the sheet **Agrupar y ordenar**. It shows
-  only in `Compra`, and only when the sheet has a choice to offer: a grouping
+  only in `Listas`, and only when the sheet has a choice to offer: a grouping
   (GROUP-2) or an order (SORT-3).
 - **SORT-2** The sheet stays open after a choice, so that the group and the order change in one
   visit. A tap out of the sheet or `Escape` closes it.
@@ -16,22 +16,22 @@ the arrange sheet in `src/ui/arrange.js`.
 
 - **SORT-3** **Ordenar por** has **Nombre** and **Personalizado**. It shows when the view has two
   items or more.
-- **SORT-4** One choice, `sort`, applies to `Compra`. The default is `custom`.
+- **SORT-4** One choice, `sort`, applies to `Listas`. The default is `custom`.
 - **SORT-5** **Personalizado** is the order of `items`: the insertion order, changed by the moves
   of the user. A new item goes to the end.
 - **SORT-6** **Nombre** is alphabetical with no case and no accent distinction. It does not change
   `items`.
-- **SORT-7** Removed: `Compra` has no ticked items (LIST-12).
+- **SORT-7** Removed: `Listas` has no ticked items (LIST-12).
 - **SORT-8** The order also applies inside each group.
 - **SORT-9** A change of order has no message and no `Deshacer`. The rows move to their new places
   with an animation.
 
 ## Groups
 
-- **GROUP-1** **Agrupar por** has **Tiendas**, **Secciones** and **Nada**. One choice, `group`,
-  applies to `Compra`. The default is `shop`.
+- **GROUP-1** **Agrupar por** has **Listas**, **Secciones** and **Nada**. One choice, `group`,
+  applies to `Listas`. The default is `shop`.
 - **GROUP-2** A choice shows only when the view can show it:
-  - **Tiendas**: when an item of the view has a shop, and not in a shop list (SHOP-19).
+  - **Listas**: when an item of the view has a shop, and not in a shop list (SHOP-19).
   - **Secciones**: when an item of the view has an aisle, also in a shop list (GROUP-17).
   - **Nada**: each time that one of the others shows.
 
@@ -39,10 +39,10 @@ the arrange sheet in `src/ui/arrange.js`.
   the sheet has one choice at least.
 - **GROUP-3** A view that cannot show the stored choice shows a flat list, and the sheet marks
   **Nada**. The stored choice does not change. Example: with `group: 'shop'` and no
-  item with a shop, `Compra` is flat.
+  item with a shop, `Listas` is flat.
 - **GROUP-4** A tap on the choice that the view shows already changes nothing. Thus a tap on
   **Nada** in a view that is flat by GROUP-3 keeps the stored grouping.
-- **GROUP-10** Removed: `Compra` has no ticked items, so it has no `Comprados (N)` (LIST-12).
+- **GROUP-10** Removed: `Listas` has no ticked items, so it has no `Comprados (N)` (LIST-12).
 
 ### Removed: by recipe
 
@@ -59,7 +59,7 @@ the arrange sheet in `src/ui/arrange.js`.
 - **GROUP-11** The groups are the shops of the items of the view, in name order. The head of a
   group shows the name of the shop and the count of its items.
 - **GROUP-12** An item of two shops shows in the two groups.
-- **GROUP-13** The items with no shop show below the head `Sin tienda`.
+- **GROUP-13** The items with no shop show below the head `Sin lista`.
 - **GROUP-14** A row in a list by shop does not show the shops of the item below its name.
 
 ### By aisle
@@ -76,7 +76,7 @@ the arrange sheet in `src/ui/arrange.js`.
 - **GROUP-15** When a grouping opens, the heads and the extra rows open and the other rows move.
   When the choice goes to **Nada**, the groups close first and then the list becomes flat. A tap
   on a grouping while the groups close keeps them.
-- **GROUP-16** A tap on the head of a group (a shop, `Sin tienda`, an aisle or `Sin sección`) closes the
+- **GROUP-16** A tap on the head of a group (a shop, `Sin lista`, an aisle or `Sin sección`) closes the
   rows of the group in 200 ms. The head stays, with its count and the chevron `▸`; a second tap opens
   the rows again in 200 ms. The list keeps its closed groups until the app starts again. A search
   shows each group open and disables its head (LIST-25).
@@ -91,8 +91,8 @@ the arrange sheet in `src/ui/arrange.js`.
 
   | View | Rows that move | Scope |
   |---|---|---|
-  | `Compra`, flat | Each item | All the items |
-  | `Compra`, grouped | Each item | The group of the row, or `Sin tienda` / `Sin sección` |
+  | `Listas`, flat | Each item | All the items |
+  | `Listas`, grouped | Each item | The group of the row, or `Sin lista` / `Sin sección` |
 
 - **MOVE-4** A row does not move while its side
   menu is open or its name is in edit. A scope of one row does not move. No row moves while the

@@ -1,8 +1,8 @@
 # Stash
 
-An offline shopping list PWA for one Android phone, by store. One list, `Compra`, holds the items
-to buy. Each item has its shops, and `Compra` has a list for each shop. A tick deletes the item.
-The aisles of the store group the list by section. The app has seven languages, and a new install
+An offline PWA of lists of things for one Android phone. One list, `Listas`, holds the pending
+items. Each item has its shops (tags such as `IKEA`), and `Listas` has a list for each shop. A
+tick deletes the item. Sections group a list. The app has seven languages, and a new install
 starts with a walkthrough of three pages. Plain HTML, CSS and ES modules, with no build step and no dependencies.
 The data stays in the `localStorage` of the browser.
 

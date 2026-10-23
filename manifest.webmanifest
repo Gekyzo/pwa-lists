@@ -1,7 +1,7 @@
 {
-  "name": "Stash - Lista de la compra",
+  "name": "Stash - Listas",
   "short_name": "Stash",
-  "description": "Lista de la compra por tienda",
+  "description": "Listas de cosas, sin conexión",
   "lang": "es",
   "id": "/pwa-lists/",
   "start_url": "./",
@@ -32,7 +32,7 @@
   ],
   "shortcuts": [
     {
-      "name": "Añadir artículo",
+      "name": "Añadir elemento",
       "url": "./?open=add",
       "icons": [
         {
@@ -43,7 +43,7 @@
       ]
     },
     {
-      "name": "Compra",
+      "name": "Listas",
       "url": "./?open=active",
       "icons": [
         {

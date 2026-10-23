@@ -13,7 +13,7 @@ Rules of `src/storage.js`, and of its use in `src/ui/context.js` and `src/ui/set
 | `localStorage` | `lists.theme` | `light` or `dark` when the user chose **Claro** or **Oscuro** ([07-screen.md](07-screen.md), NAV-17) |
 | `localStorage` | `lists.density` | `compact` when the user chose **Compacta** ([07-screen.md](07-screen.md), NAV-21) |
 | `localStorage` | `lists.shopLists` | `hide` when the user hid the row of shop lists ([05-shops.md](05-shops.md), SHOP-25) |
-| `localStorage` | `lists.swipeHint` | `1` after `Compra` showed the slide of a row one time ([07-screen.md](07-screen.md), ROW-14) |
+| `localStorage` | `lists.swipeHint` | `1` after `Listas` showed the slide of a row one time ([07-screen.md](07-screen.md), ROW-14) |
 | `localStorage` | `lists.onboarded` | `1` after the walkthrough of the first start closed ([07-screen.md](07-screen.md), ONB-7) |
 | Cache API | `lists-shell-v3` | The app shell ([10-offline-version.md](10-offline-version.md)) |
 | Cache API | `lists-manifest` | The name, the description and the shortcut names of the manifest in the language of the screen (SW-13) |
@@ -72,7 +72,7 @@ The `v1` of the key is the version of the key, not of the state. The state has i
   | Version 1 to 4 | Each item gets `quantity: ''` |
   | Version 1 to 5 | No change of the data: version 6 adds `list: 'saved'` |
   | Version 1 to 6 | `aisles: []`, and each item gets `aisle: ''` |
-  | Version 1 to 7 | An item of `list: 'next'` is to buy. A ticked item of `Compra` with `again: true` loses its tick, except a recurrent item (`recurrent: true`), which keeps it. A `recurrent` that is not a boolean counts as not recurrent. Each item loses `again` |
+  | Version 1 to 7 | An item of `list: 'next'` is to buy. A ticked item of `Listas` with `again: true` loses its tick, except a recurrent item (`recurrent: true`), which keeps it. A `recurrent` that is not a boolean counts as not recurrent. Each item loses `again` |
   | Version 1 to 8 | No change of the data: version 9 of Bodega adds the dish of a meal, which Stash drops |
   | Version 1 to 9 | No change of the data: the drops of STORE-7 make it a version 10 state |
   | Version 1 to 10 | A saved item (`list: 'saved'`) and a ticked item (`bought: true`, after the row of version 1 to 7) are dropped: they are not to buy. Each other item loses `list` and `bought` |
@@ -102,7 +102,7 @@ The `v1` of the key is the version of the key, not of the state. The state has i
   backup of version 1 to 11 is thus accepted, also a backup of Bodega with recipes and a menu: the
   import keeps its items to buy, groups, order and aisles only.
 - **BACKUP-5** Before the import the app asks: `¿Sustituir los datos actuales por los de la copia
-  (N artículos)?`, with the count of the items only. A yes replaces the full state. It does not merge.
+  (N elementos)?`, with the count of the items only. A yes replaces the full state. It does not merge.
 - **BACKUP-6** The import has `Deshacer`, with the message `Copia importada.`
 - **BACKUP-7** **Borrar todos los datos** asks `¿Borrar todos los datos? Se borran las listas,
   las secciones y las preferencias. Exporta una copia antes si quieres

@@ -7,15 +7,15 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 - **LIST-1** A new item has a name that is trimmed and not empty. An empty name gives
   `error.nameRequired`.
 - **LIST-2** A name that an item has already gives `error.duplicateItem` with the name of that
-  item and the list `Compra` (DATA-3).
-- **LIST-3** A new item goes to `Compra`.
+  item and the list `Listas` (DATA-3).
+- **LIST-3** A new item goes to `Listas`.
 - **LIST-4** A new item goes to the end of `items`, with no shop, no quantity and no aisle.
 - **LIST-5** A rename has the rules LIST-1 and LIST-2. The item keeps its own name without an
   error. A rename to the same text changes nothing.
 - **LIST-6** A name field of the screen takes 80 characters at most. The store has no limit.
 - **LIST-7** Removed: an item has no recurrent mark.
 - **LIST-8** A delete removes the item. Its shops go with it.
-- **LIST-9** Removed: `Compra` is the only list, so an item has no other list to move to.
+- **LIST-9** Removed: `Listas` is the only list, so an item has no other list to move to.
 
 ## Quantity
 
@@ -27,21 +27,21 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 
 ## Tick
 
-- **LIST-10** Removed: each item is in `Compra`, so each item can be ticked.
-- **LIST-11** A tap on the body of a row of `Compra` (ROW-1) or a slide to the right (ROW-11)
+- **LIST-10** Removed: each item is in `Listas`, so each item can be ticked.
+- **LIST-11** A tap on the body of a row of `Listas` (ROW-1) or a slide to the right (ROW-11)
   ticks the item.
 - **LIST-12** A tick deletes the item at once (`tickItem`): it is bought. Its shops, quantity and
   aisle go with it. An unknown item gives `error.itemNotFound`.
-- **LIST-13** A tick shows `"name" comprado.` with `Deshacer`, because the row leaves the list.
+- **LIST-13** A tick shows `"name" hecho.` with `Deshacer`, because the row leaves the list.
   `Deshacer` puts the item back in its place in `items`, with its shops, quantity and aisle.
 - **LIST-14** Removed: a ticked item has no mark that keeps it for the next trip.
 
 ## Removed: the second list
 
-- **LIST-15** Removed: the app has one list, `Compra`.
-- **LIST-16** Removed: the app has one list, `Compra`.
-- **LIST-17** Removed: the app has one list, `Compra`.
-- **LIST-18** Removed: the app has one list, `Compra`.
+- **LIST-15** Removed: the app has one list, `Listas`.
+- **LIST-16** Removed: the app has one list, `Listas`.
+- **LIST-17** Removed: the app has one list, `Listas`.
+- **LIST-18** Removed: the app has one list, `Listas`.
 - **LIST-19** Removed: the bottom bar shows no count.
 
 ## Removed: the trip
@@ -49,7 +49,7 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 - **TRIP-1** Removed: Stash has no trip. A tick deletes the item (LIST-12).
 - **TRIP-2** Removed: Stash has no trip. A tick deletes the item (LIST-12).
 - **TRIP-3** Removed: Stash has no trip. A tick deletes the item (LIST-12).
-- **TRIP-4** Removed: `Compra` has no banner `¿Has terminado?` and no trip sheet.
+- **TRIP-4** Removed: `Listas` has no banner `¿Has terminado?` and no trip sheet.
 - **TRIP-5** Removed: Stash has no trip. A tick deletes the item (LIST-12).
 - **TRIP-6** Removed: Stash has no trip, so an item is never open or kept for the next trip.
 - **TRIP-7** Removed: `Ajustes` has no group **Al terminar la compra**.
@@ -60,23 +60,23 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 
 | Section | Title | Subtitle | Ring |
 |---|---|---|---|
-| `Compra` | `Compra de hoy` | `N artículos`, or `La lista está vacía` | The count of items, with no fill |
+| `Listas` | `Mis listas` | `N elementos`, or `La lista está vacía` | The count of items, with no fill |
 | `Ajustes` | `Ajustes` | `Stash` | None: the ring does not show |
 
 ## Add sheet
 
-The `+` button opens the sheet in `Compra`. The button does not show in `Ajustes` or while a sheet
+The `+` button opens the sheet in `Listas`. The button does not show in `Ajustes` or while a sheet
 is open.
 
 - **ADD-1** The sheet has a name field and the button **Añadir**. It has no target choice: an add
-  always goes to `Compra`.
+  always goes to `Listas`.
 - **ADD-2** While the user types, the sheet lists up to 6 rows above the input, which stays pinned
   at the bottom of the sheet and does not move: `+ Crear «name»` first when no item has the
   typed name, then the items whose name contains the text, with no case or accent distinction (the
   exact match first, then the names that start with the text, then the others). The list shows the
   rows upside down, so that the first row sits next to the input. **Añadir** is off while the field
   is empty.
-- **ADD-3** Each listed item is in `Compra`, and says `ya en la lista`. A tap on it does nothing
+- **ADD-3** Each listed item is in `Listas`, and says `ya en la lista`. A tap on it does nothing
   but ADD-5, apart from the shop of SHOP-24.
 
 - **ADD-4** When no item has the typed name, the list ends with `+ Crear «name»`, which does the
@@ -86,7 +86,7 @@ is open.
   field gets the error mark, and the help under it says `«name» ya está en la lista`. The next
   input clears the help.
 - **ADD-6** The shop that SHOP-24 puts on an existing item shows `"name" ya existe. Ahora está en
-  Compra.` with `Deshacer`. A tap that changes nothing shows no toast (ADD-5).
+  Listas.` with `Deshacer`. A tap that changes nothing shows no toast (ADD-5).
 - **ADD-7** A new item shows `"name" añadido a <list>.` with no `Deshacer`.
 - **ADD-8** After each add the sheet stays open, with an empty field that has the focus, so that
   the user adds several items in one visit. A tap out of the sheet or `Escape` closes it.
@@ -94,14 +94,14 @@ is open.
 
 ## Search
 
-- **LIST-20** From 600px wide the header of `Compra` has a search button, at the left of the
+- **LIST-20** From 600px wide the header of `Listas` has a search button, at the left of the
   arrange button. It shows when the view has one item at least. Below 600px the search button is
   in the dock (SHOP-26), and the header has none.
-- **LIST-21** A tap on the button of the header opens the field **Buscar artículo o tienda** below
+- **LIST-21** A tap on the button of the header opens the field **Buscar elemento o lista** below
   the header, with the focus. A second tap, `Escape` (NAV-25), or a loss of focus with an empty
   field closes it. A close clears the text.
 - **LIST-37** Below 600px a tap on the search button of the dock turns the dock into the field
-  **Buscar artículo o tienda**, with the focus, a clear button while it has a text, and the button
+  **Buscar elemento o lista**, with the focus, a clear button while it has a text, and the button
   **Cancelar**. **Cancelar**, `Escape` and the back of the phone (NAV-25), or a loss of focus with an
   empty field close it; a close clears the text. The list ends at the dock while the field is
   open, so the matches fill it from the bottom and the nearest match is next to the field. A group
@@ -113,15 +113,15 @@ is open.
   a group head and the header figures stay those of the full list.
 - **LIST-24** The text of the search is not stored. A change of section closes the search. An add
   from the add sheet closes it too, so that the row of the item is in view.
-- **LIST-25** Removed: `Compra` has no ticked items to search (LIST-12).
-- **LIST-26** With no match the list shows `Ningún artículo coincide con «text».`
+- **LIST-25** Removed: `Listas` has no ticked items to search (LIST-12).
+- **LIST-26** With no match the list shows `Ningún elemento coincide con «text».`
 
 ## Removed: saved items
 
 - **LIST-30** Removed: the app has no saved items. A tick deletes the item (LIST-12).
 - **LIST-31** Removed: the app has no saved items. A tick deletes the item (LIST-12).
 - **LIST-32** Removed: the app has no saved items. A tick deletes the item (LIST-12).
-- **LIST-34** Removed: `Compra` has no section of the saved items (LIST-30). The add sheet is the
+- **LIST-34** Removed: `Listas` has no section of the saved items (LIST-30). The add sheet is the
   only way to them (LIST-31).
 - **LIST-35** Removed: a saved item has no row (LIST-34).
 - **LIST-36** Removed: the search of the list (LIST-22) does not find a saved item. The search

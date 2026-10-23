@@ -22,9 +22,9 @@ bottom bar (NAV-1).
 - **AISLE-8** Removed: the app has no preset of usual aisles; the user writes each aisle.
 - **AISLE-9** The search of a list (LIST-22) also matches the aisle of an item.
 
-## Sheet `Secciones de la tienda`
+## Sheet `Secciones de las listas`
 
-- **AISLE-10** `Ajustes` has the group **Secciones** with the row **Secciones de la tienda** and the
+- **AISLE-10** `Ajustes` has the group **Secciones** with the row **Secciones de las listas** and the
   count of the aisles. A tap opens the sheet of the aisles. A tap out of the sheet or `Escape`
   closes it.
 - **AISLE-11** The sheet lists each aisle in its order, as a name field, `↑`, `↓` and `✕`. The `↑`
@@ -33,7 +33,7 @@ bottom bar (NAV-1).
   `Escape` puts the name back. An error keeps the old name.
 - **AISLE-13** The field **Nueva sección** with **Añadir** adds an aisle (AISLE-3). The field takes
   40 characters at most and keeps the focus after an add.
-- **AISLE-14** With no aisle, the sheet shows `Añade las secciones en el orden de tu tienda.`
+- **AISLE-14** With no aisle, the sheet shows `Añade las secciones en el orden que quieras.`
 - **AISLE-15** `✕` deletes the aisle (AISLE-5) with the message `Sección "<name>" eliminada.` and
   `Deshacer`. An add, a rename and a move have no message.
 

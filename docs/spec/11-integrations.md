@@ -7,10 +7,10 @@ Status: on `main`. Rules of `arrivalMessage` in `src/store.js` and of the start 
 A PWA gets a position only while it is open, so it cannot detect an arrival. An Android automation
 app (MacroDroid, Tasker) owns the geofence and opens the app with a parameter.
 
-- **ARR-1** A start with `?arrival` in the URL shows `N artículos por comprar en Compra.`, in the
-  language of the screen, where N is the count of items of `Compra`.
+- **ARR-1** A start with `?arrival` in the URL shows `N elementos pendientes en Listas.`, in the
+  language of the screen, where N is the count of items of `Listas`.
 - **ARR-2** The message stays 10 seconds, because the app opened by itself.
-- **ARR-3** With an empty `Compra` the app shows no message.
+- **ARR-3** With an empty `Listas` the app shows no message.
 - **ARR-4** The app removes `arrival` from the URL at once and keeps each other parameter, so a
   reload is silent.
 - **ARR-5** The repository holds no coordinates. The place, the radius and the accuracy belong to
@@ -32,9 +32,9 @@ Status: on `main`. Rules of `SHORTCUTS` and `shortcutStart` in `src/sections.js`
 A long press on the icon of the installed app shows its shortcuts. Android reads them from the
 manifest when Chrome installs or updates the app.
 
-- **SHORT-1** The manifest has two shortcuts, in this order: **Añadir artículo**
-  (`./?open=add`) and **Compra** (`./?open=active`).
-- **SHORT-2** A start with `?open=<name>` shows that section. `add` shows `Compra` and opens the
+- **SHORT-1** The manifest has two shortcuts, in this order: **Añadir elemento**
+  (`./?open=add`) and **Listas** (`./?open=active`).
+- **SHORT-2** A start with `?open=<name>` shows that section. `add` shows `Listas` and opens the
   add sheet there. An unknown name is ignored. While the walkthrough of a first start shows, the
   section changes below it and the add sheet does not open.
 - **SHORT-3** The names of the shortcuts are the texts `add.item` and `list.active` in the

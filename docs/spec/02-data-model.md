@@ -55,10 +55,10 @@ No view is stored.
 
 | View | Function | Content |
 |---|---|---|
-| `Compra` | `activeItems` | Each item, in the order of `sort` |
-| Shop groups | `shopGroups` | `Compra` by shop |
+| `Listas` | `activeItems` | Each item, in the order of `sort` |
+| Shop groups | `shopGroups` | `Listas` by shop |
 | Shops in use | `shopNames` | Each shop of an item, in name order |
-| Aisle groups | `aisleGroups` | `Compra` by aisle, in the order of `aisles` |
+| Aisle groups | `aisleGroups` | `Listas` by aisle, in the order of `aisles` |
 
 A group of `shopGroups` and of `aisleGroups` has its `items` and `total`, the count of its items.
 The figures of the screen are counts of items: the app has no trip figures.
@@ -76,5 +76,5 @@ The figures of the screen are counts of items: the app has no trip figures.
 - The language that the user chose. It is a preference of the device, with its own key. See
   [09-languages.md](09-languages.md).
 - The section that is open, an open row, the text of a search and each other state of the screen.
-  A start of the app shows `Compra` with all rows closed.
+  A start of the app shows `Listas` with all rows closed.
 - The state before the last change, which `Deshacer` uses. It lives only while its message shows.

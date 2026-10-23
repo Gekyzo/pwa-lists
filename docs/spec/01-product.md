@@ -2,9 +2,10 @@
 
 ## Purpose
 
-Stash is a shopping list for one person on one Android phone. It works in the shop with no
-connection. It keeps one list, `Compra`, of the items to buy, each with its optional shops. A
-tick deletes the item: it is bought.
+Stash keeps lists of things for one person on one Android phone: things to get from IKEA, a
+hardware shop, or any other place. It works with no connection. It keeps one list, `Listas`, of
+the pending items, each with its optional shops; a shop gives a list of its own. A tick deletes
+the item: it is done.
 
 ## User and device
 
@@ -31,13 +32,13 @@ tick deletes the item: it is bought.
 
 | Function | Document |
 |---|---|
-| The list `Compra` and the tick | [03-lists.md](03-lists.md) |
+| The list `Listas` and the tick | [03-lists.md](03-lists.md) |
 | Add with search, with no duplicate | [03-lists.md](03-lists.md) |
-| Search in `Compra` | [03-lists.md](03-lists.md) |
+| Search in `Listas` | [03-lists.md](03-lists.md) |
 | Order by name or custom, with a manual move | [04-arrange.md](04-arrange.md) |
 | Groups by shop or by aisle | [04-arrange.md](04-arrange.md) |
 | Shops of an item | [05-shops.md](05-shops.md) |
-| A list for each shop, in `Compra` | [05-shops.md](05-shops.md) |
+| A list for each shop, in `Listas` | [05-shops.md](05-shops.md) |
 | Backup to a file and from a file | [08-storage.md](08-storage.md) |
 | Seven languages | [09-languages.md](09-languages.md) |
 | Walkthrough at the first start | [07-screen.md](07-screen.md) |
