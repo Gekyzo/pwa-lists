@@ -61,9 +61,10 @@ apply in it.
   chip, and shows the card of SHOP-23 until the user leaves it. When that tick empties `Listas`,
   the screen goes back to **Todas** and its empty state.
 - **SHOP-23** A shop list of `Listas` with no item, while `Listas` still has items, shows an end
-  card in place of the empty state: the title `<shop>: completada`, the primary button `Siguiente: <shop>
-  (<count>) →` and the button `Ver todas las listas`. The next list is the one after the shop in
-  chip order, from the start after the end (`nextShop`); its count is the items there. With no other list the primary button does not show. A tap on it shows the
+  card in place of the empty state: the title `<shop>: completada`, the tonal button `Siguiente: <shop>
+  (<count>) →` and the tonal button `Ver todas las listas`. The `+` of the dock stays the one
+  primary button of the view. The next list is the one after the shop in
+  chip order, from the start after the end (`nextShop`); its count is the items there. With no other list the button `Siguiente` does not show. A tap on it shows the
   next list. A tap on `Ver todas las listas` shows **Todas**. A search hides the card.
 - **SHOP-24** The add sheet opened from a shop list puts that shop on the item that it creates
   (SHOP-4), so the row shows in the list. An item that the sheet finds (ADD-3) gets the shop too,

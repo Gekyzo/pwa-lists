@@ -130,10 +130,10 @@ test('the edit sheet has a veil, a dialog, the name and quantity fields and the 
 const settings = body.match(/<section id="settings"[\s\S]*?<\/section>/)?.[0] ?? '';
 const groups = settings.split('<h2 ').slice(1).map((part) => [part, part.split('</h2>')[1]]);
 
-test('each group of Ajustes is a list-group-head and one list-group card', () => {
+test('each group of Ajustes is a list-group-head and one full-width list-group', () => {
   assert.equal(groups.length, 5);
   assert.equal([...settings.matchAll(/<h2 /g)].length, 5);
-  assert.equal([...settings.matchAll(/class="list-group card"/g)].length, 5);
+  assert.equal([...settings.matchAll(/class="list-group"/g)].length, 5);
   assert.doesNotMatch(settings, /settings-title/);
 });
 
@@ -189,4 +189,11 @@ test('the bottom bar shows a list icon for Listas and the gear for Ajustes, each
   const nav = body.match(/<nav class="nav-bar"[\s\S]*?<\/nav>/)?.[0] ?? '';
   assert.match(nav, /data-view="active">\s*<svg class="icon" aria-hidden="true"><use href="icons.svg#list"\/><\/svg>\s*<span data-i18n="list.active"><\/span>/);
   assert.match(nav, /data-view="settings">\s*<svg class="icon" aria-hidden="true"><use href="icons.svg#settings"\/><\/svg>\s*<span data-i18n="nav.settings"><\/span>/);
+});
+
+test('an outline button is only a destructive one; other secondary actions are tonal', () => {
+  for (const [, classes] of html.matchAll(/<button[^>]*class="(button outline[^"]*)"/g)) assert.match(classes, /\bdanger\b/, classes);
+  for (const id of ['shop-done-all', 'shop-done-next']) {
+    assert.match(html, new RegExp(`<button id="${id}" class="button tonal`), id);
+  }
 });
