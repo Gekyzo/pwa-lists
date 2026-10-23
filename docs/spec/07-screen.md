@@ -35,7 +35,7 @@ the bottom bar at each width.
 - **NAV-6** `Ajustes` has five groups, each a title above one full-width group of rows: **Copia de seguridad**
   (**Exportar**, **Importar**, **Borrar todos los datos**), **Preferencias** (**Idioma**, **Mano**, **Tema**, **Densidad**),
   **Secciones**, **Aplicación** (**Instalar la aplicación**) and
-  **Ayuda** (**Ver la introducción**). A row is 56 px high or more.
+  **Ayuda** (**Ver la introducción**, **Borrar las listas de ejemplo** of ONB-14). A row is 56 px high or more.
   It has its name at the start. A row that opens something ends with a `›`; **Exportar**,
   **Importar**, **Secciones de las listas** and **Ver la introducción** do. A row of **Preferencias**
   also shows its current value before the `›`, and a tap on the row opens the picker of the device
@@ -203,13 +203,14 @@ the bottom bar at each width.
 
 ## Onboarding
 
-- **ONB-1** The walkthrough is a layer over the full app, with three pages in this order:
+- **ONB-1** The walkthrough is a layer over the full app, with four pages in this order:
 
   | Page | Title | Teaches |
   |---|---|---|
   | 1 | `Tus listas` | `Listas` holds a list for each thing, and a tap opens a list (LVL-11) |
   | 2 | `Desliza una fila` | The tap on a row (ROW-1) and its two slides (ROW-3, ROW-11) |
   | 3 | `Cambia de lista` | The parts **Lista** and **Sección** of **Editar** (LIST-9, AISLE-16) |
+  | 4 | `Unas listas para empezar` | The switch that adds the sample lists (ONB-13) |
 
 - **ONB-2** A page has a drawing, a title and a text. A drawing has no text and does not move.
   A drawing is in the main action colour (`--primary`), its ticked boxes too.
@@ -220,9 +221,9 @@ the bottom bar at each width.
   The app icon shows on page 1 only, above the drawing and inside the page group, 96 px wide, with
   no background (`icons/logo.png`, VER-15). It is decorative (`alt=""`). The title keeps the room
   of two lines and the text the room of five lines, the longest title and text of a page in any
-  language, so the drawing is at the same place on pages 2 and 3.
+  language, so the drawing is at the same place on pages 2 to 4.
 - **ONB-3** The top bar has **Atrás** at the start and **Saltar** at the end, both without a border
-  or a fill. **Atrás** is in accent colour and shows on pages 2 and 3; a tap shows the previous
+  or a fill. **Atrás** is in accent colour and shows on pages 2 to 4; a tap shows the previous
   page. **Saltar** does not show on the last page. The bar keeps out of the top safe-area inset
   and does not follow **Mano**. **Siguiente** takes the full width at the bottom, 56 px high
   (`--tap-l`); on the last page it reads **Empezar**. One dot for each page shows the place of the
@@ -250,9 +251,15 @@ the bottom bar at each width.
   have the label `Página N de 4`. The title and the text are a live region.
 - **ONB-12** With `prefers-reduced-motion: reduce` a page changes with no animation. The
   walkthrough keeps out of the safe-area insets. **Mano** changes nothing in the walkthrough.
-- **ONB-13** Removed: the walkthrough adds no data. **Saltar**, `Escape` and **Empezar** only
-  close it (ONB-5).
-- **ONB-14** Removed: `Ajustes` has no delete of sample data, because the app has none.
+- **ONB-13** The last page has the switch **Añadir las listas de ejemplo**, on at each open of the
+  walkthrough. It shows only while the state has no sample list (LVL-20); on another page, or
+  with a sample list there, its room stays empty, so the page does not move. **Empezar** with the
+  switch on adds the sample lists, with no message. **Saltar**, `Escape` and **Empezar** with the
+  switch off add nothing.
+- **ONB-14** `Ajustes` has **Borrar las listas de ejemplo** in the group **Ayuda**, below **Ver la
+  introducción**, while a sample list exists. It deletes each sample list with its items, in one
+  change, with the message `toast.sampleDeleted` `Listas de ejemplo borradas.` and `Deshacer`.
+  The focus goes to **Ver la introducción**.
 
 ## Access and display
 

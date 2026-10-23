@@ -1,7 +1,8 @@
+import { hasSample, loadSample } from '#lists';
 import { PAGES, hasBack, isLast, step, textParts } from '#onboarding';
 import { slideDirection } from '#sections';
 import { saveOnboarded } from '#storage';
-import { $, el, storage, ui, t, guardClick } from '#ui/context';
+import { $, el, storage, state, ui, t, apply, guardClick } from '#ui/context';
 import { icon } from '#ui/controls';
 
 // A part of a page text: plain text, or a key with an optional icon. A key with an icon and no
@@ -16,6 +17,18 @@ const keyNode = ({ text, key, icon: name }) => {
   return node;
 };
 
+// The keys of the sample lists, in the order of SAMPLE_IDS: the name, then the items.
+const SAMPLE_KEYS = [
+  ['sample.home', 'sample.bulbs', 'sample.batteries', 'sample.door'],
+  ['sample.trip', 'sample.passport', 'sample.charger', 'sample.sunscreen'],
+];
+
+// The sample lists in the language of the screen.
+const sampleText = () => SAMPLE_KEYS.map(([name, ...items]) => ({ name: t(name), items: items.map((key) => t(key)) }));
+
+// The switch shows on the last page while the state has no sample list (ONB-13).
+const offersSample = () => PAGES[ui.onboarding] === 'sample' && !hasSample(state);
+
 export const renderOnboarding = () => {
   const open = ui.onboarding !== null;
   $('onboarding').hidden = !open;
@@ -25,12 +38,15 @@ export const renderOnboarding = () => {
   });
   if (!open) return;
   const page = PAGES[ui.onboarding];
+  const away = !offersSample();
+  $('onboarding-sample').classList.toggle('away', away);
+  $('onboarding-sample').inert = away;
   // An SVG element has no `hidden` property, so the attribute is set.
   document.querySelectorAll('#onboarding svg[data-page]').forEach((drawing) => {
     drawing.toggleAttribute('hidden', drawing.dataset.page !== page);
   });
   $('onboarding-title').textContent = t(`onboarding.${page}.title`);
-  const names = { active: t('list.active') };
+  const names = { active: t('list.active'), settings: t('nav.settings'), home: t('sample.home'), trip: t('sample.trip') };
   const parts = textParts(t(`onboarding.${page}.text`, names));
   $('onboarding-text').replaceChildren(...parts.map(keyNode));
   $('onboarding-dots').replaceChildren(...PAGES.map((id) => el('span', { className: id === page ? 'onboarding-dot on' : 'onboarding-dot' })));
@@ -43,6 +59,7 @@ export const renderOnboarding = () => {
 
 const openOnboarding = () => {
   ui.onboarding = 0;
+  $('sample-switch').checked = true;
   renderOnboarding();
   // The title takes the focus, not a button: no ring shows on load (ONB-11).
   $('onboarding-title').focus();
@@ -78,6 +95,8 @@ export const bind = () => {
       turnOnboarding(1);
       return;
     }
+    // Only Empezar loads the sample lists; Saltar and Escape do not (ONB-13).
+    if (offersSample() && $('sample-switch').checked) apply(loadSample(state, sampleText()));
     closeOnboarding();
   });
   $('onboarding-back').addEventListener('click', () => turnOnboarding(-1));

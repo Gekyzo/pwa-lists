@@ -13,6 +13,10 @@ import {
   listState,
   listSummary,
   moveItem,
+  SAMPLE_IDS,
+  hasSample,
+  loadSample,
+  deleteSample,
 } from '#lists';
 
 let counter = 0;
@@ -184,4 +188,63 @@ test('moveItem rejects an unknown item and an unknown list', () => {
   const before = build([['IKEA', ['Lámpara']]]);
   assert.deepEqual(moveItem(before, 'nope', 'L-IKEA').error, { key: 'error.itemNotFound' });
   assert.deepEqual(moveItem(before, 'I-IKEA-Lámpara', 'nope').error, { key: 'error.listNotFound' });
+});
+
+const SAMPLE_TEXT = [
+  { name: 'Casa', items: ['Bombillas', 'Pilas', 'Pintar la puerta'] },
+  { name: 'Viaje', items: ['Pasaporte', 'Cargador', 'Crema solar'] },
+];
+
+test('the sample lists have fixed ids', () => {
+  assert.deepEqual(SAMPLE_IDS, ['sample-home', 'sample-trip']);
+});
+
+test('loadSample adds the sample lists and their items at the end', () => {
+  const before = build([['IKEA', ['Lámpara']]]);
+  const copy = frozen(before);
+  const { state } = loadSample(before, SAMPLE_TEXT, newId);
+  assert.deepEqual(state.lists.map((list) => [list.id, list.name]), [['L-IKEA', 'IKEA'], ['sample-home', 'Casa'], ['sample-trip', 'Viaje']]);
+  assert.deepEqual(state.items.filter((item) => item.list === 'sample-trip').map((item) => item.name), ['Pasaporte', 'Cargador', 'Crema solar']);
+  assert.deepEqual(state.items.at(-1), { id: state.items.at(-1).id, name: 'Crema solar', list: 'sample-trip', quantity: '', aisle: '' });
+  assert.equal(hasSample(state), true);
+  assert.deepEqual(before, copy);
+});
+
+test('loadSample trims the names and drops an empty or a repeated item', () => {
+  const { state } = loadSample(build([]), [{ name: ' Casa ', items: [' Pilas ', '', 'pilas'] }, { name: 'Viaje', items: [] }], newId);
+  assert.deepEqual(names(state.lists), ['Casa', 'Viaje']);
+  assert.deepEqual(state.items.map((item) => item.name), ['Pilas']);
+});
+
+test('loadSample skips a list whose name is taken, with no case distinction', () => {
+  const before = build([['casa', ['Pilas']]]);
+  const { state } = loadSample(before, SAMPLE_TEXT, newId);
+  assert.deepEqual(state.lists.map((list) => list.id), ['L-casa', 'sample-trip']);
+  assert.equal(state.items.filter((item) => item.list === 'L-casa').length, 1);
+});
+
+test('loadSample returns the same state when each sample list exists', () => {
+  const { state: loaded } = loadSample(build([]), SAMPLE_TEXT, newId);
+  assert.equal(loadSample(loaded, SAMPLE_TEXT, newId).state, loaded);
+});
+
+test('hasSample is true while one sample list exists, also after a rename', () => {
+  const { state: loaded } = loadSample(build([]), SAMPLE_TEXT, newId);
+  const { state: renamed } = renameList(loaded, 'sample-home', 'Piso');
+  assert.equal(hasSample(renamed), true);
+  const { state: one } = deleteList(renamed, 'sample-home');
+  assert.equal(hasSample(one), true);
+  assert.equal(hasSample(deleteList(one, 'sample-trip').state), false);
+  assert.equal(hasSample(build([['IKEA']])), false);
+});
+
+test('deleteSample removes the sample lists and their items, and keeps the rest', () => {
+  const { state: loaded } = loadSample(build([['IKEA', ['Lámpara']]]), SAMPLE_TEXT, newId);
+  const { state } = deleteSample(loaded);
+  assert.deepEqual(state, build([['IKEA', ['Lámpara']]]));
+});
+
+test('deleteSample rejects a state with no sample list', () => {
+  const before = build([['IKEA']]);
+  assert.deepEqual(deleteSample(before), { state: before, error: { key: 'error.listNotFound' } });
 });

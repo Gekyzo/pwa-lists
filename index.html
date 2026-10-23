@@ -95,6 +95,7 @@
         <h2 class="list-group-head" data-i18n="settings.help"></h2>
         <div class="list-group">
           <button id="show-onboarding" class="settings-row" type="button"><span class="settings-row-label" data-i18n="settings.onboarding"></span><span class="chevron" aria-hidden="true">›</span></button>
+          <button id="delete-sample" class="settings-row danger" type="button" hidden><span class="settings-row-label" data-i18n="settings.deleteSample"></span></button>
         </div>
         <div id="update-banner" class="banner" hidden>
           <strong id="update-title"></strong>
@@ -267,11 +268,20 @@
             <rect class="art-card" x="30" y="114" width="178" height="28" rx="10"/>
             <path d="M64 128h50"/>
           </svg>
+          <svg data-page="sample" viewBox="0 0 240 160" aria-hidden="true">
+            <rect class="art-card" x="30" y="32" width="84" height="96" rx="10"/>
+            <path class="art-accent" d="M42 52h48"/>
+            <path d="M42 78h56M42 98h40"/>
+            <rect class="art-card" x="126" y="32" width="84" height="96" rx="10"/>
+            <path class="art-accent" d="M138 52h40"/>
+            <path d="M138 78h52M138 98h44"/>
+          </svg>
         </div>
         <div aria-live="polite">
           <h2 id="onboarding-title" class="onboarding-title" tabindex="-1"></h2>
           <p id="onboarding-text" class="onboarding-text"></p>
         </div>
+        <label id="onboarding-sample" class="switch onboarding-switch away"><span data-i18n="onboarding.sample.switch"></span><input id="sample-switch" class="switch-input" type="checkbox" role="switch" checked></label>
       </div>
       <div id="onboarding-dots" class="onboarding-dots" role="img"></div>
       <button id="onboarding-next" class="button primary wide" type="button"></button>

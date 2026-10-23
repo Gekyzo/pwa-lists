@@ -1,6 +1,7 @@
 import { exportJson, exportFilename, importJson, resetAll } from '#storage';
 import { parseVersion, versionStatus } from '#version';
 import { LANGUAGES, LANGUAGE_NAMES, intlTag } from '#i18n';
+import { hasSample, deleteSample } from '#lists';
 import { SHORTCUTS } from '#sections';
 import {
   REFRESH_MS,
@@ -33,6 +34,11 @@ const renderValues = () => {
     const select = $(id);
     $(`${id}-value`).textContent = select.selectedOptions[0]?.textContent ?? '';
   }
+};
+
+// Borrar las listas de ejemplo shows while a sample list exists (ONB-14).
+export const renderSample = () => {
+  $('delete-sample').hidden = !hasSample(state);
 };
 
 const VERSION_KEYS = { current: 'version.current', unknown: 'version.unknown' };
@@ -147,6 +153,11 @@ export const bind = () => {
   });
 
   $('import').addEventListener('click', () => $('import-file').click());
+  $('delete-sample').addEventListener('click', () => {
+    // The button goes with the lists, so the focus goes to the button above it.
+    $('show-onboarding').focus();
+    apply(deleteSample(state), { undoText: t('toast.sampleDeleted') });
+  });
   // The app starts again as a new install, with the walkthrough (BACKUP-7). With no storage the data is
   // only in memory, so the reload alone clears it.
   $('reset').addEventListener('click', () => {

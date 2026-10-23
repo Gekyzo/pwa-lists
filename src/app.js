@@ -37,7 +37,7 @@ import {
 } from '#ui/list';
 import { renderSheet, openSheet, closeSheet, bind as bindAdd } from '#ui/add';
 import { closeOnboarding, turnOnboarding, bind as bindOnboarding } from '#ui/onboarding';
-import { renderVersion, readVersion, applyLanguage, bind as bindSettings } from '#ui/settings';
+import { renderVersion, renderSample, readVersion, applyLanguage, bind as bindSettings } from '#ui/settings';
 import { renderInstall, bind as bindInstall } from '#ui/install';
 import { renderAisles, closeAisles, bind as bindAisles } from '#ui/aisles';
 import { bind as bindNav } from '#ui/nav';
@@ -85,6 +85,7 @@ const renderAll = () => {
   $('settings').hidden = ui.view !== 'settings';
   // An SVG element has no `hidden` property, so the attribute is set.
   renderVersion();
+  renderSample();
   renderInstall();
 
   // An action in the empty state replaces the add button.

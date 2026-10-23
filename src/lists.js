@@ -90,3 +90,41 @@ export const moveItem = (state, itemId, listId) => {
   if (duplicate) return reject(state, 'error.duplicateItem', { name: duplicate.name, list: target.name });
   return { state: { ...state, items: [...state.items.filter((entry) => entry !== item), { ...item, list: listId }] } };
 };
+
+// The sample lists of the walkthrough. Their fixed ids let `Ajustes` find them after a rename.
+export const SAMPLE_IDS = ['sample-home', 'sample-trip'];
+
+export const hasSample = (state) => SAMPLE_IDS.some((id) => findList(state, id));
+
+// Adds the sample lists with the names and items of the screen language: `text` is one
+// `{ name, items }` for each id of SAMPLE_IDS. A list that exists, or whose name is taken, is
+// not added; nothing to add returns the same state.
+export const loadSample = (state, text, newId = () => crypto.randomUUID()) => {
+  const lists = [];
+  const items = [];
+  SAMPLE_IDS.forEach((id, index) => {
+    const name = String(text[index]?.name ?? '').trim();
+    const taken = [...state.lists, ...lists].some((list) => list.id === id || keyOf(list.name) === keyOf(name));
+    if (!name || taken) return;
+    lists.push({ id, name });
+    const names = (text[index].items ?? [])
+      .map((item) => String(item ?? '').trim())
+      .filter((item, at, all) => item && all.findIndex((other) => keyOf(other) === keyOf(item)) === at);
+    items.push(...names.map((item) => ({ id: newId(), name: item, list: id, quantity: '', aisle: '' })));
+  });
+  if (!lists.length) return { state };
+  return { state: { ...state, lists: [...state.lists, ...lists], items: [...state.items, ...items] } };
+};
+
+// Deletes each sample list that exists, with its items, in one change.
+export const deleteSample = (state) => {
+  if (!hasSample(state)) return reject(state, 'error.listNotFound');
+  const sample = new Set(SAMPLE_IDS);
+  return {
+    state: {
+      ...state,
+      lists: state.lists.filter((list) => !sample.has(list.id)),
+      items: state.items.filter((item) => !sample.has(item.list)),
+    },
+  };
+};

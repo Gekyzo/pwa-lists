@@ -30,10 +30,10 @@
 | `src/ui/list.js` | The section `Listas`: the first level or the rows of the open list, search, empty state, the dock, header | `store`, `lists`, `aisles`, `sections`, `ui/context`, `ui/view`, `ui/rows`, `ui/add`, `ui/lists` |
 | `src/ui/lists.js` | The first level of `Listas`: the list rows and cards, their actions and move, the list sheet, the open and the close of a list | `lists`, `ui/context`, `ui/view`, `ui/controls`, `ui/rows`, `ui/drag` |
 | `src/ui/add.js` | The add sheet, and the `+` button that opens it or the list sheet | `store`, `lists`, `suggest`, `ui/context`, `ui/view`, `ui/lists` |
-| `src/ui/onboarding.js` | The walkthrough | `onboarding`, `sections`, `storage`, `ui/context`, `ui/controls` |
+| `src/ui/onboarding.js` | The walkthrough | `lists`, `onboarding`, `sections`, `storage`, `ui/context`, `ui/controls` |
 | `src/ui/aisles.js` | The sheet of the aisles of `Ajustes` | `aisles`, `ui/context`, `ui/controls` |
 | `src/ui/install.js` | The Install button of `Ajustes` | `install`, `ui/context` |
-| `src/ui/settings.js` | `Ajustes`: version and update, language, hand, theme, export and import | `sections`, `storage`, `version`, `i18n`, `ui/context`, `ui/onboarding` |
+| `src/ui/settings.js` | `Ajustes`: version and update, language, hand, theme, export and import, the delete of the sample lists | `lists`, `sections`, `storage`, `version`, `i18n`, `ui/context`, `ui/onboarding` |
 | `src/ui/nav.js` | The bottom bar and the change of section | `sections`, `layers`, `ui/context`, `ui/drag`, `ui/settings` |
 | `src/app.js` | The start of the app: the render of the screen, the bind of each view, the listeners of the document. With `src/ui/`, the only code that touches the page | all of the above |
 | `sw.js` | Offline cache of the app shell. Not a module of the app | nothing |

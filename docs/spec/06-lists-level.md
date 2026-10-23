@@ -112,3 +112,14 @@ the migration of STORE-8 turns each shop into a list.
 - **SHOP-25** Removed: an item has no shops; the lists of the first level take their place.
 - **SHOP-26** Removed: an item has no shops; the lists of the first level take their place.
 - **SHOP-27** Removed: an item has no shops; the lists of the first level take their place.
+
+## Sample lists
+
+- **LVL-20** The sample lists have the fixed ids `sample-home` and `sample-trip`, so they stay the
+  sample after a rename or an edit. Their names and items are in the language of the screen at the
+  time they are added: `Casa`, with `Bombillas`, `Pilas` and `Pintar la puerta`, and `Viaje`, with
+  `Pasaporte`, `Cargador` and `Crema solar`. They go last in `lists`, their items last in `items`,
+  with no quantity and no aisle. The walkthrough adds them (ONB-13).
+- **LVL-21** The add skips a sample list that exists, or whose name a list has with no case
+  distinction (LVL-2). With nothing to add it changes nothing. A delete of the sample (ONB-14)
+  removes each sample list that exists and its items, as LVL-5 does.
