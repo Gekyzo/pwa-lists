@@ -26,6 +26,7 @@ export default {
   'edit.done': 'OK',
   'edit.name': 'Nom',
   'edit.quantity': 'Quantité',
+  'edit.list': 'Liste',
   'edit.aisle': 'Rayon',
   'edit.noAisles': 'Créez les rayons dans Réglages.',
   'group.noAisle': 'Sans rayon',

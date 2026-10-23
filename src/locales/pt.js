@@ -26,6 +26,7 @@ export default {
   'edit.done': 'Concluído',
   'edit.name': 'Nome',
   'edit.quantity': 'Quantidade',
+  'edit.list': 'Lista',
   'edit.aisle': 'Secção',
   'edit.noAisles': 'Crie as secções em Definições.',
   'group.noAisle': 'Sem secção',

@@ -41,7 +41,7 @@ bottom bar (NAV-1).
 
 ## Aisle of an item
 
-- **AISLE-16** The edit sheet `Editar` (ROW-7) shows, below the fields, a line and the title
+- **AISLE-16** The edit sheet `Editar` (ROW-7) shows, below the part **Lista**, a line and the title
   **Sección**, then each aisle as a chip, in its order. The chip of the aisle of the item is
   pressed.
 - **AISLE-17** A tap on a chip sets that aisle on the item (AISLE-7). A tap on the pressed chip

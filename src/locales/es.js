@@ -26,6 +26,7 @@ export default {
   'edit.done': 'Listo',
   'edit.name': 'Nombre',
   'edit.quantity': 'Cantidad',
+  'edit.list': 'Lista',
   'edit.aisle': 'Sección',
   'edit.noAisles': 'Crea las secciones en Ajustes.',
   'group.noAisle': 'Sin sección',

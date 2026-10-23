@@ -79,7 +79,8 @@ the bottom bar at each width.
   does its own work. A tap on the body of the open row only closes it. An action closes the row,
   then runs.
 - **ROW-7** The edit sheet `Editar` has the field **Nombre**, 80 characters at most, the field
-  **Cantidad**, 20 characters at most (LIST-27), then the titled part **Sección** (AISLE-16). The name of
+  **Cantidad**, 20 characters at most (LIST-27), then the titled part **Lista**, a chip for each list in the order of the first level with the
+  list of the item pressed (LIST-9), and the titled part **Sección** (AISLE-16). The name of
   a field shows inside it while it is empty, and moves onto its top border when it has a value or
   the focus. `Enter` or a
   loss of focus saves a field (LIST-5); an error shows its message and the field shows the old
@@ -124,7 +125,7 @@ the bottom bar at each width.
   | Backup | Import |
 
 - **MSG-6** These changes have no `Deshacer`: a new item, a rename,
-  the order and the grouping.
+  the move of an item to another list, a new list, the view, the order and the grouping.
 - **MSG-7** A rejected operation shows the text of its error and changes nothing.
 - **MSG-8** When a save fails, the change stays on the screen and the message is `El cambio no se
   ha guardado: el almacenamiento no está disponible.` (STORE-9).
@@ -139,7 +140,7 @@ the bottom bar at each width.
   title of the edit sheet is the name of the item, of the add sheet `Añadir elemento a la lista`.
   Only the body below the head scrolls. The edit sheet has a foot: **Eliminar** deletes the item
   with `Deshacer` (the message of a delete from the row) and closes the sheet; `Guardado` shows for
-  1.2 s after each save that changed the item (a field, the aisle), and not after a loss of focus with no change or an error. A closed sheet shows no
+  1.2 s after each save that changed the item (a field, the list, the aisle), and not after a loss of focus with no change or an error. A closed sheet shows no
   `Guardado`.
 - **NAV-23** A drag down of the grab or the head of a sheet closes it when the drag passes 30 % of
   the height of the sheet, or when the release is faster than 0.5 px/ms. A shorter, slower drag

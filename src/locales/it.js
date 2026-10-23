@@ -26,6 +26,7 @@ export default {
   'edit.done': 'Fatto',
   'edit.name': 'Nome',
   'edit.quantity': 'Quantità',
+  'edit.list': 'Lista',
   'edit.aisle': 'Reparto',
   'edit.noAisles': 'Crea i reparti in Impostazioni.',
   'group.noAisle': 'Senza reparto',

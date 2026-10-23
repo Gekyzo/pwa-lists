@@ -1,4 +1,5 @@
 import * as store from '#store';
+import * as lists from '#lists';
 import * as aisles from '#aisles';
 import { $, el, state, ui, t, apply, render } from '#ui/context';
 import { bindField, flashSaved, applySaved, clearSaved } from '#ui/controls';
@@ -15,7 +16,7 @@ export const closeEdit = () => {
   render();
 };
 
-// The edit sheet of one item: its name, its quantity and its aisle.
+// The edit sheet of one item: its name, its quantity, its list and its aisle.
 export const renderEdit = () => {
   const item = state.items.find((entry) => entry.id === ui.editId);
   $('edit').hidden = !item;
@@ -27,7 +28,32 @@ export const renderEdit = () => {
   $('edit-form').setAttribute('aria-label', t('edit.title'));
   if (document.activeElement !== $('edit-name')) $('edit-name').value = item.name;
   if (document.activeElement !== $('edit-quantity')) $('edit-quantity').value = item.quantity;
+  renderListChips(item);
   renderAisleChips(item);
+};
+
+// A tap on the chip of another list moves the item there (LVL-10). The sheet stays open; the row
+// leaves the list in view.
+const pickList = (id) => {
+  const item = state.items.find((entry) => entry.id === ui.editId);
+  if (item) applySaved($('edit-form'), lists.moveItem(state, item.id, id));
+};
+
+// One chip for each list, in the order of the first level, the list of the item pressed. The chips
+// stay when the lists do not change, as the aisle chips do.
+const renderListChips = (item) => {
+  const box = $('edit-lists');
+  const order = lists.listsInOrder(state);
+  const key = order.map((list) => `${list.id}\t${list.name}`).join('\n');
+  if (box.dataset.key !== key) {
+    box.dataset.key = key;
+    box.replaceChildren(...order.map((list) => {
+      const chip = el('button', { type: 'button', className: 'chip', textContent: list.name, onclick: () => pickList(list.id) });
+      chip.dataset.id = list.id;
+      return chip;
+    }));
+  }
+  for (const chip of box.children) chip.setAttribute('aria-pressed', String(chip.dataset.id === item.list));
 };
 
 // A tap on the chip of the aisle of the item clears it; a tap on another chip sets that aisle.

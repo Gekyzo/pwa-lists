@@ -26,6 +26,7 @@ export default {
   'edit.done': 'Fet',
   'edit.name': 'Nom',
   'edit.quantity': 'Quantitat',
+  'edit.list': 'Llista',
   'edit.aisle': 'Secció',
   'edit.noAisles': 'Crea les seccions a Configuració.',
   'group.noAisle': 'Sense secció',

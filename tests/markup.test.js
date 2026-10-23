@@ -209,3 +209,8 @@ test('the list sheet has a name field to rename and a field with Crear to create
   assert.match(layer, /<div id="list-create" class="input-row pinned">\s*<input id="list-new"[^>]*maxlength="40"[^>]*>\s*<button id="list-submit" class="button primary" type="submit" data-i18n="lists.submit" disabled><\/button>/);
   assert.match(layer, /<p id="list-help" class="input-help danger" role="alert" hidden><\/p>/);
 });
+
+test('the edit sheet has the titled part Lista with a chip for each list, before Sección', () => {
+  const [layer = ''] = body.match(/<div id="edit" class="sheet-layer"[\s\S]*?<\/form>\s*<\/div>/) ?? [];
+  assert.match(layer, /<span class="field-label" data-i18n="edit.quantity"><\/span><\/label>\s*<h2 class="sheet-title part" data-i18n="edit.list"><\/h2>\s*<div id="edit-lists" class="cluster"><\/div>\s*<h2 class="sheet-title part" data-i18n="edit.aisle"><\/h2>/);
+});

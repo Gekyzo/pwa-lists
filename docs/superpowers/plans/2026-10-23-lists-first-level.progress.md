@@ -33,7 +33,7 @@ the 🎯 indicators (terminal status bar, tab ring, overlord tile) draw from thi
 | 3 | Two levels in Listas | ☑ |  | 2026-10-24 |  |
 | 4 | Cards and the arrange sheet of the first level | ☑ |  | 2026-10-24 |  |
 | 5 | Create, rename and delete a list | ☑ |  | 2026-10-24 |  |
-| 6 | Move an item to another list | ☐ |  |  |  |
+| 6 | Move an item to another list | ☑ |  | 2026-10-24 |  |
 | 7 | Shortcut, walkthrough and the browser check | ☐ |  |  |  |
 
 ## Blockers

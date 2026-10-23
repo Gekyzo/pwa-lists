@@ -23,7 +23,7 @@
 | `src/ui/view.js` | What the screen shows of the state: the level of `Listas` and the list in view, the search, the open row, the grouping | `store`, `lists`, `ui/context` |
 | `src/ui/motion.js` | The motion of rows: close, open, slide to a new place | `ui/context` |
 | `src/ui/controls.js` | The controls that several views use: icons, icon buttons, the save of a sheet field and the `Guardado` of a sheet save | `sheets`, `ui/context` |
-| `src/ui/edit.js` | The edit sheet `Editar` | `store`, `aisles`, `ui/context`, `ui/controls` |
+| `src/ui/edit.js` | The edit sheet `Editar` | `store`, `lists`, `aisles`, `ui/context`, `ui/controls` |
 | `src/ui/drag.js` | The manual order: the lift of a row, its move and its drop, for items and lists | `store`, `lists`, `reorder`, `ui/context`, `ui/view`, `ui/motion` |
 | `src/ui/rows.js` | The item rows, their side menus, their swipe and the hint of the swipe | `store`, `swipe`, `storage`, `ui/context`, `ui/view`, `ui/motion`, `ui/controls`, `ui/edit`, `ui/drag` |
 | `src/ui/arrange.js` | The arrange sheet: the view and the order of the lists, the grouping and the order of the items | `store`, `lists`, `ui/context`, `ui/view`, `ui/motion` |

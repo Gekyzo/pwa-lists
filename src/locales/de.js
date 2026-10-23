@@ -26,6 +26,7 @@ export default {
   'edit.done': 'Fertig',
   'edit.name': 'Name',
   'edit.quantity': 'Menge',
+  'edit.list': 'Liste',
   'edit.aisle': 'Abteilung',
   'edit.noAisles': 'Lege die Abteilungen in Optionen an.',
   'group.noAisle': 'Ohne Abteilung',

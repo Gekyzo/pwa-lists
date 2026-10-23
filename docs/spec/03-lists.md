@@ -15,7 +15,8 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 - **LIST-6** A name field of the screen takes 80 characters at most. The store has no limit.
 - **LIST-7** Removed: an item has no recurrent mark.
 - **LIST-8** A delete removes the item. Its shops go with it.
-- **LIST-9** Removed: `Listas` is the only list, so an item has no other list to move to.
+- **LIST-9** The part **Lista** of `Editar` moves an item to another list (LVL-10). The
+  move has no `Deshacer`; a tap on the chip of the old list moves it back.
 
 ## Quantity
 
