@@ -81,16 +81,16 @@ test('direction uses the given list of sections', () => {
   assert.equal(direction('recipes', 'settings', sections), 0);
 });
 
-test('shortcutStart opens the add sheet of Compra for add', () => {
-  assert.deepEqual(shortcutStart('add'), { view: 'active', add: true });
+test('shortcutStart opens the list sheet of the first level for create', () => {
+  assert.deepEqual(shortcutStart('create'), { view: 'active', create: true });
 });
 
 test('shortcutStart opens the section of a section shortcut, with no sheet', () => {
-  for (const view of ['active']) assert.deepEqual(shortcutStart(view), { view, add: false });
+  for (const view of ['active']) assert.deepEqual(shortcutStart(view), { view, create: false });
 });
 
 test('shortcutStart is null for an unknown name, for settings and for no name', () => {
-  for (const name of ['settings', 'recipes', 'menu', 'other', '', null, undefined, 'toString']) assert.equal(shortcutStart(name), null);
+  for (const name of ['settings', 'add', 'recipes', 'menu', 'other', '', null, undefined, 'toString']) assert.equal(shortcutStart(name), null);
 });
 
 test('SHORTCUTS has each shortcut of the manifest, in its order', () => {
@@ -149,8 +149,8 @@ test('the section slide does not start on the dock', () => {
   assert.match(exclusion, /\.dock\b/);
 });
 
-test('SHORTCUTS are the add sheet and the sections with a list', () => {
-  assert.deepEqual(SHORTCUTS, ['add', 'active']);
+test('SHORTCUTS are the creation of a list and the section Listas', () => {
+  assert.deepEqual(SHORTCUTS, ['create', 'active']);
 });
 
 test('dockShown shows the dock inside a list with an item', () => {

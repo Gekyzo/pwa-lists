@@ -32,12 +32,13 @@ Status: on `main`. Rules of `SHORTCUTS` and `shortcutStart` in `src/sections.js`
 A long press on the icon of the installed app shows its shortcuts. Android reads them from the
 manifest when Chrome installs or updates the app.
 
-- **SHORT-1** The manifest has two shortcuts, in this order: **Añadir elemento**
-  (`./?open=add`) and **Listas** (`./?open=active`).
-- **SHORT-2** A start with `?open=<name>` shows that section. `add` shows `Listas` and opens the
-  add sheet there. An unknown name is ignored. While the walkthrough of a first start shows, the
-  section changes below it and the add sheet does not open.
-- **SHORT-3** The names of the shortcuts are the texts `add.item` and `list.active` in the
+- **SHORT-1** The manifest has two shortcuts, in this order: **Crear lista**
+  (`./?open=create`) and **Listas** (`./?open=active`).
+- **SHORT-2** A start with `?open=<name>` shows that section. `create` shows the first level of
+  `Listas` and opens the list sheet there to create a list (LVL-19). An unknown name, such as the
+  `add` of an older install, is ignored. While the walkthrough of a first start shows, the section
+  changes below it and the list sheet does not open.
+- **SHORT-3** The names of the shortcuts are the texts `lists.create` and `list.active` in the
   language of the screen, through the worker (SW-13).
 - **SHORT-4** Each shortcut has an icon of 192 px: the line icon of its action, white on a disc of
   the theme colour (VER-15).

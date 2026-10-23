@@ -32,8 +32,8 @@
   ],
   "shortcuts": [
     {
-      "name": "Añadir elemento",
-      "url": "./?open=add",
+      "name": "Crear lista",
+      "url": "./?open=create",
       "icons": [
         {
           "src": "icons/shortcut-add.png",

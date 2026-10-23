@@ -207,9 +207,9 @@ the bottom bar at each width.
 
   | Page | Title | Teaches |
   |---|---|---|
-  | 1 | `Lo que tienes pendiente` | `Listas` holds what is pending; a tick deletes the item (LIST-12) |
+  | 1 | `Tus listas` | `Listas` holds a list for each thing, and a tap opens a list (LVL-11) |
   | 2 | `Desliza una fila` | The tap on a row (ROW-1) and its two slides (ROW-3, ROW-11) |
-  | 3 | `Varias listas` | The shops of an item in **Editar** (SHOP-8), and the list by shop that they give (SHOP-16) |
+  | 3 | `Cambia de lista` | The parts **Lista** and **Sección** of **Editar** (LIST-9, AISLE-16) |
 
 - **ONB-2** A page has a drawing, a title and a text. A drawing has no text and does not move.
   A drawing is in the main action colour (`--primary`), its ticked boxes too.

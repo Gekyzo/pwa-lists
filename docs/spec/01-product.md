@@ -3,9 +3,9 @@
 ## Purpose
 
 Stash keeps lists of things for one person on one Android phone: things to get from IKEA, a
-hardware shop, or any other place. It works with no connection. It keeps one list, `Listas`, of
-the pending items, each with its optional shops; a shop gives a list of its own. A tick deletes
-the item: it is done.
+hardware shop, the house, or any other place. It works with no connection. The first level of
+`Listas` holds the lists that the user creates, and each list holds its pending items. A tick
+deletes the item: it is done.
 
 ## User and device
 
@@ -36,7 +36,7 @@ the item: it is done.
 | Add with search, with no duplicate | [03-lists.md](03-lists.md) |
 | Search in `Listas` | [03-lists.md](03-lists.md) |
 | Order by name or custom, with a manual move | [04-arrange.md](04-arrange.md) |
-| Groups by shop or by aisle | [04-arrange.md](04-arrange.md) |
+| Groups by aisle | [04-arrange.md](04-arrange.md) |
 | The lists of the first level of `Listas` | [06-lists-level.md](06-lists-level.md) |
 | Backup to a file and from a file | [08-storage.md](08-storage.md) |
 | Seven languages | [09-languages.md](09-languages.md) |
@@ -49,11 +49,10 @@ the item: it is done.
 These are decisions, not gaps.
 
 - Quantities, units, prices, categories, notes and photos of an item.
-- More than one list, a list for a later trip, saved items, and a history of bought items.
+- A list for a later trip, saved items, a history of bought items, and one item in two lists.
 - A sync between devices, an account, a shared list. Google Tasks as a shared list was rejected.
 - Geolocation in the app and system notifications.
 - Recipes and a menu of the week.
-- A screen of shops, a rename of a shop for all its items.
 - Right-to-left languages.
 
 Each feature document lists the limits of its own area.

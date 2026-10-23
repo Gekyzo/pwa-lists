@@ -96,7 +96,7 @@ const refreshShell = () =>
   });
 
 // The text of each shortcut of the launcher (SHORT-3).
-const SHORTCUT_KEYS = { add: 'add.item', active: 'list.active' };
+const SHORTCUT_KEYS = { create: 'lists.create', active: 'list.active' };
 
 // Writes the fixed text of the page, then the text that a render builds.
 export const applyLanguage = () => {

@@ -41,7 +41,7 @@ import { renderVersion, readVersion, applyLanguage, bind as bindSettings } from 
 import { renderInstall, bind as bindInstall } from '#ui/install';
 import { renderAisles, closeAisles, bind as bindAisles } from '#ui/aisles';
 import { bind as bindNav } from '#ui/nav';
-import { closeList, renderListSheet, closeListSheet, bind as bindLists } from '#ui/lists';
+import { closeList, openListSheet, renderListSheet, closeListSheet, bind as bindLists } from '#ui/lists';
 
 // Screen
 
@@ -264,7 +264,7 @@ if (params.has('arrival') || params.has('open')) {
 }
 if (start) {
   ui.view = start.view;
-  if (start.add && ui.onboarding === null) openSheet();
+  if (start.create && ui.onboarding === null) openListSheet();
   else render();
 }
 if (!storage) showToast(t('error.noStorage'));
