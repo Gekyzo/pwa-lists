@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { SECTIONS, SHORTCUTS, direction, emptyAction, fabState, slideDirection, slideTo, shortcutStart } from '#sections';
+import { SECTIONS, SHORTCUTS, direction, dockShown, emptyAction, fabState, slideDirection, slideTo, shortcutStart } from '#sections';
 
 test('SECTIONS has the order of the bottom bar', () => {
   assert.deepEqual(SECTIONS, ['active', 'settings']);
@@ -147,4 +147,13 @@ test('the section slide does not start on the dock', () => {
 
 test('SHORTCUTS are the add sheet and the sections with a list', () => {
   assert.deepEqual(SHORTCUTS, ['add', 'active']);
+});
+
+test('dockShown shows the dock in Listas with an item', () => {
+  assert.equal(dockShown({ view: 'active', activeCount: 3 }), true);
+  assert.equal(dockShown({ view: 'active', activeCount: 0 }), false);
+});
+
+test('dockShown hides the dock in Ajustes', () => {
+  assert.equal(dockShown({ view: 'settings', activeCount: 3 }), false);
 });

@@ -97,8 +97,13 @@ const renderAll = () => {
   renderInstall();
 
   // An action in the empty state replaces the add button.
-  $('fab').hidden = ui.view === 'settings' || !$('empty-action').hidden || sheetOpen(ui);
-  $('fab').setAttribute('aria-label', t('add.item'));
+  // Below 600px the add button of the dock takes the place of the fab (design-system.css), with the
+  // same label and the same conditions.
+  const noAdd = ui.view === 'settings' || !$('empty-action').hidden || sheetOpen(ui);
+  for (const id of ['fab', 'dock-add']) {
+    $(id).hidden = noAdd;
+    $(id).setAttribute('aria-label', t('add.item'));
+  }
   document.querySelectorAll('.nav-item').forEach((button) => {
     if (button.dataset.view === ui.view) button.setAttribute('aria-current', 'page');
     else button.removeAttribute('aria-current');

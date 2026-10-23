@@ -49,6 +49,9 @@ export const shortcutStart = (name) => {
   return name === 'add' ? { view: 'active', add: true } : { view: name, add: false };
 };
 
+// True while the dock shows below 600px (it carries the add button): in Listas with an item.
+export const dockShown = ({ view, activeCount }) => view === 'active' && activeCount > 0;
+
 // What an empty section says and offers. `title` and `text` are keys of the catalog, `title` null for
 // a search with no match and for Compra, whose header already says that it is empty. `action` is the
 // next step as a button: `add-query`; null when the add button of the screen is the action (or

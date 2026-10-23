@@ -1,7 +1,7 @@
 import * as store from '#store';
 import * as shops from '#shops';
 import * as aisles from '#aisles';
-import { emptyAction } from '#sections';
+import { dockShown, emptyAction } from '#sections';
 import { $, el, state, ui, t, shopLists, render } from '#ui/context';
 import { inList, viewState, found, searching, shownGroup, endSearch } from '#ui/view';
 import { itemNode, groupHead, groupNodes, hintSwipe } from '#ui/rows';
@@ -150,11 +150,12 @@ const pickShop = (shop) => {
   render();
 };
 
-// The dock of Compra below 600px (styles.css hides it from 600px): the shop list in view between the
-// arrows of the previous and the next list, and the search button; while the search is open, the
-// search field and Cancelar. It shows while Compra has an item.
+// The dock of Listas below 600px (styles.css hides it from 600px): the shop list in view between the
+// arrows of the previous and the next list, the search button and the add button at the end; while
+// the search is open, the search field, Cancelar and the add button. It shows while Listas has an
+// item (`dockShown`). The app shows and labels the add button as the fab.
 export const renderDock = () => {
-  const shown = inList() && store.activeItems(state).length > 0;
+  const shown = dockShown({ view: ui.view, activeCount: store.activeItems(state).length });
   $('dock').hidden = !shown;
   if (!shown) return;
   const chips = shopLists === 'show' ? shops.shopChips(state) : [];
@@ -171,7 +172,7 @@ export const renderDock = () => {
   // A shop list that a tick emptied has no chip: the dock shows it with no item.
   const current = chips.find((chip) => chip.shop === ui.shop) ?? (ui.shop === null ? chips[0] : { shop: ui.shop, count: 0 });
   $('dock-shop').replaceChildren(
-    el('span', { textContent: shopLabel(current.shop) }),
+    el('span', { className: 'dock-shop-name', textContent: shopLabel(current.shop) }),
     el('span', { className: 'count', textContent: current.count === 0 ? '✓' : String(current.count) }),
     el('span', { className: 'chevron', textContent: '▾', ariaHidden: 'true' }),
   );

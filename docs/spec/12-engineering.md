@@ -8,7 +8,7 @@
 | `src/shops.js` | Pure shop operations and the list by shop | `store` |
 | `src/aisles.js` | Pure aisle operations and the list by aisle | `store` |
 | `src/swipe.js` | The rule that settles the slide of an item row | nothing |
-| `src/sections.js` | The order of the sections, the rule of the slide between them, the start of a shortcut and what an empty section says and offers, the collapse of the `+` button on a scroll | nothing |
+| `src/sections.js` | The order of the sections, the rule of the slide between them, the start of a shortcut and what an empty section says and offers, the collapse of the `+` button on a scroll, when the dock shows | nothing |
 | `src/layers.js` | The layers over a section: whether a sheet is open, and the top layer that `Escape` and the back close (`closeTop`) | nothing |
 | `src/onboarding.js` | The pages of the walkthrough, the rule that shows it and the step between pages | nothing |
 | `src/reorder.js` | The geometry of a row move: drop place, gap, new order | nothing |

@@ -71,12 +71,13 @@ apply in it.
   the add puts no shop.
 - **SHOP-26** Below 600px wide a dock stands above the bottom bar while `Listas` has an item, in
   thumb reach. It holds `‹`, a chip with the name of the list in view, its count of items (`✓` for
-  a list that a tick emptied, SHOP-22) and `▾`, then `›`, then the search button (LIST-37). `›` shows the next list after
+  a list that a tick emptied, SHOP-22) and `▾`, then `›`, then the search button (LIST-37) and the `+` button, at the end. `›` shows the next list after
   the one in view, in chip order and from the start after the end (`nextShop`); `‹` the one before
   it (`previousShop`). An arrow with no other list is off. With no
-  chip (SHOP-17) or with the row hidden (SHOP-25) the dock holds only the search button. A slide on
-  the dock does not change the section (NAV-4). With `Izquierda` the search button is at the left,
-  and `‹` stays before the chip.
+  chip (SHOP-17) or with the row hidden (SHOP-25) the dock holds only the search button and the `+`
+  button. A slide on the dock does not change the section (NAV-4). With `Izquierda` the `+` button
+  is at the left end, the search button follows it, and `‹` stays before the chip. The `+` button
+  of the dock shows and does not show as the `+` button of NAV-24 (`dockShown`).
 - **SHOP-27** A tap on the chip of the dock opens the shop picker, a sheet with the title `Elegir
   lista` and one entry for each chip of SHOP-16, with `N elementos` below its name. The entry of the list in view is pressed. A tap on an entry shows that list and
   closes the sheet; the focus goes back to the chip. The sheet closes as each sheet does (NAV-8).

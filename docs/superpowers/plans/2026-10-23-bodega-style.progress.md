@@ -32,7 +32,7 @@ the 🎯 indicators (terminal status bar, tab ring, overlord tile) draw from thi
 | 2 | Header with no ring | ☑ |  | 2026-10-23 |  |
 | 3 | Bottom bar and sheet heads | ☑ |  | 2026-10-23 |  |
 | 4 | No corner basket | ☑ |  | 2026-10-23 |  |
-| 5 | The + in the dock | ☐ |  |  |  |
+| 5 | The + in the dock | ☑ |  | 2026-10-23 |  |
 | 6 | Group heads | ☐ |  |  |  |
 | 7 | Tonal actions and full-width Ajustes | ☐ |  |  |  |
 | 8 | Aisles and grouping control | ☐ |  |  |  |

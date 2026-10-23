@@ -68,8 +68,9 @@ done items to show.
 
 ## Add sheet
 
-The `+` button opens the sheet in `Listas`. The button does not show in `Ajustes` or while a sheet
-is open.
+The `+` button opens the sheet in `Listas`. Below 600px it is the last button of the dock
+(SHOP-26), from 600px it floats above the list (NAV-24). The button does not show in `Ajustes` or
+while a sheet is open.
 
 - **ADD-1** The sheet has a name field and the button **Añadir**. It has no target choice: an add
   always goes to `Listas`.
