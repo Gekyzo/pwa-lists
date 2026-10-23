@@ -18,8 +18,9 @@ the bottom bar at each width.
 ## Sections
 
 - **NAV-1** The bottom bar has two sections, in this order: `Listas` and `Ajustes`. The app
-  starts in `Listas`. A
-  section shows no count.
+  starts in `Listas`. A section shows its icon and its name, and no count: a list with ticks for
+  `Listas`, a gear for `Ajustes` (Lucide `list-checks` and `settings`). Its name is also the name
+  of its button for a screen reader.
 - **NAV-2** A tap on the bottom bar changes the section. A change closes each open row, ends an
   edit and closes the search of a list (LIST-24).
 - **NAV-3** A horizontal slide changes the section: to the left for the next one, to the right for
@@ -134,7 +135,7 @@ the bottom bar at each width.
   picker (SHOP-27), edit (ROW-7) and aisles (AISLE-10).
   One is open at a time. A tap on the
   veil, **Listo** or `Escape` closes it. The `+` button does not show while a sheet is open.
-- **NAV-22** Each sheet has a head: the grab, a title on one line and the button **Listo**. The
+- **NAV-22** Each sheet has a head: the grab, a title on one line and the button **Listo**, a tonal button. The
   title of the edit sheet is the name of the item, of the add sheet `Añadir elemento a la lista`.
   Only the body below the head scrolls. The edit sheet has a foot: **Eliminar** deletes the item
   with `Deshacer` (the message of a delete from the row) and closes the sheet; `Guardado` shows for

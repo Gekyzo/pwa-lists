@@ -30,7 +30,7 @@ the 🎯 indicators (terminal status bar, tab ring, overlord tile) draw from thi
 |---|---|---|---|---|---|
 | 1 | Green main action | ☑ |  | 2026-10-23 |  |
 | 2 | Header with no ring | ☑ |  | 2026-10-23 |  |
-| 3 | Bottom bar and sheet heads | ☐ |  |  |  |
+| 3 | Bottom bar and sheet heads | ☑ |  | 2026-10-23 |  |
 | 4 | No corner basket | ☐ |  |  |  |
 | 5 | The + in the dock | ☐ |  |  |  |
 | 6 | Group heads | ☐ |  |  |  |

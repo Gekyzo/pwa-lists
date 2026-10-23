@@ -9,6 +9,7 @@ no change for the user has no entry.
 
 ## Unreleased
 
+- The bottom bar draws `Listas` as a list with ticks and `Ajustes` as a gear. **Listo** in the head of each sheet is a tonal button.
 - The header has no ring: the title and the count of the list stand alone.
 - The main action colour is the green of Bodega: the `+`, the main buttons and **Atrás**. The drawings of the introduction take the same colour; a control named in its texts is in the colour of the text.
 - Stash speaks of lists of things, not of a shopping list. The app is `Stash - Listas`; the main section is `Listas`, with the header `Mis listas`. A shop is a `Lista`, an item is an `elemento`, and a tick says `"name" hecho.` The six other languages say the same.
