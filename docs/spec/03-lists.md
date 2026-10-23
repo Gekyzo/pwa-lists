@@ -58,10 +58,13 @@ Rules of `src/store.js`, and of the rows and the add sheet in `src/ui/rows.js` a
 
 ## Header figures
 
-| Section | Title | Subtitle | Ring |
-|---|---|---|---|
-| `Listas` | `Mis listas` | `N elementos`, or `La lista está vacía` | The count of items, with no fill |
-| `Ajustes` | `Ajustes` | `Stash` | None: the ring does not show |
+| Section | Title | Subtitle |
+|---|---|---|
+| `Listas` | `Mis listas` | `N elementos`, or `La lista está vacía` |
+| `Ajustes` | `Ajustes` | `Stash` |
+
+The header has no ring and no progress bar: a tick deletes the item, so `Listas` has no share of
+done items to show.
 
 ## Add sheet
 

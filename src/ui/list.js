@@ -43,10 +43,9 @@ const listNodes = () => {
 
 // The header of Compra counts the items of the list in view.
 export const headerOf = (count) => {
-  // Ajustes has no figure: its ring does not show.
-  if (ui.view === 'settings') return { title: t('nav.settings'), subtitle: t('header.settingsSubtitle'), ring: null };
+  if (ui.view === 'settings') return { title: t('nav.settings'), subtitle: t('header.settingsSubtitle') };
   const subtitle = count ? t('count.items', { count }) : t('header.empty');
-  return { title: t('header.today'), subtitle, ring: String(count) };
+  return { title: t('header.today'), subtitle };
 };
 
 // The button text of each action of an empty section.

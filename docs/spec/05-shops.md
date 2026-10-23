@@ -51,8 +51,8 @@ apply in it.
   no shop. An item of two shops shows in the two lists, and one tick deletes it from each. The search,
   the order and the groups by aisle apply in the list. **Listas** is not a choice there
   (GROUP-2).
-- **SHOP-20** The header shows the name of the list as its title. Its subtitle and its ring are
-  those of the items of the list.
+- **SHOP-20** The header shows the name of the list as its title. Its subtitle is that of the
+  items of the list.
 - **SHOP-21** Removed: Stash has no trip (TRIP-1).
 - **SHOP-22** The choice is a state of the screen and is not stored. A start shows **Todas**. The
   choice stays while the app runs. A choice whose chip goes, for

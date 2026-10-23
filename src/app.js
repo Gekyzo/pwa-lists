@@ -87,8 +87,6 @@ const renderAll = () => {
   renderShopChips();
   $('title').textContent = header.title;
   $('subtitle').textContent = header.subtitle;
-  $('ring').hidden = header.ring === null;
-  $('ring-text').textContent = header.ring ?? '';
 
   renderDock();
   renderList();
