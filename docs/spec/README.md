@@ -15,6 +15,7 @@ The names of the screen are the Spanish ones, because `src/locales/es.js` is the
 | [03-lists.md](03-lists.md) | Items, the list `Listas`, the tick, the add sheet |
 | [04-arrange.md](04-arrange.md) | Order, groups and the manual move of a row |
 | [05-shops.md](05-shops.md) | The shops of an item and the list by shop |
+| [06-lists-level.md](06-lists-level.md) | The lists of the first level of `Listas`, their names, order, views and the move of an item |
 | [07-screen.md](07-screen.md) | Sections, header, gestures, sheets, messages and undo, the walkthrough |
 | [08-storage.md](08-storage.md) | The stored format, validation, migration, backup |
 | [09-languages.md](09-languages.md) | The seven languages and the rules of the text |
@@ -42,6 +43,7 @@ The rules DS-1 to DS-8 and LAY-1 to LAY-4 belong to the design system, `pwa-desi
 | `LIST`, `TRIP`, `ADD` | 03-lists |
 | `SORT`, `GROUP`, `MOVE` | 04-arrange |
 | `SHOP` | 05-shops |
+| `LVL` | 06-lists-level |
 | `NAV`, `ROW`, `MSG`, `A11Y`, `ONB` | 07-screen |
 | `STORE`, `BACKUP` | 08-storage |
 | `LANG` | 09-languages |

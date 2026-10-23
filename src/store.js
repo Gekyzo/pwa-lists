@@ -1,6 +1,9 @@
 // `custom` is the order of `items`: the insertion order, changed by the moves of the user.
 export const SORTS = ['custom', 'name'];
 
+// The views of the first level of Listas: a row or a card for each list.
+export const LIST_VIEWS = ['rows', 'cards'];
+
 // The groups of a list: by the shops of each item, by the aisle of each item, or none.
 export const GROUPS = ['shop', 'aisle', 'none'];
 

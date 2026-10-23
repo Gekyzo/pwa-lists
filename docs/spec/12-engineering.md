@@ -6,6 +6,7 @@
 |---|---|---|
 | `src/store.js` | Pure state operations and derived views | nothing |
 | `src/shops.js` | Pure shop operations and the list by shop | `store` |
+| `src/lists.js` | Pure list operations: the lists of the first level, their order and view, the items of one list, the move of an item | `store` |
 | `src/aisles.js` | Pure aisle operations and the list by aisle | `store` |
 | `src/swipe.js` | The rule that settles the slide of an item row | nothing |
 | `src/sections.js` | The order of the sections, the rule of the slide between them, the start of a shortcut and what an empty section says and offers, the collapse of the `+` button on a scroll, when the dock shows | nothing |
@@ -88,6 +89,7 @@
 |---|---|
 | `tests/store.test.js` | Items, the tick, the order, the search, the arrival message |
 | `tests/shops.test.js` | Shops and the list by shop |
+| `tests/lists.test.js` | The lists of the first level, their order and view, the items of one list, the move of an item |
 | `tests/aisles.test.js` | Aisles, the aisle of an item and the list by aisle |
 | `tests/storage.test.js` | Load, save, validation, migration, export, import, the language key and the device preferences |
 | `tests/swipe.test.js` | The settle rule of a row slide |

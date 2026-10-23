@@ -28,6 +28,7 @@ const SHELL = [
   './src/ui/view.js',
   './src/store.js',
   './src/shops.js',
+  './src/lists.js',
   './src/aisles.js',
   './src/swipe.js',
   './src/sections.js',
