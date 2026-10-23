@@ -28,8 +28,8 @@
 | `src/ui/rows.js` | The item rows, their side menus, their swipe and the hint of the swipe | `store`, `swipe`, `storage`, `ui/context`, `ui/view`, `ui/motion`, `ui/controls`, `ui/edit`, `ui/drag` |
 | `src/ui/arrange.js` | The arrange sheet: the view and the order of the lists, the grouping and the order of the items | `store`, `lists`, `ui/context`, `ui/view`, `ui/motion` |
 | `src/ui/list.js` | The section `Listas`: the first level or the rows of the open list, search, empty state, the dock, header | `store`, `lists`, `aisles`, `sections`, `ui/context`, `ui/view`, `ui/rows`, `ui/add`, `ui/lists` |
-| `src/ui/lists.js` | The first level of `Listas`: the list rows, their actions and move, the open and the close of a list | `lists`, `ui/context`, `ui/view`, `ui/controls`, `ui/rows`, `ui/drag` |
-| `src/ui/add.js` | The add sheet | `store`, `lists`, `suggest`, `ui/context`, `ui/view` |
+| `src/ui/lists.js` | The first level of `Listas`: the list rows and cards, their actions and move, the list sheet, the open and the close of a list | `lists`, `ui/context`, `ui/view`, `ui/controls`, `ui/rows`, `ui/drag` |
+| `src/ui/add.js` | The add sheet, and the `+` button that opens it or the list sheet | `store`, `lists`, `suggest`, `ui/context`, `ui/view`, `ui/lists` |
 | `src/ui/onboarding.js` | The walkthrough | `onboarding`, `sections`, `storage`, `ui/context`, `ui/controls` |
 | `src/ui/aisles.js` | The sheet of the aisles of `Ajustes` | `aisles`, `ui/context`, `ui/controls` |
 | `src/ui/install.js` | The Install button of `Ajustes` | `install`, `ui/context` |

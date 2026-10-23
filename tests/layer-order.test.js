@@ -10,6 +10,7 @@ const closed = () => ({
   view: 'active',
   list: null,
   editId: null,
+  listSheet: null,
   openId: null,
   searchOpen: false,
 });
@@ -23,6 +24,8 @@ test('sheetOpen is true for each sheet', () => {
     assert.equal(sheetOpen({ ...closed(), [flag]: true }), true, flag);
   }
   assert.equal(sheetOpen({ ...closed(), editId: 'id-1' }), true);
+  assert.equal(sheetOpen({ ...closed(), listSheet: { id: null } }), true);
+  assert.equal(sheetOpen({ ...closed(), listSheet: { id: 'L' } }), true);
 });
 
 test('sheetOpen is false for an open row or a search', () => {

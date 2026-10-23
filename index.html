@@ -180,6 +180,23 @@
       </div>
     </div>
 
+    <div id="list-sheet" class="sheet-layer" hidden>
+      <div id="list-veil" class="sheet-veil"></div>
+      <form id="list-form" class="sheet" role="dialog" autocomplete="off">
+        <div class="sheet-grab"></div>
+        <header class="sheet-head"><h2 id="list-title" class="sheet-title main"></h2><button class="button tonal" type="button" data-i18n="edit.done"></button></header>
+        <div class="sheet-body">
+          <label id="list-rename" class="field"><input id="list-name" class="input field-input" type="text" enterkeyhint="done" maxlength="40" data-i18n-attr="aria-label:lists.name,placeholder:lists.name"><span class="field-label" data-i18n="lists.name"></span></label>
+          <p id="list-help" class="input-help danger" role="alert" hidden></p>
+          <div id="list-create" class="input-row pinned">
+            <input id="list-new" class="input strong" type="text" enterkeyhint="done" autocapitalize="sentences" maxlength="40" aria-describedby="list-help" data-i18n-attr="aria-label:lists.name,placeholder:lists.name">
+            <button id="list-submit" class="button primary" type="submit" data-i18n="lists.submit" disabled></button>
+          </div>
+        </div>
+        <footer class="sheet-foot"><button id="list-delete" class="button outline danger" type="button"><svg class="icon small" aria-hidden="true"><use href="icons.svg#trash"/></svg><span data-i18n="sheet.delete"></span></button><span class="sheet-saved"><svg class="icon small" aria-hidden="true"><use href="icons.svg#check"/></svg><span data-i18n="sheet.saved"></span></span></footer>
+      </form>
+    </div>
+
     <div id="edit" class="sheet-layer" hidden>
       <div id="edit-veil" class="sheet-veil"></div>
       <form id="edit-form" class="sheet" role="dialog" autocomplete="off">

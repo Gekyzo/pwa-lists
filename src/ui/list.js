@@ -6,7 +6,7 @@ import { $, state, ui, t, render } from '#ui/context';
 import { inList, atTop, viewState, found, shownGroup, endSearch } from '#ui/view';
 import { itemNode, groupHead, groupNodes, hintSwipe } from '#ui/rows';
 import { addQuery, openSheet } from '#ui/add';
-import { listNodes } from '#ui/lists';
+import { listNodes, openListSheet } from '#ui/lists';
 
 // The count of the full group, also while a search shows a part of it (LIST-23).
 const groupCount = ({ total }) => String(total);
@@ -59,7 +59,7 @@ const renderEmpty = (shown) => {
   $('empty-action').hidden = !shown || !action;
   $('empty-action').textContent = action ? t(ACTION_KEYS[action], params) : '';
   $('empty').classList.toggle('apart', Boolean(title && action));
-  emptyRun = { 'add-query': addQuery, 'add-item': openSheet }[action] ?? null;
+  emptyRun = { 'add-query': addQuery, 'add-item': openSheet, 'create-list': () => openListSheet() }[action] ?? null;
 };
 
 // The search field of a list shows after a tap on the search button, which a list with no item

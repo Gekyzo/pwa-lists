@@ -21,7 +21,7 @@ import {
   commit,
   debugLog,
 } from '#ui/context';
-import { inList } from '#ui/view';
+import { inList, atTop } from '#ui/view';
 import { snapshotRows, animateRows } from '#ui/motion';
 import { closeEdit, renderEdit, bind as bindEdit } from '#ui/edit';
 import { endReorder, bind as bindDrag } from '#ui/drag';
@@ -41,7 +41,7 @@ import { renderVersion, readVersion, applyLanguage, bind as bindSettings } from 
 import { renderInstall, bind as bindInstall } from '#ui/install';
 import { renderAisles, closeAisles, bind as bindAisles } from '#ui/aisles';
 import { bind as bindNav } from '#ui/nav';
-import { closeList, bind as bindLists } from '#ui/lists';
+import { closeList, renderListSheet, closeListSheet, bind as bindLists } from '#ui/lists';
 
 // Screen
 
@@ -90,10 +90,10 @@ const renderAll = () => {
   // An action in the empty state replaces the add button.
   // Below 600px the add button of the dock takes the place of the fab (design-system.css), with the
   // same label and the same conditions.
-  const noAdd = !inList() || !$('empty-action').hidden || sheetOpen(ui);
+  const noAdd = ui.view === 'settings' || !$('empty-action').hidden || sheetOpen(ui);
   for (const id of ['fab', 'dock-add']) {
     $(id).hidden = noAdd;
-    $(id).setAttribute('aria-label', t('add.item'));
+    $(id).setAttribute('aria-label', t(atTop() ? 'lists.create' : 'add.item'));
   }
   document.querySelectorAll('.nav-item').forEach((button) => {
     if (button.dataset.view === ui.view) button.setAttribute('aria-current', 'page');
@@ -108,6 +108,7 @@ const renderAll = () => {
   renderArrange();
   renderEdit();
   renderAisles();
+  renderListSheet();
   showDockMatches();
   holdBack();
 };
@@ -158,6 +159,7 @@ const closeSheets = () => {
   if (ui.arrangeOpen) closeArrange();
   if (ui.editId !== null) closeEdit();
   if (ui.aislesOpen) closeAisles();
+  if (ui.listSheet !== null) closeListSheet();
 };
 
 // Closes the top layer (closeTop): a sheet, an open row, then the search. Gives what it closed.
@@ -233,6 +235,7 @@ const SHEET_CLOSE = {
   arrange: closeArrange,
   edit: closeEdit,
   aisles: closeAisles,
+  'list-sheet': closeListSheet,
 };
 for (const [id, close] of Object.entries(SHEET_CLOSE)) {
   $(id).querySelector('.sheet-head .button').addEventListener('click', close);

@@ -124,6 +124,8 @@ export const ui = {
   aislesOpen: false,
   // The item whose edit sheet is open, or null.
   editId: null,
+  // The list sheet: null while closed, `{ id: null }` to create a list, `{ id }` to rename one.
+  listSheet: null,
   // The page of the walkthrough in view, or null while the walkthrough is closed.
   onboarding: firstStart ? 0 : null,
   // The groups of a list that the user closed, as `<view>:<group key>`. Not stored.

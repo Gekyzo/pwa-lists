@@ -2,7 +2,8 @@ import * as store from '#store';
 import * as lists from '#lists';
 import { suggestionRows } from '#suggest';
 import { $, el, state, ui, t, showToast, apply, render } from '#ui/context';
-import { viewState, endSearch } from '#ui/view';
+import { atTop, viewState, endSearch } from '#ui/view';
+import { openListSheet } from '#ui/lists';
 
 export const renderSheet = () => {
   $('sheet').hidden = !ui.sheetOpen;
@@ -91,7 +92,8 @@ export const addQuery = () => {
 };
 
 export const bind = () => {
-  for (const id of ['fab', 'dock-add']) $(id).addEventListener('click', openSheet);
+  // At the first level of Listas the + creates a list (LVL-19); inside a list it adds an item.
+  for (const id of ['fab', 'dock-add']) $(id).addEventListener('click', () => (atTop() ? openListSheet() : openSheet()));
   $('veil').addEventListener('click', closeSheet);
   $('add-name').addEventListener('input', () => {
     setHelp('');

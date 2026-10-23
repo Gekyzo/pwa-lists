@@ -131,7 +131,7 @@ the bottom bar at each width.
 
 ## Sheets
 
-- **NAV-8** There are four sheets: add, arrange, edit (ROW-7) and aisles (AISLE-10).
+- **NAV-8** There are five sheets: add, arrange, list (LVL-19), edit (ROW-7) and aisles (AISLE-10).
   One is open at a time. A tap on the
   veil, **Listo** or `Escape` closes it. The `+` button, also the one of the dock, does not show
   while a sheet is open.

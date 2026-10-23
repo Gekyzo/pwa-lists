@@ -44,8 +44,8 @@ creates, such as `IKEA` or `Casa`. Each item is in one list (`item.list`). The f
   of the list, its item count, muted, and `›`. A tap on a row opens the list. The header shows the
   title `Listas` and the subtitle `N listas · M elementos`, or `Sin listas`. The first level has no
   search.
-- **LVL-12** A slide of a list row to the left shows **Eliminar**, with the measures of ROW-3 to
-  ROW-6. A slide to the right does nothing. A hold lifts the row for a move (MOVE-1), and the drop
+- **LVL-12** A slide of a list row to the left shows **Renombrar**, which opens the list sheet on
+  the list (LVL-19), and **Eliminar**, with the measures of ROW-3 to ROW-6. A slide to the right does nothing. A hold lifts the row for a move (MOVE-1), and the drop
   writes the order of LVL-7. **Eliminar** deletes the list and its items with no confirmation
   (PROD-9) and shows `Lista "name" eliminada.` with `Deshacer`, which puts the list and its items
   back in their places.
@@ -66,10 +66,19 @@ creates, such as `IKEA` or `Casa`. Each item is in one list (`item.list`). The f
 - **LVL-18** **Vista** of **Agrupar y ordenar** shows the first level as **Filas** (LVL-11) or
   **Tarjetas**: two columns of cards, each with the name of the list, its item count and the names
   of its first three items (LVL-9), muted, one line each with an ellipsis. A tap on a card opens
-  the list. Cards have no move. A change of view has no message and no `Deshacer`.
+  the list. A hold of a finger on a card (400 ms, MOVE-1) or a right click opens the list sheet on
+  the list (LVL-19); the menu of the browser does not open. Cards have no move. A change of view
+  has no message and no `Deshacer`.
 - **LVL-17** The add sheet of an open list adds the item to that list (LIST-3). Its suggestions
   and its check of a duplicate (ADD rules) take only the items of that list. The message of an add
   names the list: `"name" añadido a IKEA.`
+- **LVL-19** At the first level the `+` button and the button **+ Crear lista** of LVL-15 open the
+  list sheet to create a list: the title `Crear lista`, a field `Nombre de la lista` of 40
+  characters at most and **Crear**, disabled while the field has no text. **Crear** adds the list
+  (LVL-1 to LVL-3), closes the sheet and opens the new list. An error shows under the field and
+  the sheet stays open. The list sheet of a list has the name of the list as its title, the field
+  `Nombre de la lista`, saved as a field of `Editar` is (ROW-7), with `Guardado`, and **Eliminar**
+  in its foot, which deletes the list as LVL-12 does and closes the sheet.
 
 ## Removed: shops
 

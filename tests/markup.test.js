@@ -71,9 +71,10 @@ const sheetParts = () => {
   return opens.map((open, i) => ({ id: open[2] ?? null, part: body.slice(open.index, opens[i + 1]?.index ?? body.length) }));
 };
 
-test('each of the four sheets has the grab, then a head with its title and Listo, then a body', () => {
+test('each of the five sheets has the grab, then a head with its title and Listo, then a body', () => {
   const parts = sheetParts();
-  assert.equal(parts.length, 4);
+  assert.equal(parts.length, 5);
+  assert.deepEqual(parts.slice(2).map(({ id }) => id), ['list-form', 'edit-form', 'aisles-form']);
   for (const { id, part } of parts) {
     assert.match(
       part,
@@ -85,8 +86,8 @@ test('each of the four sheets has the grab, then a head with its title and Listo
 
 test('the edit sheet has a foot with Eliminar and Guardado; the other sheets have none', () => {
   const feet = sheetParts().filter(({ part }) => part.includes('sheet-foot')).map(({ id }) => id);
-  assert.deepEqual(feet, ['edit-form']);
-  for (const [id, prefix] of [['edit-form', 'edit']]) {
+  assert.deepEqual(feet, ['list-form', 'edit-form']);
+  for (const [id, prefix] of [['list-form', 'list'], ['edit-form', 'edit']]) {
     const { part } = sheetParts().find((sheet) => sheet.id === id);
     assert.match(
       part,
@@ -101,6 +102,7 @@ test('the sheets with a title of their own give it an id; the others a fixed tex
   assert.deepEqual(titles, [
     'id="add-title" ',
     ' data-i18n="arrange.label"',
+    'id="list-title" ',
     'id="edit-title" ',
     ' data-i18n="aisles.title"',
   ]);
@@ -198,4 +200,12 @@ test('the arrange sheet has the view of the first level, rows or cards, and grou
   assert.match(sheet, /<div id="arrange-view">\s*<h2 class="sheet-title" data-i18n="arrange.view"><\/h2>\s*<div class="segmented">\s*<button class="segment" type="button" data-view="rows" data-i18n="arrange.rows"><\/button>\s*<button class="segment" type="button" data-view="cards" data-i18n="arrange.cards"><\/button>/);
   const groups = [...sheet.matchAll(/data-group="([^"]+)"/g)].map(([, group]) => group);
   assert.deepEqual(groups, ['aisle', 'none']);
+});
+
+test('the list sheet has a name field to rename and a field with Crear to create, both of 40 characters', () => {
+  const [layer = ''] = body.match(/<div id="list-sheet" class="sheet-layer"[\s\S]*?<\/form>\s*<\/div>/) ?? [];
+  assert.match(layer, /<div id="list-veil" class="sheet-veil">/);
+  assert.match(layer, /<label id="list-rename" class="field"><input id="list-name"[^>]*maxlength="40"[^>]*><span class="field-label" data-i18n="lists.name"><\/span><\/label>/);
+  assert.match(layer, /<div id="list-create" class="input-row pinned">\s*<input id="list-new"[^>]*maxlength="40"[^>]*>\s*<button id="list-submit" class="button primary" type="submit" data-i18n="lists.submit" disabled><\/button>/);
+  assert.match(layer, /<p id="list-help" class="input-help danger" role="alert" hidden><\/p>/);
 });
