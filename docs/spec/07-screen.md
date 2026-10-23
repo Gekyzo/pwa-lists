@@ -102,7 +102,7 @@ the bottom bar at each width.
   vibrates for 10 ms. A row with its left side open closes it.
 - **ROW-12** Removed: the app has no recipe rows.
 - **ROW-13** Removed: a saved item has no row (LIST-35).
-- **ROW-14** The first time `Listas` shows a row, after 600 ms the body of its first row slides
+- **ROW-14** The first time an open list shows an item row, after 600 ms the body of its first row slides
   24 px to the left and back, so the user sees that a row slides. Then `lists.swipeHint` is
   `1` and the hint does not play again. With `prefers-reduced-motion` it does not play.
 

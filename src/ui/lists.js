@@ -40,13 +40,13 @@ const listRow = (list) => {
   const name = el('button', { type: 'button', className: 'item-row-name' }, [el('span', { className: 'item-row-label', textContent: list.name })]);
   const row = [
     name,
-    el('span', { className: 'list-row-end' }, [
-      el('span', { className: 'list-row-count', textContent: String(count) }),
+    el('span', { className: 'lists-row-end' }, [
+      el('span', { className: 'lists-row-count', textContent: String(count) }),
       el('span', { className: 'chevron', textContent: '›', ariaHidden: 'true' }),
     ]),
   ];
   const { box, body } = swipeBox({ id: list.id, row, end: [renameAction(list), deleteAction(list)], right: null, tap: () => openList(list.id) });
-  const node = el('li', { className: 'item-row list-row' }, [box]);
+  const node = el('li', { className: 'item-row lists-row' }, [box]);
   Object.assign(node.dataset, { id: list.id, kind: 'list', scope: 'lists' });
   bindReorder(body, node, list.id, null);
   return node;

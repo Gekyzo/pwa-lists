@@ -247,14 +247,14 @@
     margin-top: auto;
   }
 
-  /* @component list-row
+  /* @component lists-row
      @scope list
      @summary A list of the first level of Listas: an item row with the name of the list, its item
               count and a chevron. A tap opens the list.
-     @part list-row-end    The count and the chevron, at the end of the row.
-     @part list-row-count  The item count of the list, muted.
-     @example <ul class="item-list"><li class="item-row list-row"><div class="item-row-swipe"><div class="item-row-body tick"><button class="item-row-name" type="button"><span class="item-row-label">IKEA</span></button><span class="list-row-end"><span class="list-row-count">6</span><span class="chevron">›</span></span></div></div></li></ul> */
-  .list-row-end {
+     @part lists-row-end    The count and the chevron, at the end of the row.
+     @part lists-row-count  The item count of the list, muted.
+     @example <ul class="item-list"><li class="item-row lists-row"><div class="item-row-swipe"><div class="item-row-body tick"><button class="item-row-name" type="button"><span class="item-row-label">IKEA</span></button><span class="lists-row-end"><span class="lists-row-count">6</span><span class="chevron">›</span></span></div></div></li></ul> */
+  .lists-row-end {
     display: flex;
     flex: none;
     align-items: center;
@@ -263,7 +263,7 @@
     color: var(--muted);
   }
 
-  .list-row-count {
+  .lists-row-count {
     font-size: var(--text-s);
   }
 

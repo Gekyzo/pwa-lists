@@ -85,7 +85,7 @@ export const renderList = () => {
   $('items').hidden = ui.view === 'settings';
   $('items').classList.toggle('list-cards', atTop() && state.view === 'cards');
   $('items').replaceChildren(...nodes);
-  if (ui.view === 'active') hintSwipe();
+  if (inList()) hintSwipe();
   renderEmpty(ui.view !== 'settings' && nodes.length === 0);
 };
 

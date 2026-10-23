@@ -34,7 +34,7 @@ for (const rule of RULES) test(rule.title, { skip: SKIP[rule.id] ?? false }, () 
 
 test('the parts of the app are documented in styles.css (DSV-3)', () => {
   const names = parseCatalog({ css: read('styles.css'), sprite: files.sprite }).components.map((part) => part.name);
-  for (const name of ['list-row', 'search', 'hint']) assert.ok(names.includes(name), name);
+  for (const name of ['lists-row', 'search', 'hint']) assert.ok(names.includes(name), name);
 });
 
 test('the design test reads the classes of the item rows, states included', () => {
@@ -46,4 +46,14 @@ test('styles.css leaves the rail to the design system (LAY-2)', () => {
   const app = read('styles.css');
   assert.doesNotMatch(app, /\.nav-bar\s*[{,]/);
   assert.doesNotMatch(app, /@extends nav-bar/);
+});
+
+test('the rows of the first level do not take list-row, the row of a list group of the design system', () => {
+  const classes = classesInScript(read('src/ui/lists.js'));
+  assert.equal(classes.includes('list-row'), false);
+  assert.ok(classes.includes('lists-row'));
+});
+
+test('the slide hint of ROW-14 plays only inside a list, on an item row, not on a list row', () => {
+  assert.match(read('src/ui/list.js'), /if \(inList\(\)\) hintSwipe\(\);/);
 });
