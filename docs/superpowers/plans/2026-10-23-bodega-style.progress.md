@@ -28,7 +28,7 @@ the 🎯 indicators (terminal status bar, tab ring, overlord tile) draw from thi
 
 | # | Task | Status | Commit (subject) | Landed | Notes |
 |---|---|---|---|---|---|
-| 1 | Green main action | ☐ |  |  |  |
+| 1 | Green main action | ☑ |  | 2026-10-23 |  |
 | 2 | Header with no ring | ☐ |  |  |  |
 | 3 | Bottom bar and sheet heads | ☐ |  |  |  |
 | 4 | No corner basket | ☐ |  |  |  |

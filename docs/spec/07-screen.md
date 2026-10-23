@@ -207,8 +207,9 @@ the bottom bar at each width.
   | 3 | `Varias listas` | The shops of an item in **Editar** (SHOP-8), and the list by shop that they give (SHOP-16) |
 
 - **ONB-2** A page has a drawing, a title and a text. A drawing has no text and does not move.
+  A drawing is in the main action colour (`--primary`), its ticked boxes too.
   A line break in the text of a catalog starts a new line. A text between two backticks, such as
-  `←` or `+`, names a control and shows as a key: its icon and its text in bold accent colour, with no border, box or monospace font.
+  `←` or `+`, names a control and shows as a key: its icon and its text in bold, in the colour of the text, with no border, box or monospace font.
   A key that starts with `#name` shows the icon `name` of `icons.svg`, then the rest of its text.
   A key with an icon and no text has the label `onboarding.icon.<name>`.
   The app icon shows on page 1 only, above the drawing and inside the page group, 96 px wide, with

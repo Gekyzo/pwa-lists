@@ -9,6 +9,7 @@ no change for the user has no entry.
 
 ## Unreleased
 
+- The main action colour is the green of Bodega: the `+`, the main buttons and **Atrás**. The drawings of the introduction take the same colour; a control named in its texts is in the colour of the text.
 - Stash speaks of lists of things, not of a shopping list. The app is `Stash - Listas`; the main section is `Listas`, with the header `Mis listas`. A shop is a `Lista`, an item is an `elemento`, and a tick says `"name" hecho.` The six other languages say the same.
 - `Secciones de la tienda` has no **Usar secciones habituales**: the sections are written by hand.
 - The look of design system 0.7.1: the Geist font, the stone ground, smaller corners, heads in the colour of the text, and the names of the fields of a sheet above their boxes.
