@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { SECTIONS, SHORTCUTS, direction, dockShown, emptyAction, fabState, slideDirection, slideTo, shortcutStart } from '#sections';
+import { SECTIONS, SHORTCUTS, direction, dockShown, emptyAction, fabState, slideDirection, slideTo, slidesBack, shortcutStart } from '#sections';
 
 test('SECTIONS has the order of the bottom bar', () => {
   assert.deepEqual(SECTIONS, ['active', 'settings']);
@@ -164,4 +164,16 @@ test('dockShown hides the dock at the first level of Listas', () => {
 
 test('dockShown hides the dock in Ajustes', () => {
   assert.equal(dockShown({ view: 'settings', inList: true, count: 3 }), false);
+});
+
+test('slidesBack is true for a slide to the right inside a list', () => {
+  assert.equal(slidesBack(true, 80, 0), true);
+  assert.equal(slidesBack(true, 60, 30), true);
+});
+
+test('slidesBack is false at the first level, for a slide to the left, and for a short or a vertical slide', () => {
+  assert.equal(slidesBack(false, 80, 0), false);
+  assert.equal(slidesBack(true, -80, 0), false);
+  assert.equal(slidesBack(true, 59, 0), false);
+  assert.equal(slidesBack(true, 80, 41), false);
 });

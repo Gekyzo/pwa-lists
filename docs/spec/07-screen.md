@@ -26,7 +26,8 @@ the bottom bar at each width.
   edit and closes the search of a list (LIST-24). `Listas` then shows its first level (LVL-16).
 - **NAV-3** A horizontal slide changes the section: to the left for the next one, to the right for
   the previous one. The slide is 60 px long at least and its horizontal part is two times its
-  vertical part at least. It stops at `Listas` and at `Ajustes`.
+  vertical part at least. It stops at `Listas` and at `Ajustes`. Inside a list, a slide to the
+  right goes back to the first level instead (LVL-22).
 - **NAV-4** The slide starts on the header or on the content, but not on an item row, not on the
   dock (LVL-14) and not on a text field. It does nothing while a sheet is open, a row is lifted or the walkthrough is open
   (ONB-10).

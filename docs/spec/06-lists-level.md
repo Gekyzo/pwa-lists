@@ -54,6 +54,10 @@ creates, such as `IKEA` or `Casa`. Each item is in one list (`item.list`). The f
   and `Escape` or the back of the phone after the other layers (NAV-25), go back to the first
   level. A list that goes while it is open, by a delete, an undo or an import, shows the first
   level.
+- **LVL-22** Inside a list a slide to the right, with the measures and the start of NAV-3 and
+  NAV-4, goes back to the first level, as the back button does. The first level comes in from the
+  left (NAV-5). A slide to the left still goes to `Ajustes`. A slide on an item row keeps its own
+  actions (ROW-3, ROW-11).
 - **LVL-14** Below 600px wide a dock stands above the bottom bar while an open list has an item:
   the search button, then the `+` button at its end. While the search is open, the dock holds the
   search field, **Cancelar** and the `+` button. The header has no search button while the dock

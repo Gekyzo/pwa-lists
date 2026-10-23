@@ -1,7 +1,8 @@
-import { direction, slideTo } from '#sections';
+import { direction, slideTo, slidesBack } from '#sections';
 import { sheetOpen } from '#layers';
 import { $, scroller, ui, render, guardClick } from '#ui/context';
 import { reorder } from '#ui/drag';
+import { closeList } from '#ui/lists';
 import { checkVersion } from '#ui/settings';
 
 // Lets the content of the new section come in from the side that it is on in the bottom bar.
@@ -43,8 +44,15 @@ export const bind = () => {
   });
   document.addEventListener('pointerup', (event) => {
     if (sectionSlide?.pointerId !== event.pointerId) return;
-    const view = slideTo(ui.view, event.clientX - sectionSlide.x, event.clientY - sectionSlide.y);
+    const [dx, dy] = [event.clientX - sectionSlide.x, event.clientY - sectionSlide.y];
     sectionSlide = null;
+    if (slidesBack(ui.view === 'active' && ui.list !== null, dx, dy)) {
+      guardClick();
+      closeList();
+      enter(-1);
+      return;
+    }
+    const view = slideTo(ui.view, dx, dy);
     if (!view) return;
     // The click that follows a slide must not press the button below the finger.
     guardClick();

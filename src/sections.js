@@ -21,6 +21,10 @@ export const slideTo = (view, dx, dy, sections = SECTIONS) => {
   return sections[index + way] ?? null;
 };
 
+// A slide to the right inside an open list goes back to the first level of Listas, before any
+// change of section (LVL-22).
+export const slidesBack = (inList, dx, dy) => inList && slideDirection(dx, dy) === -1;
+
 // The scroll down after which the add button collapses.
 const FAB_COLLAPSE = 24;
 
