@@ -9,6 +9,10 @@ no change for the user has no entry.
 
 ## Unreleased
 
+No change.
+
+## 1.0.1 - 2026-10-24
+
 - `Listas` opens on the lists that you create: a row for each list, with its item count. A tap opens a list, `‹` or the back of the phone goes back. An item lives in one list, and two lists can hold the same name. The shops of an item, the row of shop lists and the shop picker of the dock are gone: at the first start each shop becomes a list, and the items with no shop go to `General`.
 - `+` at the first level creates a list and opens it. A slide of a list to the left shows **Renombrar** and **Eliminar**; **Eliminar** deletes the list with its items and has `Deshacer`. A hold moves the list. On a card, a hold opens the sheet of the list, with its name and **Eliminar**.
 - **Editar** has the part **Lista**: a tap on another list moves the item there.
