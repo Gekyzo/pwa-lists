@@ -1,8 +1,8 @@
 import * as store from '#store';
-import * as shops from '#shops';
+import * as lists from '#lists';
 import { suggestionRows } from '#suggest';
-import { $, el, state, ui, t, say, showToast, apply, render } from '#ui/context';
-import { inList, endSearch } from '#ui/view';
+import { $, el, state, ui, t, showToast, apply, render } from '#ui/context';
+import { viewState, endSearch } from '#ui/view';
 
 export const renderSheet = () => {
   $('sheet').hidden = !ui.sheetOpen;
@@ -17,7 +17,7 @@ export const renderSheet = () => {
   $('add-submit').disabled = !text;
   // The array runs from the best row to the worst; the list shows it upside down, so that the
   // first row sits next to the input.
-  const rows = suggestionRows(state, text).map((row) => el('li', {}, [
+  const rows = suggestionRows(viewState(), text).map((row) => el('li', {}, [
     row.kind === 'create'
       ? el('button', { type: 'button', className: 'list-row accent', textContent: t('add.createNamed', { name: text }), onclick: submitAdd })
       : el('button', { type: 'button', className: 'list-row', onclick: () => useExisting(row.item) }, [
@@ -49,31 +49,17 @@ export const closeSheet = () => {
   render();
 };
 
-// The shop that an add from the sheet puts on its item: the shop list in view, if any.
-const pickedShop = () => (inList() ? ui.shop : null);
-
-// An item that exists already is in Compra: an add of its name creates no duplicate. From a shop
-// list the item gets the shop, which is the only change.
+// An item of the name is in the list already: an add creates no duplicate, and nothing changes. The
+// text stays, and the help under the input says why. With no sheet, a toast.
 const useExisting = (item) => {
-  const result = shops.withShop({ state }, item.id, pickedShop());
-  if (result.state === state) {
-    // Nothing changed: the text stays, and the help under the input says why. With no sheet, a toast.
-    if (!ui.sheetOpen) showToast(t('add.duplicate', { name: item.name }));
-    else setHelp(t('add.duplicate', { name: item.name }));
-    $('add-name').focus();
-    return;
-  }
-  $('add-name').value = '';
-  setHelp('');
-  ui.flashId = item.id;
-  endSearch();
-  apply(result, { undoText: say('toast.existsNowIn', { name: item.name, list: 'active' }) });
+  if (!ui.sheetOpen) showToast(t('add.duplicate', { name: item.name }));
+  else setHelp(t('add.duplicate', { name: item.name }));
   $('add-name').focus();
 };
 
 const submitAdd = () => {
   const input = $('add-name');
-  const existing = store.findByName(state, input.value);
+  const existing = store.findByName(viewState(), input.value);
   if (existing) {
     useExisting(existing);
     return;
@@ -86,20 +72,20 @@ const submitAdd = () => {
   input.focus();
 };
 
-// Adds a name that is not in the list, with the toast of the add. True when it was added.
+// Adds a name that is not in the list in view, with the toast of the add. True when it was added.
 const addNew = (text) => {
   const name = text.trim();
-  const added = store.addItem(state, text);
-  const result = added.error ? added : shops.withShop(added, added.state.items.at(-1).id, pickedShop());
+  const list = lists.findList(state, ui.list)?.name ?? '';
+  const result = store.addItem(state, ui.list, text);
   if (!result.error) endSearch();
   if (!apply(result)) return false;
-  showToast(say('toast.addedTo', { name, list: 'active' }));
+  showToast(t('toast.addedTo', { name, list }));
   return true;
 };
 
 // The action of the empty state of a search with no match: adds the searched name, and the search ends.
 export const addQuery = () => {
-  const existing = store.findByName(state, ui.query);
+  const existing = store.findByName(viewState(), ui.query);
   if (existing) useExisting(existing);
   else addNew(ui.query);
 };

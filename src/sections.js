@@ -49,15 +49,17 @@ export const shortcutStart = (name) => {
   return name === 'add' ? { view: 'active', add: true } : { view: name, add: false };
 };
 
-// True while the dock shows below 600px (it carries the add button): in Listas with an item.
-export const dockShown = ({ view, activeCount }) => view === 'active' && activeCount > 0;
+// True while the dock shows below 600px (it carries the add button): inside a list with an item.
+export const dockShown = ({ view, inList, count }) => view === 'active' && inList && count > 0;
 
 // What an empty section says and offers. `title` and `text` are keys of the catalog, `title` null for
-// a search with no match. `action` is the next step as a button: `add-query` or `add-item`; null
-// when nothing is. `query` is the search text.
-export const emptyAction = (view, { query }) => {
+// a search with no match. `action` is the next step as a button: `add-query`, `add-item` or
+// `create-list`; null when nothing is. `query` is the search text, `level` is `top` for the first
+// level of Listas and `list` for the inside of a list.
+export const emptyAction = (view, { query, level }) => {
   const none = { title: null, text: null, action: null };
   if (view !== 'active') return none;
+  if (level === 'top') return { title: 'empty.listsTitle', text: 'empty.lists', action: 'create-list' };
   if (query.trim() !== '') return { ...none, text: 'empty.noItemMatch', action: 'add-query' };
   return { title: 'empty.activeTitle', text: 'empty.active', action: 'add-item' };
 };

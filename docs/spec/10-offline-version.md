@@ -15,7 +15,7 @@ Rules of `sw.js`, `src/version.js`, `version.json`, `scripts/bump-version.mjs`,
   never a mix of two deploys. It then takes control at once (`skipWaiting`, `clients.claim`).
 - **SW-4** At its activation the worker deletes each cache whose name starts with `lists-`
   and is not the current one or `lists-manifest` (SW-13). The cache name is
-  `lists-shell-v3`. A cache of another app of the same origin stays, such as those of Bodega
+  `lists-shell-v4`. A cache of another app of the same origin stays, such as those of Bodega
   (`shopping-`).
 - **SW-5** The worker answers only `GET` requests of its own origin.
 - **SW-6** A request is answered stale-while-revalidate: the cached copy at once, and a fresh copy

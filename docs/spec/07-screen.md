@@ -5,7 +5,7 @@ Rules of `index.html`, `styles.css`, `src/app.js`, `src/ui/`, `src/swipe.js` and
 ## Layout
 
 From top to bottom: the header (title, subtitle, search button, arrange button), the content of the section, the `+` button above the bottom bar, and the bottom bar.
-Below 600px wide the dock of `Listas` stands above the bottom bar (SHOP-26) and holds the `+`
+Below 600px wide the dock of a list stands above the bottom bar (LVL-14) and holds the `+`
 button at its end, and no `+` button floats over the list. The header has no search button while
 the dock shows. The title keeps one line, with an
 ellipsis. The message shows below the top
@@ -23,12 +23,12 @@ the bottom bar at each width.
   `Listas`, a gear for `Ajustes` (Lucide `list-checks` and `settings`). Its name is also the name
   of its button for a screen reader.
 - **NAV-2** A tap on the bottom bar changes the section. A change closes each open row, ends an
-  edit and closes the search of a list (LIST-24).
+  edit and closes the search of a list (LIST-24). `Listas` then shows its first level (LVL-16).
 - **NAV-3** A horizontal slide changes the section: to the left for the next one, to the right for
   the previous one. The slide is 60 px long at least and its horizontal part is two times its
   vertical part at least. It stops at `Listas` and at `Ajustes`.
 - **NAV-4** The slide starts on the header or on the content, but not on an item row, not on the
-  row of shop lists (SHOP-17), not on the dock (SHOP-26) and not on a text field. It does nothing while a sheet is open, a row is lifted or the walkthrough is open
+  dock (LVL-14) and not on a text field. It does nothing while a sheet is open, a row is lifted or the walkthrough is open
   (ONB-10).
 - **NAV-5** The content of the new section comes in from its side of the bottom bar, after a slide
   and after a tap.
@@ -44,7 +44,7 @@ the bottom bar at each width.
   with its title, while the install is not offered (INS-1). The version line is at the end of
   `Ajustes`; while a newer version is deployed, a banner above it says `Versión X disponible` and
   `Tienes la Y.` (the version in use), with the button **Actualizar** across the full width.
-- **NAV-7** An empty `Listas` has the title `Aún no hay elementos`, the text `Apunta lo que
+- **NAV-7** An empty list has the title `Aún no hay elementos`, the text `Apunta lo que
   tienes pendiente y márcalo cuando esté hecho.` and the button **+ Añadir elemento**, which opens
   the add sheet. The title and the text stand in the middle of the room above the button, and the
   button at the bottom, in reach of the thumb. A search with no match says
@@ -57,8 +57,7 @@ the bottom bar at each width.
 ## Item rows
 
 - **ROW-1** A row of `Listas` has a check mark, the name with its quantity after it in a muted
-  colour, a line below it with the shops (SHOP-7) when the list is not by shop (GROUP-14), and an
-  edit button **Editar** at its end. The name keeps two lines, then ends with an ellipsis. A tap on
+  colour, and an edit button **Editar** at its end. The name keeps two lines, then ends with an ellipsis. A tap on
   the body of the row ticks the item (LIST-11); the check mark shows the tick while the row closes. A
   tap on the edit button opens the edit sheet (ROW-7) and does not tick. With **Izquierda**
   (NAV-12) the edit button is at the start of the row and the check mark at its end. For the
@@ -80,7 +79,7 @@ the bottom bar at each width.
   does its own work. A tap on the body of the open row only closes it. An action closes the row,
   then runs.
 - **ROW-7** The edit sheet `Editar` has the field **Nombre**, 80 characters at most, the field
-  **Cantidad**, 20 characters at most (LIST-27), then the titled part **Listas** (SHOP-8 to SHOP-15). The name of
+  **Cantidad**, 20 characters at most (LIST-27), then the titled part **Sección** (AISLE-16). The name of
   a field shows inside it while it is empty, and moves onto its top border when it has a value or
   the focus. `Enter` or a
   loss of focus saves a field (LIST-5); an error shows its message and the field shows the old
@@ -120,19 +119,19 @@ the bottom bar at each width.
 
   | Area | Changes |
   |---|---|
-  | Items | Tick, by a tap on the row (ROW-1) or by a slide (ROW-11), delete, the shop that the add sheet puts on an existing item (SHOP-24), a manual move |
+  | Items | Tick, by a tap on the row (ROW-1) or by a slide (ROW-11), delete, a manual move |
+  | Lists | Delete (LVL-12), a manual move |
   | Backup | Import |
 
 - **MSG-6** These changes have no `Deshacer`: a new item, a rename,
-  the shops, the order and the grouping.
+  the order and the grouping.
 - **MSG-7** A rejected operation shows the text of its error and changes nothing.
 - **MSG-8** When a save fails, the change stays on the screen and the message is `El cambio no se
   ha guardado: el almacenamiento no está disponible.` (STORE-9).
 
 ## Sheets
 
-- **NAV-8** There are five sheets: add, arrange (with the choice of shop lists, SHOP-25), shop
-  picker (SHOP-27), edit (ROW-7) and aisles (AISLE-10).
+- **NAV-8** There are four sheets: add, arrange, edit (ROW-7) and aisles (AISLE-10).
   One is open at a time. A tap on the
   veil, **Listo** or `Escape` closes it. The `+` button, also the one of the dock, does not show
   while a sheet is open.
@@ -140,7 +139,7 @@ the bottom bar at each width.
   title of the edit sheet is the name of the item, of the add sheet `Añadir elemento a la lista`.
   Only the body below the head scrolls. The edit sheet has a foot: **Eliminar** deletes the item
   with `Deshacer` (the message of a delete from the row) and closes the sheet; `Guardado` shows for
-  1.2 s after each save that changed the item (a field, a shop, the aisle), and not after a loss of focus with no change or an error. A closed sheet shows no
+  1.2 s after each save that changed the item (a field, the aisle), and not after a loss of focus with no change or an error. A closed sheet shows no
   `Guardado`.
 - **NAV-23** A drag down of the grab or the head of a sheet closes it when the drag passes 30 % of
   the height of the sheet, or when the release is faster than 0.5 px/ms. A shorter, slower drag
@@ -153,7 +152,8 @@ the bottom bar at each width.
   again on any scroll up and at the top of the list (`fabState`). Below 600px the `+` is the last
   button of the dock, with no collapse; it floats as from 600px only while the dock does not show.
 - **NAV-25** `Escape` and the back of the phone close one layer, the top one first: an open sheet,
-  then an open row, then the search of a list (`closeTop`). While a layer is open, one entry of the
+  then an open row, then the search of a list, then the open list, back to the first level
+  (`closeTop`, LVL-13). While a layer is open, one entry of the
   history stands for it, so the back closes the layer and not the app. A layer closed in another
   way takes its entry away, so the next back goes back as the browser does. A start from a
   shortcut or an arrival takes its query out of the address before it opens anything.
@@ -170,7 +170,7 @@ the bottom bar at each width.
   |---|---|---|
   | `+` button | Dock, at its end; from 600px bottom right | Dock, at its start; from 600px bottom left |
   | Rail, from 600px wide (DSV-8) | Right | Left |
-  | Dock, below 600px wide (SHOP-26) | Search, then `+`, at the right | `+`, then search, at the left |
+  | Dock, below 600px wide (LVL-14) | Search, then `+`, at the right | `+`, then search, at the left |
   | Header | Text, buttons | Buttons, text |
   | Row | Checkbox at the left, other controls at the right | Checkbox at the right, other controls at the left |
   | Walkthrough bar | **Saltar**, **Siguiente** | **Siguiente**, **Saltar** |

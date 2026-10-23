@@ -17,7 +17,8 @@ export const showView = (view) => {
   const way = direction(ui.view, view);
   // A change of section closes the search of the list, so the field gives up the focus.
   $('query').blur();
-  Object.assign(ui, { view, openId: null, query: '', searchOpen: false, shopPickOpen: false });
+  // Listas opens at its first level (NAV-2).
+  Object.assign(ui, { view, list: null, openId: null, query: '', searchOpen: false });
   render();
   enter(way);
   if (ui.view === 'settings') checkVersion();
@@ -37,7 +38,7 @@ export const bind = () => {
   document.addEventListener('pointerdown', (event) => {
     sectionSlide = null;
     if (!event.isPrimary || event.button !== 0 || reorder || sheetOpen(ui)) return;
-    if (!event.target.closest('.app-header, main') || event.target.closest('.item-row-swipe, .shop-lists, .dock, input, textarea')) return;
+    if (!event.target.closest('.app-header, main') || event.target.closest('.item-row-swipe, .dock, input, textarea')) return;
     sectionSlide = { pointerId: event.pointerId, x: event.clientX, y: event.clientY };
   });
   document.addEventListener('pointerup', (event) => {

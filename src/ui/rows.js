@@ -2,22 +2,16 @@ import * as store from '#store';
 import { reached, settle } from '#swipe';
 import { loadSwipeHint, saveSwipeHint } from '#storage';
 import { SIDE_BUTTON, DRAG_START, HINT_WAIT_MS, HINT_SHIFT, el, storage, state, ui, t, apply, render, guardClick } from '#ui/context';
-import { isOpen, searching, shownGroup, viewState } from '#ui/view';
+import { isOpen, searching } from '#ui/view';
 import { leave, collapse, expand } from '#ui/motion';
 import { icon, iconButton } from '#ui/controls';
 import { openEdit } from '#ui/edit';
 import { reorder, bindReorder } from '#ui/drag';
 
-// The name of a row, with its quantity after it, and below it the shops of the item when the list
-// is not by shop.
+// The name of a row, with its quantity after it.
 const nameParts = (item) => {
   const quantity = item.quantity ? [' ', el('span', { className: 'item-row-qty', textContent: item.quantity })] : [];
-  const parts = [el('span', { className: 'item-row-label' }, [item.name, ...quantity])];
-  const meta = [
-    ...(item.shops.length && shownGroup() !== 'shop' ? [item.shops.join(' · ')] : []),
-  ];
-  if (meta.length) parts.push(el('small', { className: 'item-row-meta', textContent: meta.join(' · ') }));
-  return parts;
+  return [el('span', { className: 'item-row-label' }, [item.name, ...quantity])];
 };
 
 const editAction = (item) => iconButton('edit', t('row.edit'), () => openEdit(item), { variant: 'neutral', labelled: true });
@@ -56,8 +50,6 @@ const itemRow = (item) => {
     name.setAttribute('aria-checked', 'true');
     // A tick deletes the item, so a wrong tap needs an undo (LIST-13).
     leave(item, () => {
-      // The last item of the shop list in view keeps the list in view, with its end card.
-      if (ui.shop !== null && viewState().items.length === 1) ui.doneShop = ui.shop;
       apply(store.tickItem(state, item.id), { undoText: t('toast.bought', { name: item.name }) });
     });
   };
@@ -189,7 +181,7 @@ const tapBody = (event, opened, tap) => {
 // The box of a row that slides: the action of the slide to the right below it, the side actions
 // (`end`) behind its right end, and the body with `row`. `right` is { run, icon } or null. `tap`,
 // when given, makes the whole body the tick target.
-const swipeBox = ({ id, groupId = null, row, end, right, tap = null }) => {
+export const swipeBox = ({ id, groupId = null, row, end, right, tap = null }) => {
   const open = isOpen(id, groupId) ? ui.openSide : null;
   const widths = { start: 0, end: end.length * SIDE_BUTTON };
   const body = el('div', { className: tap ? 'item-row-body tick' : 'item-row-body' }, row);
@@ -223,7 +215,7 @@ export const itemNode = (item, groupId = null) => {
   node.dataset.id = item.id;
   // The rows that a row can move among: its group, or the rows of a flat list.
   node.dataset.scope = groupId ?? 'rest';
-  bindReorder(body, node, item, groupId);
+  bindReorder(body, node, item.id, groupId);
   return node;
 };
 

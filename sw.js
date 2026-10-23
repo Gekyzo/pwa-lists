@@ -1,4 +1,4 @@
-const CACHE = 'lists-shell-v3';
+const CACHE = 'lists-shell-v4';
 
 const SHELL = [
   './',
@@ -12,6 +12,7 @@ const SHELL = [
   './src/app.js',
   './src/install.js',
   './src/ui/install.js',
+  './src/ui/lists.js',
   './src/ui/add.js',
   './src/ui/arrange.js',
   './src/ui/context.js',
@@ -27,7 +28,6 @@ const SHELL = [
   './src/ui/aisles.js',
   './src/ui/view.js',
   './src/store.js',
-  './src/shops.js',
   './src/lists.js',
   './src/aisles.js',
   './src/swipe.js',

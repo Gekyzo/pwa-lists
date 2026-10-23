@@ -1,4 +1,5 @@
 import * as store from '#store';
+import * as lists from '#lists';
 import { dropIndex, moveTo, shifts } from '#reorder';
 import { HOLD_MS, EDGE, EDGE_STEP, DRAG_START, scroller, state, ui, t, apply, guardClick } from '#ui/context';
 import { searching, isOpen } from '#ui/view';
@@ -82,13 +83,18 @@ export const endReorder = (keep) => {
   });
   if (!moved) return;
   const ids = moveTo(rows.map((row) => row.dataset.id), from, to);
+  // A list row moves among the lists of the first level, an item row among the items of its scope.
+  const list = node.dataset.kind === 'list';
   // A move in the name order changes the order to the custom one.
-  const undoText = t(state.sort === 'name' ? 'toast.orderCustom' : 'toast.order');
-  if (apply(store.reorderItems(state, ids), { undoText })) slide(before);
+  const sort = list ? state.listSort : state.sort;
+  const undoText = t(sort === 'name' ? 'toast.orderCustom' : 'toast.order');
+  const result = list ? lists.reorderLists(state, ids) : store.reorderItems(state, ids);
+  if (apply(result, { undoText })) slide(before);
 };
 
 // Lets a hold of a finger, or a vertical drag of the mouse, lift the row and move it in its scope.
-export const bindReorder = (rowNode, node, item, groupId) => {
+// `id` is the id of the item or the list of the row.
+export const bindReorder = (rowNode, node, id, groupId) => {
   let pending = null;
   // True after a hold of the finger: the click of its release must not tick the item.
   let held = false;
@@ -106,7 +112,7 @@ export const bindReorder = (rowNode, node, item, groupId) => {
     held = false;
     // The rows that a search hides have no place on the screen, so a search stops the move.
     if (event.button !== 0 || reorder || !node.dataset.scope || searching()) return;
-    if (isOpen(item.id, groupId)) return;
+    if (isOpen(id, groupId)) return;
     const mouse = event.pointerType === 'mouse';
     const { pointerId, clientX: x, clientY: y } = event;
     const timer = mouse

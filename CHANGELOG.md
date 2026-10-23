@@ -9,6 +9,8 @@ no change for the user has no entry.
 
 ## Unreleased
 
+- `Listas` opens on the lists that you create: a row for each list, with its item count. A tap opens a list, `‹` or the back of the phone goes back. An item lives in one list, and two lists can hold the same name. The shops of an item, the row of shop lists and the shop picker of the dock are gone: at the first start each shop becomes a list, and the items with no shop go to `General`.
+- A slide of a list to the left shows **Eliminar**, which deletes the list with its items and has `Deshacer`. A hold moves the list.
 - An empty `Listas` shows the title `Aún no hay elementos`, a line of help and the button **+ Añadir elemento** at the bottom, as the empty sections of Bodega.
 - The sections of `Secciones de las listas` are rows across the sheet, as the rows of a list; the moves that can not go further fade. The choice of `Agrupar por` is as wide as each button that shows.
 - The groups of `Ajustes` run across the full width, with no cards. `Siguiente` and `Ver todas las listas` at the end of a list are tonal buttons.

@@ -99,7 +99,7 @@ test('SHORTCUTS has each shortcut of the manifest, in its order', () => {
   for (const name of SHORTCUTS) assert.ok(shortcutStart(name), name);
 });
 
-const NO_QUERY = { query: '' };
+const NO_QUERY = { query: '', level: 'list' };
 
 test('emptyAction of a list search with no match adds the searched name', () => {
   const result = emptyAction('active', { ...NO_QUERY, query: ' xyz ' });
@@ -112,6 +112,10 @@ test('emptyAction of a search that is only spaces is the empty list', () => {
 
 test('emptyAction of an empty list has a title, a text and the add button as its action', () => {
   assert.deepEqual(emptyAction('active', NO_QUERY), { title: 'empty.activeTitle', text: 'empty.active', action: 'add-item' });
+});
+
+test('emptyAction of the first level with no list offers to create one', () => {
+  assert.deepEqual(emptyAction('active', { query: '', level: 'top' }), { title: 'empty.listsTitle', text: 'empty.lists', action: 'create-list' });
 });
 
 test('emptyAction of a section with nothing to say is empty', () => {
@@ -149,11 +153,15 @@ test('SHORTCUTS are the add sheet and the sections with a list', () => {
   assert.deepEqual(SHORTCUTS, ['add', 'active']);
 });
 
-test('dockShown shows the dock in Listas with an item', () => {
-  assert.equal(dockShown({ view: 'active', activeCount: 3 }), true);
-  assert.equal(dockShown({ view: 'active', activeCount: 0 }), false);
+test('dockShown shows the dock inside a list with an item', () => {
+  assert.equal(dockShown({ view: 'active', inList: true, count: 3 }), true);
+  assert.equal(dockShown({ view: 'active', inList: true, count: 0 }), false);
+});
+
+test('dockShown hides the dock at the first level of Listas', () => {
+  assert.equal(dockShown({ view: 'active', inList: false, count: 3 }), false);
 });
 
 test('dockShown hides the dock in Ajustes', () => {
-  assert.equal(dockShown({ view: 'settings', activeCount: 3 }), false);
+  assert.equal(dockShown({ view: 'settings', inList: true, count: 3 }), false);
 });

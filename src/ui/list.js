@@ -1,25 +1,15 @@
 import * as store from '#store';
-import * as shops from '#shops';
+import * as lists from '#lists';
 import * as aisles from '#aisles';
 import { dockShown, emptyAction } from '#sections';
-import { $, el, state, ui, t, shopLists, render } from '#ui/context';
-import { inList, viewState, found, searching, shownGroup, endSearch } from '#ui/view';
+import { $, state, ui, t, render } from '#ui/context';
+import { inList, atTop, viewState, found, shownGroup, endSearch } from '#ui/view';
 import { itemNode, groupHead, groupNodes, hintSwipe } from '#ui/rows';
 import { addQuery, openSheet } from '#ui/add';
+import { listNodes } from '#ui/lists';
 
 // The count of the full group, also while a search shows a part of it (LIST-23).
 const groupCount = ({ total }) => String(total);
-
-// The rows of the list below the shop of each item. A row of a shop has the group id `shop:<name>`.
-const shopNodes = () => {
-  const { groups, rest } = store.filterGroups(shops.shopGroups(viewState()), ui.query);
-  const grouped = groups.flatMap((group) => {
-    const key = `shop:${group.shop}`;
-    return [groupHead(group.shop, groupCount(group), key), ...groupNodes(key, group.items.map((item) => itemNode(item, key)))];
-  });
-  const others = rest.length ? [groupHead(t('group.noShop'), String(rest.length), 'noShop'), ...groupNodes('noShop', rest.map((item) => itemNode(item)))] : [];
-  return [...grouped, ...others];
-};
 
 // The rows of the list below the aisle of each item, in the order of the walk. A row of an aisle
 // has the group id `aisle:<name>`, so that it moves only inside its aisle.
@@ -33,23 +23,27 @@ const aisleNodes = () => {
   return [...grouped, ...others];
 };
 
-// The items of Compra: below the shop of each one, below the aisle of each one, or flat.
-const listNodes = () => {
-  const group = shownGroup();
-  if (group === 'shop') return shopNodes();
-  if (group === 'aisle') return aisleNodes();
+// The items of the list in view: below the aisle of each one, or flat.
+const itemNodes = () => {
+  if (shownGroup() === 'aisle') return aisleNodes();
   return store.activeItems(viewState()).filter(found).map((item) => itemNode(item));
 };
 
-// The header of Compra counts the items of the list in view.
-export const headerOf = (count) => {
+// The header of Listas: at the first level the count of the lists and of their items, inside a list
+// its name and the count of its items.
+export const headerOf = () => {
   if (ui.view === 'settings') return { title: t('nav.settings'), subtitle: t('header.settingsSubtitle') };
-  const subtitle = count ? t('count.items', { count }) : t('header.empty');
-  return { title: t('header.today'), subtitle };
+  if (inList()) {
+    const count = viewState().items.length;
+    return { title: lists.findList(state, ui.list)?.name ?? '', subtitle: count ? t('count.items', { count }) : t('header.empty') };
+  }
+  const count = state.lists.length;
+  if (!count) return { title: t('list.active'), subtitle: t('header.noLists') };
+  return { title: t('list.active'), subtitle: `${t('count.lists', { count })} · ${t('count.items', { count: state.items.length })}` };
 };
 
 // The button text of each action of an empty section.
-const ACTION_KEYS = { 'add-query': 'empty.addQuery', 'add-item': 'empty.addItem' };
+const ACTION_KEYS = { 'add-query': 'empty.addQuery', 'add-item': 'empty.addItem', 'create-list': 'empty.createList' };
 
 let emptyRun = null;
 
@@ -57,7 +51,7 @@ let emptyRun = null;
 // button of the screen is the action, and the button of the state stays hidden.
 const renderEmpty = (shown) => {
   $('empty').hidden = !shown;
-  const { title, text, action } = emptyAction(ui.view, { query: ui.query });
+  const { title, text, action } = emptyAction(ui.view, { query: ui.query, level: atTop() ? 'top' : 'list' });
   const params = { query: ui.query.trim() };
   $('empty-title').hidden = !title;
   $('empty-title').textContent = title ? t(title) : '';
@@ -84,61 +78,14 @@ const renderSearch = (items) => {
   if ($('query').value !== ui.query) $('query').value = ui.query;
 };
 
-// A shop list of Compra with no item, while other items are still to buy, points to the next shop
-// list (SHOP-23). True when the card shows.
-const renderShopDone = () => {
-  const shop = ui.shop;
-  const done = ui.view === 'active' && shop !== null && !searching() && state.items.length > 0 &&
-    viewState().items.length === 0;
-  $('shop-done').hidden = !done;
-  if (!done) return false;
-  const next = shops.nextShop(state, shop);
-  $('shop-done-text').textContent = t('shops.done', { shop: shopLabel(shop) });
-  $('shop-done-next').hidden = next === null;
-  if (next) $('shop-done-next').textContent = t('shops.next', { shop: shopLabel(next.shop), count: next.count });
-  $('shop-done-next').onclick = () => {
-    ui.shop = next.shop;
-    render();
-  };
-  $('shop-done-all').onclick = () => {
-    ui.shop = null;
-    render();
-  };
-  return true;
-};
-
 export const renderList = () => {
-  const items = ui.view === 'active' ? store.activeItems(viewState()) : [];
+  const items = inList() ? store.activeItems(viewState()) : [];
   renderSearch(items);
-  const nodes = ui.view === 'settings' ? [] : listNodes();
+  const nodes = atTop() ? listNodes() : inList() ? itemNodes() : [];
   $('items').hidden = ui.view === 'settings';
   $('items').replaceChildren(...nodes);
   if (ui.view === 'active') hintSwipe();
-
-  const done = renderShopDone();
-  renderEmpty(ui.view !== 'settings' && nodes.length === 0 && !done);
-};
-
-export const shopLabel = (shop) => (shop === null ? t('shops.all') : shop === '' ? t('group.noShop') : shop);
-
-// The row of the shop lists of Compra. A count is the items of the list.
-export const renderShopChips = () => {
-  const chips = inList() && shopLists === 'show' ? shops.shopChips(state) : [];
-  $('shop-chips').hidden = chips.length === 0;
-  const buttons = chips.map(({ shop, count }) => {
-    const pick = () => {
-      Object.assign(ui, { openId: null, openSide: null });
-      ui.shop = shop;
-      render();
-    };
-    const button = el('button', { type: 'button', className: 'chip surface', onclick: pick }, [
-      el('span', { textContent: shopLabel(shop) }),
-      el('span', { className: 'count', textContent: String(count) }),
-    ]);
-    button.setAttribute('aria-pressed', String(shop === ui.shop));
-    return button;
-  });
-  $('shop-chips').replaceChildren(...buttons);
+  renderEmpty(ui.view !== 'settings' && nodes.length === 0);
 };
 
 export const closeSearch = () => {
@@ -146,70 +93,21 @@ export const closeSearch = () => {
   render();
 };
 
-const pickShop = (shop) => {
-  Object.assign(ui, { openId: null, openSide: null, shop });
-  render();
-};
-
-// The dock of Listas below 600px (styles.css hides it from 600px): the shop list in view between the
-// arrows of the previous and the next list, the search button and the add button at the end; while
-// the search is open, the search field, Cancelar and the add button. It shows while Listas has an
-// item (`dockShown`). The app shows and labels the add button as the fab.
+// The dock of a list below 600px (styles.css hides it from 600px): the search button and the add
+// button at the end; while the search is open, the search field, Cancelar and the add button. It
+// shows inside a list with an item (`dockShown`). The app shows and labels the add button as the fab.
 export const renderDock = () => {
-  const shown = dockShown({ view: ui.view, activeCount: store.activeItems(state).length });
+  const shown = dockShown({ view: ui.view, inList: inList(), count: viewState().items.length });
   $('dock').hidden = !shown;
   if (!shown) return;
-  const chips = shopLists === 'show' ? shops.shopChips(state) : [];
   const search = ui.searchOpen;
   $('dock').classList.toggle('searching', search);
-  for (const id of ['dock-prev', 'dock-shop', 'dock-next']) $(id).hidden = search || chips.length === 0;
   $('dock-search').hidden = search;
   $('dock-search').setAttribute('aria-expanded', String(search));
   $('dock-field').hidden = !search;
   $('dock-cancel').hidden = !search;
   $('dock-clear').hidden = ui.query === '';
   if ($('dock-query').value !== ui.query) $('dock-query').value = ui.query;
-  if (!chips.length) return;
-  // A shop list that a tick emptied has no chip: the dock shows it with no item.
-  const current = chips.find((chip) => chip.shop === ui.shop) ?? (ui.shop === null ? chips[0] : { shop: ui.shop, count: 0 });
-  $('dock-shop').replaceChildren(
-    el('span', { className: 'dock-shop-name', textContent: shopLabel(current.shop) }),
-    el('span', { className: 'count', textContent: current.count === 0 ? '✓' : String(current.count) }),
-    el('span', { className: 'chevron', textContent: '▾', ariaHidden: 'true' }),
-  );
-  $('dock-shop').setAttribute('aria-expanded', String(ui.shopPickOpen));
-  const previous = shops.previousShop(state, ui.shop);
-  const next = shops.nextShop(state, ui.shop);
-  $('dock-prev').disabled = previous === null;
-  $('dock-next').disabled = next === null;
-  $('dock-prev').onclick = () => previous && pickShop(previous.shop);
-  $('dock-next').onclick = () => next && pickShop(next.shop);
-};
-
-// The shop picker of the dock: one entry for each shop list, with the count of its items.
-export const renderShopPick = () => {
-  if (!inList()) ui.shopPickOpen = false;
-  $('shop-pick').hidden = !ui.shopPickOpen;
-  if (!ui.shopPickOpen) return;
-  const chips = shopLists === 'show' ? shops.shopChips(state) : [];
-  $('shop-pick').querySelector('.sheet-body').replaceChildren(...chips.map(({ shop, count }) => {
-    const pick = () => {
-      ui.shop = shop;
-      closeShopPick();
-    };
-    const button = el('button', { type: 'button', className: 'button outline entry', onclick: pick }, [
-      el('span', { textContent: shopLabel(shop) }),
-      el('small', { className: 'entry-note', textContent: t('count.items', { count }) }),
-    ]);
-    button.setAttribute('aria-pressed', String(shop === ui.shop));
-    return button;
-  }));
-};
-
-export const closeShopPick = () => {
-  ui.shopPickOpen = false;
-  render();
-  $('dock-shop').focus();
 };
 
 // The search of the dock fills the list from the bottom, so the nearest match is next to the field.
@@ -249,12 +147,6 @@ export const bind = () => {
   $('query').addEventListener('blur', () => {
     if (ui.searchOpen && !ui.query.trim()) closeSearch();
   });
-  $('dock-shop').addEventListener('click', () => {
-    Object.assign(ui, { shopPickOpen: true, openId: null, openSide: null });
-    render();
-    $('shop-pick').querySelector('.sheet-body').querySelector('[aria-pressed="true"]')?.focus();
-  });
-  $('shop-pick-veil').addEventListener('click', closeShopPick);
   $('dock-search').addEventListener('click', () => {
     Object.assign(ui, { searchOpen: true, openId: null });
     render();

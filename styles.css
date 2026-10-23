@@ -118,10 +118,9 @@
 
   /* @extends dock
      @state searching  The search is open: the field and Cancelar take the dock, and the list ends
-                       at the dock, so the nearest match is next to the field.
-     @part dock-shop-name  The name of the list in the chip of the dock, cut with an ellipsis. */
-  /* The search button and the add button stay at the end of the dock, also with no shop list:
-     the add button keeps no auto margin, so it closes the group beside the search button. */
+                       at the dock, so the nearest match is next to the field. */
+  /* The search button and the add button stay at the end of the dock: the add button keeps no auto
+     margin, so it closes the group beside the search button. */
   .dock {
     justify-content: flex-end;
   }
@@ -131,9 +130,8 @@
   }
 
   /* @extends dock */
-  /* Left hand: the shared mirror would read the arrows backwards, so ‹ chip › keep their order and
-     only the search button and the add button move to the start side, the add button first. The
-     search mode mirrors as the shared dock. */
+  /* Left hand: the search button and the add button move to the start side, the add button first.
+     The search mode mirrors as the shared dock. */
   [data-hand="left"] .dock {
     flex-direction: row;
     justify-content: flex-start;
@@ -159,22 +157,6 @@
 
   .dock-field > .icon + .dock-input {
     padding-inline-start: var(--space-2);
-  }
-
-  /* The dock holds five controls below 600px: the chip shrinks, and a long name ends in an ellipsis. */
-  .dock .chip {
-    min-width: 0;
-  }
-
-  .dock-shop-name {
-    min-width: 0;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-
-  .dock .chip .chevron {
-    margin-inline-start: var(--space-2);
   }
 
   body:has(.dock.searching:not([hidden])) main {
@@ -265,27 +247,32 @@
     margin-top: auto;
   }
 
-  /* @component shop-lists
+  /* @component list-row
      @scope list
-     @summary The shop lists of Actual, below the header.
-     @example <div class="cluster scroll shop-lists"><button class="chip surface" type="button" aria-pressed="true"><span>Todas</span><span class="count">4</span></button></div> */
-  .shop-lists {
-    margin: 0;
-    padding: var(--space-2) var(--space-3);
-    border-bottom: 1px solid var(--line);
+     @summary A list of the first level of Listas: an item row with the name of the list, its item
+              count and a chevron. A tap opens the list.
+     @part list-row-end    The count and the chevron, at the end of the row.
+     @part list-row-count  The item count of the list, muted.
+     @example <ul class="item-list"><li class="item-row list-row"><div class="item-row-swipe"><div class="item-row-body tick"><button class="item-row-name" type="button"><span class="item-row-label">IKEA</span></button><span class="list-row-end"><span class="list-row-count">6</span><span class="chevron">›</span></span></div></div></li></ul> */
+  .list-row-end {
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: var(--space-2);
+    padding-inline-end: var(--space-3);
+    color: var(--muted);
   }
 
-  /* Below 600px the dock of Compra holds the shop list and the search. */
-  body:has(.dock:not([hidden])) .shop-lists,
+  .list-row-count {
+    font-size: var(--text-s);
+  }
+
+  /* Below 600px the dock of a list holds the search. */
   body:has(.dock:not([hidden])) .search {
     display: none;
   }
 
   @media (min-width: 600px) {
-    body:has(.dock:not([hidden])) .shop-lists {
-      display: flex;
-    }
-
     body:has(.dock:not([hidden])) .search {
       display: block;
     }

@@ -5,7 +5,6 @@
 | Module | Responsibility | May import |
 |---|---|---|
 | `src/store.js` | Pure state operations and derived views | nothing |
-| `src/shops.js` | Pure shop operations and the list by shop | `store` |
 | `src/lists.js` | Pure list operations: the lists of the first level, their order and view, the items of one list, the move of an item | `store` |
 | `src/aisles.js` | Pure aisle operations and the list by aisle | `store` |
 | `src/swipe.js` | The rule that settles the slide of an item row | nothing |
@@ -21,15 +20,16 @@
 | `src/i18n.js` | The language to show and the translator | `locales/*` |
 | `src/locales/<lang>.js` | The text of one language | nothing |
 | `src/ui/context.js` | The values that the views share, their setters, the toast, the save and `render` | `store`, `storage`, `i18n`, `onboarding` |
-| `src/ui/view.js` | What the screen shows of the state: the list in view, the search, the open row, the grouping | `store`, `shops`, `ui/context` |
+| `src/ui/view.js` | What the screen shows of the state: the level of `Listas` and the list in view, the search, the open row, the grouping | `store`, `lists`, `ui/context` |
 | `src/ui/motion.js` | The motion of rows: close, open, slide to a new place | `ui/context` |
 | `src/ui/controls.js` | The controls that several views use: icons, icon buttons, the save of a sheet field and the `Guardado` of a sheet save | `sheets`, `ui/context` |
-| `src/ui/edit.js` | The edit sheet `Editar` | `store`, `shops`, `aisles`, `ui/context`, `ui/controls` |
-| `src/ui/drag.js` | The manual order: the lift of a row, its move and its drop | `store`, `reorder`, `ui/context`, `ui/view`, `ui/motion` |
+| `src/ui/edit.js` | The edit sheet `Editar` | `store`, `aisles`, `ui/context`, `ui/controls` |
+| `src/ui/drag.js` | The manual order: the lift of a row, its move and its drop, for items and lists | `store`, `lists`, `reorder`, `ui/context`, `ui/view`, `ui/motion` |
 | `src/ui/rows.js` | The item rows, their side menus, their swipe and the hint of the swipe | `store`, `swipe`, `storage`, `ui/context`, `ui/view`, `ui/motion`, `ui/controls`, `ui/edit`, `ui/drag` |
-| `src/ui/arrange.js` | The arrange sheet: the grouping, the order, the row of shop lists | `store`, `shops`, `ui/context`, `ui/view`, `ui/motion` |
-| `src/ui/list.js` | The list `Listas`: rows, search, shop lists and the end card, the dock and its shop picker, header | `store`, `shops`, `aisles`, `sections`, `ui/context`, `ui/view`, `ui/rows`, `ui/add` |
-| `src/ui/add.js` | The add sheet | `store`, `shops`, `suggest`, `ui/context`, `ui/view` |
+| `src/ui/arrange.js` | The arrange sheet: the grouping and the order | `store`, `ui/context`, `ui/view`, `ui/motion` |
+| `src/ui/list.js` | The section `Listas`: the first level or the rows of the open list, search, empty state, the dock, header | `store`, `lists`, `aisles`, `sections`, `ui/context`, `ui/view`, `ui/rows`, `ui/add`, `ui/lists` |
+| `src/ui/lists.js` | The first level of `Listas`: the list rows, their actions and move, the open and the close of a list | `lists`, `ui/context`, `ui/view`, `ui/controls`, `ui/rows`, `ui/drag` |
+| `src/ui/add.js` | The add sheet | `store`, `lists`, `suggest`, `ui/context`, `ui/view` |
 | `src/ui/onboarding.js` | The walkthrough | `onboarding`, `sections`, `storage`, `ui/context`, `ui/controls` |
 | `src/ui/aisles.js` | The sheet of the aisles of `Ajustes` | `aisles`, `ui/context`, `ui/controls` |
 | `src/ui/install.js` | The Install button of `Ajustes` | `install`, `ui/context` |
@@ -73,7 +73,7 @@
 |---|---|
 | A new list rule | An operation in `src/store.js` with its tests, then a control in its view of `src/ui/` |
 | A new view | A module of `src/ui/` with a `bind()` that `src/app.js` calls, its alias, its file in `SHELL` and its row in the module table |
-| A new shop or aisle rule | The same, in `src/shops.js` or `src/aisles.js` |
+| A new list or aisle rule | The same, in `src/lists.js` or `src/aisles.js` |
 | A change of the shape of an item | `normalizeItem` in `src/storage.js`, a new `version` and its migration |
 | A new text | A key in each of the seven catalogs, with the same placeholders |
 | A new module of `src/` | Its alias in the import map of `index.html`, and its file in `SHELL` of `sw.js` |

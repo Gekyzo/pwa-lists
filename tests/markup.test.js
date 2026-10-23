@@ -71,9 +71,9 @@ const sheetParts = () => {
   return opens.map((open, i) => ({ id: open[2] ?? null, part: body.slice(open.index, opens[i + 1]?.index ?? body.length) }));
 };
 
-test('each of the five sheets has the grab, then a head with its title and Listo, then a body', () => {
+test('each of the four sheets has the grab, then a head with its title and Listo, then a body', () => {
   const parts = sheetParts();
-  assert.equal(parts.length, 5);
+  assert.equal(parts.length, 4);
   for (const { id, part } of parts) {
     assert.match(
       part,
@@ -101,7 +101,6 @@ test('the sheets with a title of their own give it an id; the others a fixed tex
   assert.deepEqual(titles, [
     'id="add-title" ',
     ' data-i18n="arrange.label"',
-    ' data-i18n="shops.lists"',
     'id="edit-title" ',
     ' data-i18n="aisles.title"',
   ]);
@@ -111,7 +110,7 @@ test('the empty state of a list holds a title, a text and an action button, set 
   assert.match(body, /<div id="empty" class="empty-state low" hidden>\s*<h2 id="empty-title" class="empty-state-title" hidden><\/h2>\s*<p id="empty-text"><\/p>\s*<button id="empty-action" class="button primary wide" type="button" hidden><\/button>\s*<\/div>/);
 });
 
-test('the edit sheet has a veil, a dialog, the name and quantity fields and the shops', () => {
+test('the edit sheet has a veil, a dialog, the name and quantity fields', () => {
   const [layer = ''] = body.match(/<div id="edit" class="sheet-layer"[\s\S]*?<\/form>\s*<\/div>/) ?? [];
   assert.match(layer, /<div id="edit-veil" class="sheet-veil">/);
   assert.match(layer, /<form id="edit-form" class="sheet" role="dialog"/);
@@ -120,10 +119,7 @@ test('the edit sheet has a veil, a dialog, the name and quantity fields and the 
   // Each field keeps its name in sight: a label that floats onto the border once the field has a value.
   assert.match(layer, /<label class="field"><input id="edit-name"[^>]*><span class="field-label" data-i18n="edit.name"><\/span><\/label>/);
   assert.match(layer, /<label class="field"><input id="edit-quantity"[^>]*><span class="field-label" data-i18n="edit.quantity"><\/span><\/label>/);
-  // A titled part with the shops of the item follows the fields.
-  assert.match(layer, /<span class="field-label" data-i18n="edit.quantity"><\/span><\/label>\s*<h2 class="sheet-title part" data-i18n="edit.shops"><\/h2>\s*<div id="edit-chips" class="cluster">/);
-  assert.doesNotMatch(layer, /edit-repeat/);
-  assert.match(layer, /<input id="edit-shop"[^>]*maxlength="40"/);
+  assert.doesNotMatch(layer, /edit-repeat|edit-shop|edit-chips/);
   assert.doesNotMatch(body, /id="shops/);
 });
 
@@ -162,10 +158,10 @@ test('the update notice is a banner with a wide primary button above the version
   assert.ok(settings.indexOf('id="update-banner"') < settings.indexOf('id="version"'));
 });
 
-test('the dock stands before the add button with the shop arrows, the shop chip and the search', () => {
+test('the dock stands before the add button with the search', () => {
   const [dock = ''] = body.match(/<div id="dock" class="dock"[\s\S]*?<button id="fab"/) ?? [];
   const ids = [...dock.matchAll(/<button id="([^"]+)"/g)].map(([, id]) => id);
-  assert.deepEqual(ids.slice(0, 4), ['dock-prev', 'dock-shop', 'dock-next', 'dock-search']);
+  assert.equal(ids[0], 'dock-search');
   assert.match(dock, /<label id="dock-field" class="dock-field"[^>]*>[\s\S]*<input id="dock-query" class="dock-input" type="search"[\s\S]*<button id="dock-clear" class="dock-clear"/);
   assert.match(dock, /<button id="dock-cancel" class="button accent" type="button" data-i18n="search.cancel"/);
 });
@@ -173,16 +169,18 @@ test('the dock stands before the add button with the shop arrows, the shop chip 
 test('the dock ends with the add button', () => {
   const [dock = ''] = body.match(/<div id="dock" class="dock"[\s\S]*?<button id="fab"/) ?? [];
   const ids = [...dock.matchAll(/<(?:button|label) id="([^"]+)"/g)].map(([, id]) => id).filter((id) => id !== 'dock-clear');
-  assert.deepEqual(ids, ['dock-prev', 'dock-shop', 'dock-next', 'dock-search', 'dock-field', 'dock-cancel', 'dock-add', 'fab']);
+  assert.deepEqual(ids, ['dock-search', 'dock-field', 'dock-cancel', 'dock-add', 'fab']);
   assert.match(dock, /<button id="dock-add" class="button primary icon dock-add" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#plus"\/><\/svg><\/button>\s*<\/div>\s*<button id="fab"/);
 });
 
-test('the shop chip of the dock opens the shop picker, a sheet with a head', () => {
-  assert.match(body, /<button id="dock-shop" class="chip" type="button" aria-haspopup="dialog" aria-controls="shop-pick"/);
-  const [layer = ''] = body.match(/<div id="shop-pick" class="sheet-layer"[\s\S]*?<\/div>\s*<\/div>\s*<\/div>/) ?? [];
-  assert.match(layer, /<div id="shop-pick-veil" class="sheet-veil">/);
-  assert.match(layer, /<div class="sheet-grab"><\/div>\s*<header class="sheet-head"><h2 class="sheet-title main" data-i18n="shops.lists"><\/h2><button class="button tonal" type="button" data-i18n="edit.done"><\/button><\/header>/);
-  assert.match(layer, /<div class="sheet-body"><\/div>/);
+test('the page has no shop lists: no chips, no end card, no shop picker, no shop chip in the dock', () => {
+  for (const id of ['shop-chips', 'shop-done', 'shop-pick', 'dock-shop', 'dock-prev', 'dock-next', 'arrange-lists']) {
+    assert.doesNotMatch(body, new RegExp(`id="${id}"`), id);
+  }
+});
+
+test('the header has a back button before its text, for the inside of a list', () => {
+  assert.match(body, /<header class="app-header">\s*<button id="back-button" class="button icon" type="button" data-i18n-attr="aria-label:lists.back" hidden>\s*<svg class="icon" aria-hidden="true"><use href="icons.svg#chevron-left"\/><\/svg>\s*<\/button>\s*<div class="app-header-text">/);
 });
 
 test('the bottom bar shows a list icon for Listas and the gear for Ajustes, each with its name', () => {
@@ -193,7 +191,4 @@ test('the bottom bar shows a list icon for Listas and the gear for Ajustes, each
 
 test('an outline button is only a destructive one; other secondary actions are tonal', () => {
   for (const [, classes] of html.matchAll(/<button[^>]*class="(button outline[^"]*)"/g)) assert.match(classes, /\bdanger\b/, classes);
-  for (const id of ['shop-done-all', 'shop-done-next']) {
-    assert.match(html, new RegExp(`<button id="${id}" class="button tonal`), id);
-  }
 });

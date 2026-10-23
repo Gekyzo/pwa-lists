@@ -34,7 +34,7 @@ for (const rule of RULES) test(rule.title, { skip: SKIP[rule.id] ?? false }, () 
 
 test('the parts of the app are documented in styles.css (DSV-3)', () => {
   const names = parseCatalog({ css: read('styles.css'), sprite: files.sprite }).components.map((part) => part.name);
-  for (const name of ['shop-lists', 'search', 'hint']) assert.ok(names.includes(name), name);
+  for (const name of ['list-row', 'search', 'hint']) assert.ok(names.includes(name), name);
 });
 
 test('the design test reads the classes of the item rows, states included', () => {

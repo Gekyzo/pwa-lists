@@ -87,7 +87,7 @@ test('localizeManifest does not change the shortcuts of its input', () => {
   assert.deepEqual(input, withShortcuts());
 });
 
-test('the activate deletes the shell of version 1, the last that reads no version 11 state, and keeps the caches of another app', () => {
-  const keys = ['lists-shell-v2', 'lists-shell-v3', 'lists-manifest', 'shopping-shell-v17', 'shopping-manifest'];
-  assert.deepEqual(plain(staleCaches(keys)), ['lists-shell-v2']);
+test('the activate deletes the shells that read no version 12 state, and keeps the caches of another app', () => {
+  const keys = ['lists-shell-v2', 'lists-shell-v3', 'lists-shell-v4', 'lists-manifest', 'shopping-shell-v17', 'shopping-manifest'];
+  assert.deepEqual(plain(staleCaches(keys)), ['lists-shell-v2', 'lists-shell-v3']);
 });

@@ -1,5 +1,5 @@
 import * as store from '#store';
-import * as shops from '#shops';
+import * as lists from '#lists';
 import { bindSheetDrag } from '#ds/sheet';
 import { shortcutStart, fabState } from '#sections';
 import { sheetOpen, closeTop } from '#layers';
@@ -9,7 +9,6 @@ import {
   scroller,
   storage,
   t,
-  shopLists,
   state,
   ui,
   undoState,
@@ -22,7 +21,7 @@ import {
   commit,
   debugLog,
 } from '#ui/context';
-import { inList, viewState } from '#ui/view';
+import { inList } from '#ui/view';
 import { snapshotRows, animateRows } from '#ui/motion';
 import { closeEdit, renderEdit, bind as bindEdit } from '#ui/edit';
 import { endReorder, bind as bindDrag } from '#ui/drag';
@@ -30,12 +29,8 @@ import { moveRow } from '#ui/rows';
 import { renderArrange, closeArrange, bind as bindArrange } from '#ui/arrange';
 import {
   headerOf,
-  shopLabel,
-  renderShopChips,
   renderDock,
-  renderShopPick,
   showDockMatches,
-  closeShopPick,
   renderList,
   closeSearch,
   bind as bindList,
@@ -46,6 +41,7 @@ import { renderVersion, readVersion, applyLanguage, bind as bindSettings } from 
 import { renderInstall, bind as bindInstall } from '#ui/install';
 import { renderAisles, closeAisles, bind as bindAisles } from '#ui/aisles';
 import { bind as bindNav } from '#ui/nav';
+import { closeList, bind as bindLists } from '#ui/lists';
 
 // Screen
 
@@ -76,15 +72,10 @@ const renderAll = () => {
   endReorder(false);
   // The item of the edit sheet can go while the sheet is open: an undo, or an import.
   if (!state.items.some((item) => item.id === ui.editId)) ui.editId = null;
-  // A shop list whose chip went shows Todas, except a list that a tick emptied while other items
-  // are still to buy (SHOP-23). A hidden row leaves no list filtered.
-  const kept = ui.shop !== null && ui.shop === ui.doneShop && state.items.length > 0;
-  ui.shop = shopLists !== 'show' ? null : kept ? ui.shop : shops.validShop(state, ui.shop);
-  if (ui.shop !== ui.doneShop) ui.doneShop = null;
-  const header = headerOf(viewState().items.length);
-  if (inList() && ui.shop !== null) header.title = shopLabel(ui.shop);
-
-  renderShopChips();
+  // A list that went (a delete, an undo, an import) shows the first level.
+  if (ui.list !== null && !lists.findList(state, ui.list)) ui.list = null;
+  const header = headerOf();
+  $('back-button').hidden = !inList();
   $('title').textContent = header.title;
   $('subtitle').textContent = header.subtitle;
 
@@ -99,7 +90,7 @@ const renderAll = () => {
   // An action in the empty state replaces the add button.
   // Below 600px the add button of the dock takes the place of the fab (design-system.css), with the
   // same label and the same conditions.
-  const noAdd = ui.view === 'settings' || !$('empty-action').hidden || sheetOpen(ui);
+  const noAdd = !inList() || !$('empty-action').hidden || sheetOpen(ui);
   for (const id of ['fab', 'dock-add']) {
     $(id).hidden = noAdd;
     $(id).setAttribute('aria-label', t('add.item'));
@@ -117,7 +108,6 @@ const renderAll = () => {
   renderArrange();
   renderEdit();
   renderAisles();
-  renderShopPick();
   showDockMatches();
   holdBack();
 };
@@ -160,6 +150,7 @@ bindDrag();
 bindList();
 bindArrange();
 bindEdit();
+bindLists();
 
 // The open sheet closes by its own close; one sheet is open at a time.
 const closeSheets = () => {
@@ -167,7 +158,6 @@ const closeSheets = () => {
   if (ui.arrangeOpen) closeArrange();
   if (ui.editId !== null) closeEdit();
   if (ui.aislesOpen) closeAisles();
-  if (ui.shopPickOpen) closeShopPick();
 };
 
 // Closes the top layer (closeTop): a sheet, an open row, then the search. Gives what it closed.
@@ -178,6 +168,7 @@ const closeLayer = () => {
     Object.assign(ui, { openId: null, openSide: null });
     render();
   } else if (top === 'search') closeSearch();
+  else if (top === 'list') closeList();
   return top;
 };
 
@@ -242,7 +233,6 @@ const SHEET_CLOSE = {
   arrange: closeArrange,
   edit: closeEdit,
   aisles: closeAisles,
-  'shop-pick': closeShopPick,
 };
 for (const [id, close] of Object.entries(SHEET_CLOSE)) {
   $(id).querySelector('.sheet-head .button').addEventListener('click', close);

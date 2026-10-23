@@ -14,6 +14,9 @@
   </head>
   <body>
     <header class="app-header">
+      <button id="back-button" class="button icon" type="button" data-i18n-attr="aria-label:lists.back" hidden>
+        <svg class="icon" aria-hidden="true"><use href="icons.svg#chevron-left"/></svg>
+      </button>
       <div class="app-header-text">
         <h1 id="title" class="app-header-title"></h1>
         <p id="subtitle" class="app-header-subtitle"></p>
@@ -32,14 +35,6 @@
     </div>
 
     <main>
-      <div id="shop-chips" class="cluster scroll shop-lists" role="group" data-i18n-attr="aria-label:shops.lists" hidden></div>
-
-      <div id="shop-done" class="empty-state" hidden>
-        <h2 id="shop-done-text" class="empty-state-title"></h2>
-        <button id="shop-done-next" class="button tonal" type="button"></button>
-        <button id="shop-done-all" class="button tonal" type="button" data-i18n="shops.seeAll"></button>
-      </div>
-
       <div id="search" class="search" hidden>
         <input id="query" class="input raised" type="search" maxlength="80" autocomplete="off" enterkeyhint="search">
       </div>
@@ -113,13 +108,6 @@
     </main>
 
     <div id="dock" class="dock" hidden>
-      <button id="dock-prev" class="button icon" type="button" data-i18n-attr="aria-label:dock.previous">
-        <svg class="icon" aria-hidden="true"><use href="icons.svg#chevron-left"/></svg>
-      </button>
-      <button id="dock-shop" class="chip" type="button" aria-haspopup="dialog" aria-controls="shop-pick"></button>
-      <button id="dock-next" class="button icon" type="button" data-i18n-attr="aria-label:dock.next">
-        <svg class="icon" aria-hidden="true"><use href="icons.svg#chevron-right"/></svg>
-      </button>
       <button id="dock-search" class="button icon" type="button" data-i18n-attr="aria-label:search.label" aria-controls="dock-field">
         <svg class="icon" aria-hidden="true"><use href="icons.svg#search"/></svg>
       </button>
@@ -170,7 +158,6 @@
           <div id="arrange-group">
             <h2 class="sheet-title" data-i18n="arrange.groupBy"></h2>
             <div class="segmented">
-              <button class="segment" type="button" data-group="shop" data-i18n="arrange.shops"></button>
               <button class="segment" type="button" data-group="aisle" data-i18n="arrange.aisles"></button>
               <button class="segment" type="button" data-group="none" data-i18n="arrange.none"></button>
             </div>
@@ -182,23 +169,7 @@
               <button class="segment" type="button" data-sort="custom" data-i18n="arrange.custom"></button>
             </div>
           </div>
-          <div id="arrange-lists">
-            <h2 class="sheet-title" data-i18n="shops.lists"></h2>
-            <div class="segmented">
-              <button class="segment" type="button" data-lists="show" data-i18n="arrange.show"></button>
-              <button class="segment" type="button" data-lists="hide" data-i18n="arrange.hide"></button>
-            </div>
-          </div>
         </div>
-      </div>
-    </div>
-
-    <div id="shop-pick" class="sheet-layer" hidden>
-      <div id="shop-pick-veil" class="sheet-veil"></div>
-      <div class="sheet" role="dialog" data-i18n-attr="aria-label:shops.lists">
-        <div class="sheet-grab"></div>
-        <header class="sheet-head"><h2 class="sheet-title main" data-i18n="shops.lists"></h2><button class="button tonal" type="button" data-i18n="edit.done"></button></header>
-        <div class="sheet-body"></div>
       </div>
     </div>
 
@@ -210,14 +181,6 @@
         <div class="sheet-body">
           <label class="field"><input id="edit-name" class="input field-input" type="text" enterkeyhint="done" maxlength="80" data-i18n-attr="aria-label:edit.name,placeholder:edit.name"><span class="field-label" data-i18n="edit.name"></span></label>
           <label class="field"><input id="edit-quantity" class="input field-input" type="text" enterkeyhint="done" maxlength="20" data-i18n-attr="aria-label:edit.quantity,placeholder:edit.quantity"><span class="field-label" data-i18n="edit.quantity"></span></label>
-          <h2 class="sheet-title part" data-i18n="edit.shops"></h2>
-          <div id="edit-chips" class="cluster"></div>
-          <p id="edit-empty" class="empty-state inline" data-i18n="shops.empty" hidden></p>
-          <div class="input-row">
-            <input id="edit-shop" class="input strong" type="text" list="edit-shops" enterkeyhint="done" autocapitalize="words" maxlength="40" data-i18n-attr="placeholder:shops.placeholder,aria-label:shops.placeholder">
-            <button id="edit-shop-submit" class="button primary" type="submit" data-i18n="shops.add" disabled></button>
-          </div>
-          <datalist id="edit-shops"></datalist>
           <h2 class="sheet-title part" data-i18n="edit.aisle"></h2>
           <div id="edit-aisles" class="cluster"></div>
           <p id="edit-aisles-empty" class="empty-state inline" data-i18n="edit.noAisles" hidden></p>
@@ -296,7 +259,6 @@
           "#app": "./src/app.js",
           "#ds/sheet": "./vendor/design-system/sheet.js",
           "#store": "./src/store.js",
-          "#shops": "./src/shops.js",
           "#lists": "./src/lists.js",
           "#aisles": "./src/aisles.js",
           "#swipe": "./src/swipe.js",
@@ -331,6 +293,7 @@
           "#ui/settings": "./src/ui/settings.js",
           "#ui/aisles": "./src/ui/aisles.js",
           "#ui/install": "./src/ui/install.js",
+          "#ui/lists": "./src/ui/lists.js",
           "#ui/view": "./src/ui/view.js"
         }
       }

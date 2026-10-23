@@ -86,7 +86,7 @@ offline copy of Stash.
 |---|---|
 | What the app does, and what it does not do | [01-product](docs/spec/01-product.md) |
 | The list, the tick and the add sheet | [03-lists](docs/spec/03-lists.md) |
-| Order, groups and shops | [04-arrange](docs/spec/04-arrange.md), [05-shops](docs/spec/05-shops.md) |
+| Order, groups and shops | [04-arrange](docs/spec/04-arrange.md), [06-lists-level](docs/spec/06-lists-level.md) |
 | The aisles of the store | [17-aisles](docs/spec/17-aisles.md) |
 | Gestures, messages, undo and the walkthrough | [07-screen](docs/spec/07-screen.md) |
 | The stored format and the backup | [02-data-model](docs/spec/02-data-model.md), [08-storage](docs/spec/08-storage.md) |

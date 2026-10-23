@@ -37,8 +37,7 @@ the item: it is done.
 | Search in `Listas` | [03-lists.md](03-lists.md) |
 | Order by name or custom, with a manual move | [04-arrange.md](04-arrange.md) |
 | Groups by shop or by aisle | [04-arrange.md](04-arrange.md) |
-| Shops of an item | [05-shops.md](05-shops.md) |
-| A list for each shop, in `Listas` | [05-shops.md](05-shops.md) |
+| The lists of the first level of `Listas` | [06-lists-level.md](06-lists-level.md) |
 | Backup to a file and from a file | [08-storage.md](08-storage.md) |
 | Seven languages | [09-languages.md](09-languages.md) |
 | Walkthrough at the first start | [07-screen.md](07-screen.md) |
