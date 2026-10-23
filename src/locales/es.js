@@ -48,6 +48,9 @@ export default {
   'where.inList': 'ya en la lista',
 
   'arrange.label': 'Agrupar y ordenar',
+  'arrange.view': 'Vista',
+  'arrange.rows': 'Filas',
+  'arrange.cards': 'Tarjetas',
   'arrange.groupBy': 'Agrupar por',
   'arrange.none': 'Nada',
   'arrange.aisles': 'Secciones',

@@ -48,6 +48,9 @@ export default {
   'where.inList': 'déjà dans la liste',
 
   'arrange.label': 'Grouper et trier',
+  'arrange.view': 'Vue',
+  'arrange.rows': 'Lignes',
+  'arrange.cards': 'Cartes',
   'arrange.groupBy': 'Grouper par',
   'arrange.none': 'Rien',
   'arrange.aisles': 'Rayons',

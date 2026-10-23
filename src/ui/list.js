@@ -83,6 +83,7 @@ export const renderList = () => {
   renderSearch(items);
   const nodes = atTop() ? listNodes() : inList() ? itemNodes() : [];
   $('items').hidden = ui.view === 'settings';
+  $('items').classList.toggle('list-cards', atTop() && state.view === 'cards');
   $('items').replaceChildren(...nodes);
   if (ui.view === 'active') hintSwipe();
   renderEmpty(ui.view !== 'settings' && nodes.length === 0);

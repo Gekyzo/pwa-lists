@@ -31,7 +31,7 @@ the 🎯 indicators (terminal status bar, tab ring, overlord tile) draw from thi
 | 1 | Pure list operations | ☑ |  | 2026-10-23 |  |
 | 2 | State version 12 and the migration of shops | ☑ |  | 2026-10-23 |  |
 | 3 | Two levels in Listas | ☑ |  | 2026-10-24 |  |
-| 4 | Cards and the arrange sheet of the first level | ☐ |  |  |  |
+| 4 | Cards and the arrange sheet of the first level | ☑ |  | 2026-10-24 |  |
 | 5 | Create, rename and delete a list | ☐ |  |  |  |
 | 6 | Move an item to another list | ☐ |  |  |  |
 | 7 | Shortcut, walkthrough and the browser check | ☐ |  |  |  |

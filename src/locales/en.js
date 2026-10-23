@@ -48,6 +48,9 @@ export default {
   'where.inList': 'already in the list',
 
   'arrange.label': 'Group and sort',
+  'arrange.view': 'View',
+  'arrange.rows': 'Rows',
+  'arrange.cards': 'Cards',
   'arrange.groupBy': 'Group by',
   'arrange.none': 'Nothing',
   'arrange.aisles': 'Sections',

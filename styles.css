@@ -267,6 +267,67 @@
     font-size: var(--text-s);
   }
 
+  /* @component list-cards
+     @scope list
+     @summary The first level of Listas as cards: two columns of cards, each with the name of a list,
+              its item count and its first items. A tap opens the list.
+     @part list-card        One card: a button across its cell.
+     @part list-card-head   The name and the count, on one line.
+     @part list-card-name   The name of the list, cut with an ellipsis.
+     @part list-card-count  The item count, muted.
+     @part list-card-item   The name of one of the first items, muted, on one line.
+     @example <ul class="item-list list-cards"><li><button class="list-card" type="button"><span class="list-card-head"><span class="list-card-name">IKEA</span><span class="list-card-count">6</span></span><span class="list-card-item">Lámpara</span></button></li></ul> */
+  .item-list.list-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-3);
+    padding: var(--space-3);
+  }
+
+  .list-card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    inline-size: 100%;
+    min-block-size: 96px;
+    padding: var(--space-3);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-m);
+    background: var(--surface);
+    color: var(--text);
+    font: inherit;
+    text-align: start;
+    cursor: pointer;
+  }
+
+  .list-card-head {
+    display: flex;
+    gap: var(--space-2);
+    align-items: baseline;
+    margin-block-end: var(--space-1);
+  }
+
+  .list-card-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    font-weight: var(--weight-strong);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .list-card-count,
+  .list-card-item {
+    color: var(--muted);
+    font-size: var(--text-s);
+  }
+
+  .list-card-item {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   /* Below 600px the dock of a list holds the search. */
   body:has(.dock:not([hidden])) .search {
     display: none;

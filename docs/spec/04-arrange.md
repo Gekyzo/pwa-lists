@@ -1,14 +1,15 @@
 # Order, groups and the manual move
 
 Rules of `setSort`, `setGroup`, `reorderItems` and `sortItems` in `src/store.js`, of
-`shopGroups` in `src/shops.js`, of `aisleGroups` in `src/aisles.js`, of `src/reorder.js`, and of
+`setListSort`, `setListView` and `reorderLists` in `src/lists.js`, of `aisleGroups` in `src/aisles.js`, of `src/reorder.js`, and of
 the arrange sheet in `src/ui/arrange.js`.
 
 ## Arrange sheet
 
 - **SORT-1** The button at the right of the header opens the sheet **Agrupar y ordenar**. It shows
-  only in `Listas`, and only when the sheet has a choice to offer: a grouping
-  (GROUP-2) or an order (SORT-3).
+  only in `Listas`, and only when the sheet has a choice to offer. At the first level the sheet
+  has **Vista** (LVL-18) while a list exists, and **Ordenar por** of the lists (LVL-6) with two
+  lists or more. Inside a list it has a grouping (GROUP-2) and an order (SORT-3).
 - **SORT-2** The sheet stays open after a choice, so that the group and the order change in one
   visit. A tap out of the sheet or `Escape` closes it.
 
@@ -16,7 +17,8 @@ the arrange sheet in `src/ui/arrange.js`.
 
 - **SORT-3** **Ordenar por** has **Nombre** and **Personalizado**. It shows when the view has two
   items or more.
-- **SORT-4** One choice, `sort`, applies to `Listas`. The default is `custom`.
+- **SORT-4** One choice, `sort`, applies to the items of each list. The default is `custom`. The
+  lists have their own choice, `listSort` (LVL-6).
 - **SORT-5** **Personalizado** is the order of `items`: the insertion order, changed by the moves
   of the user. A new item goes to the end.
 - **SORT-6** **Nombre** is alphabetical with no case and no accent distinction. It does not change
@@ -31,15 +33,13 @@ the arrange sheet in `src/ui/arrange.js`.
 - **GROUP-1** **Agrupar por** has **Secciones** and **Nada**. One choice, `group`, applies to each
   list. The default is `aisle`.
 - **GROUP-2** A choice shows only when the view can show it:
-  - **Listas**: when an item of the view has a shop, and not in a shop list (SHOP-19).
-  - **Secciones**: when an item of the view has an aisle, also in a shop list (GROUP-17).
-  - **Nada**: each time that one of the others shows.
+  - **Secciones**: when an item of the list in view has an aisle (GROUP-17).
+  - **Nada**: each time that **Secciones** shows.
 
-  The sheet also has the choice of the row of shop lists (SHOP-25). The arrange button shows when
-  the sheet has one choice at least.
+  The arrange button shows when the sheet has one choice at least.
 - **GROUP-3** A view that cannot show the stored choice shows a flat list, and the sheet marks
-  **Nada**. The stored choice does not change. Example: with `group: 'shop'` and no
-  item with a shop, `Listas` is flat.
+  **Nada**. The stored choice does not change. Example: with `group: 'aisle'` and no
+  item with an aisle, the list is flat.
 - **GROUP-4** A tap on the choice that the view shows already changes nothing. Thus a tap on
   **Nada** in a view that is flat by GROUP-3 keeps the stored grouping.
 - **GROUP-10** Removed: `Listas` has no ticked items, so it has no `Comprados (N)` (LIST-12).
@@ -54,7 +54,7 @@ the arrange sheet in `src/ui/arrange.js`.
   count of a group head.
 - **GROUP-9** Removed: the head `Otros` was the rest of the recipe groups.
 
-### By shop
+### Removed: by shop
 
 - **GROUP-11** Removed: an item has no shops, so a list has no groups by shop.
 - **GROUP-12** Removed: an item has no shops, so a list has no groups by shop.
@@ -64,18 +64,18 @@ the arrange sheet in `src/ui/arrange.js`.
 ### By aisle
 
 - **GROUP-17** The groups are the aisles of the items of the view, in the order of `aisles`
-  (AISLE-1), not in name order. The head of a group shows the name of the aisle and the count of its items, muted and small, then the icon `chevron-down` while it is open. A shop list can show its
-  items by aisle: at one shop, the list follows the walk through it.
+  (AISLE-1), not in name order. The head of a group shows the name of the aisle and the count of its items, muted and small, then the icon `chevron-down` while it is open. At a shop, the list follows
+  the walk through it.
 - **GROUP-18** An aisle with no item in the view does not show. The items with no aisle show last,
   below the head `Sin sección`, with their count.
-- **GROUP-19** A row in a list by aisle shows its shops (SHOP-7), as in a flat list.
+- **GROUP-19** Removed: an item has no shops, so a row shows none.
 
 ### Effect
 
 - **GROUP-15** When a grouping opens, the heads and the extra rows open and the other rows move.
   When the choice goes to **Nada**, the groups close first and then the list becomes flat. A tap
   on a grouping while the groups close keeps them.
-- **GROUP-16** A tap on the head of a group (a shop, `Sin lista`, an aisle or `Sin sección`) closes the
+- **GROUP-16** A tap on the head of a group (an aisle or `Sin sección`) closes the
   rows of the group in 200 ms. The head stays, with its count and the icon `chevron-right`; a second tap opens
   the rows again in 200 ms. The list keeps its closed groups until the app starts again. A search
   shows each group open and disables its head (LIST-25).
@@ -112,4 +112,4 @@ the arrange sheet in `src/ui/arrange.js`.
 
 ## Limits
 
-No move between groups, no order of the shops, no move with the keyboard.
+No move between groups, no move with the keyboard.

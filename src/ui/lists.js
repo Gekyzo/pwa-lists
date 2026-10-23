@@ -49,7 +49,23 @@ const listRow = (list) => {
   return node;
 };
 
-export const listNodes = () => lists.listsInOrder(state).map(listRow);
+// A card of the first level: the name, the item count and the first names of the list, muted. A tap
+// opens the list. Cards have no move.
+const listCard = (list) => {
+  const { count, names } = lists.listSummary(state, list.id);
+  const button = el('button', { type: 'button', className: 'list-card', onclick: () => openList(list.id) }, [
+    el('span', { className: 'list-card-head' }, [
+      el('span', { className: 'list-card-name', textContent: list.name }),
+      el('span', { className: 'list-card-count', textContent: String(count) }),
+    ]),
+    ...names.map((name) => el('span', { className: 'list-card-item', textContent: name })),
+  ]);
+  const node = el('li', {}, [button]);
+  node.dataset.id = list.id;
+  return node;
+};
+
+export const listNodes = () => lists.listsInOrder(state).map(state.view === 'cards' ? listCard : listRow);
 
 export const bind = () => {
   $('back-button').addEventListener('click', closeList);

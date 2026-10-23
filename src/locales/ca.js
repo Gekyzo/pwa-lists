@@ -48,6 +48,9 @@ export default {
   'where.inList': 'ja a la llista',
 
   'arrange.label': 'Agrupa i ordena',
+  'arrange.view': 'Vista',
+  'arrange.rows': 'Files',
+  'arrange.cards': 'Targetes',
   'arrange.groupBy': 'Agrupa per',
   'arrange.none': 'Res',
   'arrange.aisles': 'Seccions',

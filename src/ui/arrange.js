@@ -1,6 +1,7 @@
 import * as store from '#store';
+import * as lists from '#lists';
 import { $, state, ui, commit, render } from '#ui/context';
-import { arrangeChoices, shownGroup } from '#ui/view';
+import { atTop, arrangeChoices, shownGroup } from '#ui/view';
 import { collapse, expand, rowTops, slide, groupOnlyRows } from '#ui/motion';
 
 // True while the groups of a list close, before the list becomes flat.
@@ -17,14 +18,22 @@ const placeGroupKnob = () => {
 };
 
 export const renderArrange = () => {
-  const { aisle, sort } = arrangeChoices();
+  // At the first level the sheet orders the lists and gives their view; inside a list it groups and
+  // orders the items.
+  const { aisle, sort, view, listSort } = arrangeChoices();
   const group = aisle;
-  if (!group && !sort) ui.arrangeOpen = false;
-  $('arrange-button').hidden = !group && !sort;
+  const order = sort || listSort;
+  const any = group || order || view;
+  if (!any) ui.arrangeOpen = false;
+  $('arrange-button').hidden = !any;
   $('arrange-button').setAttribute('aria-expanded', String(ui.arrangeOpen));
   $('arrange').hidden = !ui.arrangeOpen;
+  $('arrange-view').hidden = !view;
+  document.querySelectorAll('#arrange-view button').forEach((button) => {
+    button.setAttribute('aria-pressed', String(button.dataset.view === state.view));
+  });
   $('arrange-group').hidden = !group;
-  $('arrange-sort').hidden = !sort;
+  $('arrange-sort').hidden = !order;
   const shows = { aisle, none: true };
   // The view shows no group for a choice that it cannot show.
   const pressed = shownGroup();
@@ -33,8 +42,9 @@ export const renderArrange = () => {
     button.setAttribute('aria-pressed', String(button.dataset.group === pressed));
   });
   placeGroupKnob();
+  const current = atTop() ? state.listSort : state.sort;
   document.querySelectorAll('#arrange-sort button').forEach((button) => {
-    button.setAttribute('aria-pressed', String(button.dataset.sort === state.sort));
+    button.setAttribute('aria-pressed', String(button.dataset.sort === current));
   });
 };
 
@@ -92,8 +102,14 @@ export const bind = () => {
   document.querySelectorAll('#arrange-sort button').forEach((button) => {
     button.addEventListener('click', () => {
       const before = rowTops();
-      commit(store.setSort(state, button.dataset.sort).state);
+      const set = atTop() ? lists.setListSort : store.setSort;
+      commit(set(state, button.dataset.sort).state);
       slide(before);
+    });
+  });
+  document.querySelectorAll('#arrange-view button').forEach((button) => {
+    button.addEventListener('click', () => {
+      if (button.dataset.view !== state.view) commit(lists.setListView(state, button.dataset.view).state);
     });
   });
 };

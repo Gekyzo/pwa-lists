@@ -63,6 +63,10 @@ creates, such as `IKEA` or `Casa`. Each item is in one list (`item.list`). The f
   below them.
 - **LVL-16** The open list is a state of the screen and is not stored. A start of the app and a
   change of section show the first level.
+- **LVL-18** **Vista** of **Agrupar y ordenar** shows the first level as **Filas** (LVL-11) or
+  **Tarjetas**: two columns of cards, each with the name of the list, its item count and the names
+  of its first three items (LVL-9), muted, one line each with an ellipsis. A tap on a card opens
+  the list. Cards have no move. A change of view has no message and no `Deshacer`.
 - **LVL-17** The add sheet of an open list adds the item to that list (LIST-3). Its suggestions
   and its check of a duplicate (ADD rules) take only the items of that list. The message of an add
   names the list: `"name" añadido a IKEA.`

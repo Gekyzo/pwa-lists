@@ -26,7 +26,7 @@
 | `src/ui/edit.js` | The edit sheet `Editar` | `store`, `aisles`, `ui/context`, `ui/controls` |
 | `src/ui/drag.js` | The manual order: the lift of a row, its move and its drop, for items and lists | `store`, `lists`, `reorder`, `ui/context`, `ui/view`, `ui/motion` |
 | `src/ui/rows.js` | The item rows, their side menus, their swipe and the hint of the swipe | `store`, `swipe`, `storage`, `ui/context`, `ui/view`, `ui/motion`, `ui/controls`, `ui/edit`, `ui/drag` |
-| `src/ui/arrange.js` | The arrange sheet: the grouping and the order | `store`, `ui/context`, `ui/view`, `ui/motion` |
+| `src/ui/arrange.js` | The arrange sheet: the view and the order of the lists, the grouping and the order of the items | `store`, `lists`, `ui/context`, `ui/view`, `ui/motion` |
 | `src/ui/list.js` | The section `Listas`: the first level or the rows of the open list, search, empty state, the dock, header | `store`, `lists`, `aisles`, `sections`, `ui/context`, `ui/view`, `ui/rows`, `ui/add`, `ui/lists` |
 | `src/ui/lists.js` | The first level of `Listas`: the list rows, their actions and move, the open and the close of a list | `lists`, `ui/context`, `ui/view`, `ui/controls`, `ui/rows`, `ui/drag` |
 | `src/ui/add.js` | The add sheet | `store`, `lists`, `suggest`, `ui/context`, `ui/view` |

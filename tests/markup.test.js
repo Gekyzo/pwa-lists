@@ -192,3 +192,10 @@ test('the bottom bar shows a list icon for Listas and the gear for Ajustes, each
 test('an outline button is only a destructive one; other secondary actions are tonal', () => {
   for (const [, classes] of html.matchAll(/<button[^>]*class="(button outline[^"]*)"/g)) assert.match(classes, /\bdanger\b/, classes);
 });
+
+test('the arrange sheet has the view of the first level, rows or cards, and groups by aisle or none', () => {
+  const [sheet = ''] = body.match(/<div id="arrange" class="sheet-layer"[\s\S]*?<div id="edit"/) ?? [];
+  assert.match(sheet, /<div id="arrange-view">\s*<h2 class="sheet-title" data-i18n="arrange.view"><\/h2>\s*<div class="segmented">\s*<button class="segment" type="button" data-view="rows" data-i18n="arrange.rows"><\/button>\s*<button class="segment" type="button" data-view="cards" data-i18n="arrange.cards"><\/button>/);
+  const groups = [...sheet.matchAll(/data-group="([^"]+)"/g)].map(([, group]) => group);
+  assert.deepEqual(groups, ['aisle', 'none']);
+});
