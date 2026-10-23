@@ -237,8 +237,6 @@
     border-radius: 0;
     color: inherit;
     font: inherit;
-    letter-spacing: inherit;
-    text-transform: inherit;
   }
 
   /* A search shows each group open and disables its head (GROUP-16); the head keeps its colour. */
@@ -246,10 +244,14 @@
     opacity: 1;
   }
 
+  /* The count is second text: muted, small and at the normal weight. */
   .group-head-end {
     display: flex;
     align-items: center;
     gap: var(--space-2);
+    color: var(--muted);
+    font-size: var(--text-s);
+    font-weight: var(--weight-normal);
   }
 
 }

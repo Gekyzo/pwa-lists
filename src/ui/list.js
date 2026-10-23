@@ -17,7 +17,7 @@ const shopNodes = () => {
     const key = `shop:${group.shop}`;
     return [groupHead(group.shop, groupCount(group), key), ...groupNodes(key, group.items.map((item) => itemNode(item, key)))];
   });
-  const others = rest.length ? [groupHead(t('group.noShop'), '', 'noShop'), ...groupNodes('noShop', rest.map((item) => itemNode(item)))] : [];
+  const others = rest.length ? [groupHead(t('group.noShop'), String(rest.length), 'noShop'), ...groupNodes('noShop', rest.map((item) => itemNode(item)))] : [];
   return [...grouped, ...others];
 };
 
@@ -29,7 +29,7 @@ const aisleNodes = () => {
     const key = `aisle:${group.aisle}`;
     return [groupHead(group.aisle, groupCount(group), key), ...groupNodes(key, group.items.map((item) => itemNode(item, key)))];
   });
-  const others = rest.length ? [groupHead(t('group.noAisle'), '', 'noAisle'), ...groupNodes('noAisle', rest.map((item) => itemNode(item)))] : [];
+  const others = rest.length ? [groupHead(t('group.noAisle'), String(rest.length), 'noAisle'), ...groupNodes('noAisle', rest.map((item) => itemNode(item)))] : [];
   return [...grouped, ...others];
 };
 

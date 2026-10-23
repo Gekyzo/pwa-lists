@@ -57,9 +57,10 @@ the arrange sheet in `src/ui/arrange.js`.
 ### By shop
 
 - **GROUP-11** The groups are the shops of the items of the view, in name order. The head of a
-  group shows the name of the shop and the count of its items.
+  group shows the name of the shop and the count of its items, muted and small, then the icon
+  `chevron-down` while it is open.
 - **GROUP-12** An item of two shops shows in the two groups.
-- **GROUP-13** The items with no shop show below the head `Sin lista`.
+- **GROUP-13** The items with no shop show below the head `Sin lista`, with their count.
 - **GROUP-14** A row in a list by shop does not show the shops of the item below its name.
 
 ### By aisle
@@ -68,7 +69,7 @@ the arrange sheet in `src/ui/arrange.js`.
   (AISLE-1), not in name order. The heads have the counts of GROUP-11. A shop list can show its
   items by aisle: at one shop, the list follows the walk through it.
 - **GROUP-18** An aisle with no item in the view does not show. The items with no aisle show last,
-  below the head `Sin sección`.
+  below the head `Sin sección`, with their count.
 - **GROUP-19** A row in a list by aisle shows its shops (SHOP-7), as in a flat list.
 
 ### Effect
@@ -77,7 +78,7 @@ the arrange sheet in `src/ui/arrange.js`.
   When the choice goes to **Nada**, the groups close first and then the list becomes flat. A tap
   on a grouping while the groups close keeps them.
 - **GROUP-16** A tap on the head of a group (a shop, `Sin lista`, an aisle or `Sin sección`) closes the
-  rows of the group in 200 ms. The head stays, with its count and the chevron `▸`; a second tap opens
+  rows of the group in 200 ms. The head stays, with its count and the icon `chevron-right`; a second tap opens
   the rows again in 200 ms. The list keeps its closed groups until the app starts again. A search
   shows each group open and disables its head (LIST-25).
 

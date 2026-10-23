@@ -230,6 +230,9 @@ export const itemNode = (item, groupId = null) => {
 // The rows of a group carry its key, so that its head can close and open them.
 const groupRows = (key) => [...document.querySelectorAll('#items .item-row')].filter((node) => node.dataset.group === key);
 
+// The sign of a head that closes and opens its rows: down while open, right while closed.
+const chevron = (open) => icon(open ? 'chevron-down' : 'chevron-right', 'small chevron');
+
 // The head of a group: its title, its count and a chevron. A tap closes the rows of the group, and a
 // second tap opens them. A search shows each group open. With no key the head does not close.
 export const groupHead = (title, count, key = null) => {
@@ -254,7 +257,7 @@ export const groupHead = (title, count, key = null) => {
     },
   }, [
     el('span', { textContent: title }),
-    el('span', { className: 'group-head-end' }, [el('span', { textContent: count }), el('span', { className: 'chevron', textContent: open ? '▾' : '▸' })]),
+    el('span', { className: 'group-head-end' }, [el('span', { textContent: count }), chevron(open)]),
   ]);
   button.setAttribute('aria-expanded', String(open));
   return el('li', { className: 'group-head' }, [button]);
