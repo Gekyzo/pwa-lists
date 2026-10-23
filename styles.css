@@ -8,9 +8,6 @@
     --primary: var(--done);
     --on-primary: var(--on-done);
     --primary-soft: var(--done-soft);
-    --corner-art: 260px; /* the basket in the corner of a list */
-    --corner-out: -50px; /* how far the basket goes out of the corner */
-    --corner-opacity: 0.06;
   }
 }
 
@@ -65,43 +62,6 @@
 }
 
 @layer components {
-  /* @extends icon
-     @variant corner    The basket behind a list, in the bottom corner on the other side of the +
-     button. Tilted, cut by the corner, nearly transparent. One in the page. */
-
-  /* Behind the content (z-index -1): the rows, the + button and the bottom bar cover it. Its bottom
-     edge is measured from the top of the bottom bar. */
-  .icon.corner {
-    position: fixed;
-    z-index: -1;
-    left: var(--corner-out);
-    bottom: calc(var(--nav-height) + env(safe-area-inset-bottom) + var(--corner-out));
-    width: var(--corner-art);
-    height: var(--corner-art);
-    stroke-width: 0.75;
-    opacity: var(--corner-opacity);
-    transform: rotate(30deg);
-    pointer-events: none;
-  }
-
-  /* The display of .icon wins over the hidden attribute: the basket shows in Compra only (NAV-18). */
-  .icon.corner[hidden] {
-    display: none;
-  }
-
-  [data-hand="left"] .icon.corner {
-    left: auto;
-    right: var(--corner-out);
-    transform: rotate(-30deg);
-  }
-
-  /* From 600px there is no bar at the bottom; the rail stands on the other side of the basket. */
-  @media (min-width: 600px) {
-    .icon.corner {
-      bottom: calc(env(safe-area-inset-bottom) + var(--corner-out));
-    }
-  }
-
   /* @extends app-header */
   /* From 600px the content of the header lines up with the column of main. */
   @media (min-width: 600px) {

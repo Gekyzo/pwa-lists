@@ -9,6 +9,7 @@ no change for the user has no entry.
 
 ## Unreleased
 
+- `Listas` has no basket drawn behind the list. The bar of the phone is dark when the phone uses dark colours.
 - The bottom bar draws `Listas` as a list with ticks and `Ajustes` as a gear. **Listo** in the head of each sheet is a tonal button.
 - The header has no ring: the title and the count of the list stand alone.
 - The main action colour is the green of Bodega: the `+`, the main buttons and **Atrás**. The drawings of the introduction take the same colour; a control named in its texts is in the colour of the text.

@@ -49,10 +49,8 @@ the bottom bar at each width.
   `Ningún elemento coincide con «text».`, with the button **+ Añadir «text»** below it, which adds
   the name as the add sheet does and ends the search. While the button shows, the `+` button
   hides.
-- **NAV-18** `Listas` shows a line drawing of the basket of the app icon
-  behind the content, in the bottom corner on the other side of the `+` button (NAV-13). It is
-  tilted 30° and at 6 % opacity, and the corner and the bottom bar (the rail from 600px) cut part of it. It takes the
-  colour of the text, takes no tap and does not move with the scroll.
+- **NAV-18** Retired: the Ledger look of design system 0.7.0 keeps the ground of a list plain,
+  so no section shows a drawing behind its content.
 
 ## Item rows
 
@@ -169,7 +167,6 @@ the bottom bar at each width.
   | `+` button | Bottom right | Bottom left |
   | Rail, from 600px wide (DSV-8) | Right | Left |
   | Dock, below 600px wide (SHOP-26) | Search at the right | Search at the left |
-  | Basket behind a list (NAV-18) | Bottom left | Bottom right |
   | Header | Text, buttons | Buttons, text |
   | Row | Checkbox at the left, other controls at the right | Checkbox at the right, other controls at the left |
   | Walkthrough bar | **Saltar**, **Siguiente** | **Siguiente**, **Saltar** |
@@ -182,7 +179,9 @@ the bottom bar at each width.
 - **NAV-15** **Tema** of `Ajustes` has three values: `Automático`, `Claro` and `Oscuro`. An app
   with no choice uses `Automático`.
 - **NAV-16** `Automático` follows the phone (A11Y-6). `Claro` shows the light colours and `Oscuro`
-  the dark colours, whatever the phone uses. A change shows at once, with no restart.
+  the dark colours, whatever the phone uses. A change shows at once, with no restart. The bar of
+  the phone takes the colour of the ground and follows the phone only: light, or dark when the
+  phone uses dark colours.
 - **NAV-17** The choice is stored in `lists.theme`. `Automático` removes the key. It is a
   preference of the device, not a part of the state: `Deshacer` and an import do not change it.
 
