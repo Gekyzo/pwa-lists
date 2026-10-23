@@ -110,8 +110,8 @@ test('emptyAction of a search that is only spaces is the empty list', () => {
   assert.equal(emptyAction('active', { ...NO_QUERY, query: '   ' }).text, 'empty.active');
 });
 
-test('emptyAction of an empty list has no title, as the header says it is empty, and leaves the add button as the action', () => {
-  assert.deepEqual(emptyAction('active', NO_QUERY), { title: null, text: 'empty.active', action: null });
+test('emptyAction of an empty list has a title, a text and the add button as its action', () => {
+  assert.deepEqual(emptyAction('active', NO_QUERY), { title: 'empty.activeTitle', text: 'empty.active', action: 'add-item' });
 });
 
 test('emptyAction of a section with nothing to say is empty', () => {

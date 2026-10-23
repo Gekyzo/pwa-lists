@@ -9,6 +9,7 @@ no change for the user has no entry.
 
 ## Unreleased
 
+- An empty `Listas` shows the title `Aún no hay elementos`, a line of help and the button **+ Añadir elemento** at the bottom, as the empty sections of Bodega.
 - The sections of `Secciones de las listas` are rows across the sheet, as the rows of a list; the moves that can not go further fade. The choice of `Agrupar por` is as wide as each button that shows.
 - The groups of `Ajustes` run across the full width, with no cards. `Siguiente` and `Ver todas las listas` at the end of a list are tonal buttons.
 - The head of a group shows its count in grey and ends with a chevron icon: down while the group is open, right while it is closed. `Sin lista` and `Sin sección` also show their count.

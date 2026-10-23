@@ -22,7 +22,9 @@ export default {
   'group.noShop': 'No list',
   'group.noAisle': 'No section',
 
-  'empty.active': 'Tap + to add an item.',
+  'empty.activeTitle': 'No items yet',
+  'empty.active': 'Write down what is pending and tick it when it is done.',
+  'empty.addItem': '+ Add item',
   'empty.addQuery': '+ Add “{query}”',
   'empty.noItemMatch': 'No item matches “{query}”.',
 

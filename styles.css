@@ -257,6 +257,14 @@
 }
 
 @layer screens {
+  /* @extends empty-state
+     @variant apart  An empty Listas: the title and the text in the middle of the room above the
+                     button, and the button at the bottom, in reach of the thumb. */
+  .empty-state.low.apart > .empty-state-title,
+  .empty-state.low.apart > .button.primary {
+    margin-top: auto;
+  }
+
   /* @component shop-lists
      @scope list
      @summary The shop lists of Actual, below the header.

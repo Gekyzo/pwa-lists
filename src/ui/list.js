@@ -5,7 +5,7 @@ import { dockShown, emptyAction } from '#sections';
 import { $, el, state, ui, t, shopLists, render } from '#ui/context';
 import { inList, viewState, found, searching, shownGroup, endSearch } from '#ui/view';
 import { itemNode, groupHead, groupNodes, hintSwipe } from '#ui/rows';
-import { addQuery } from '#ui/add';
+import { addQuery, openSheet } from '#ui/add';
 
 // The count of the full group, also while a search shows a part of it (LIST-23).
 const groupCount = ({ total }) => String(total);
@@ -49,7 +49,7 @@ export const headerOf = (count) => {
 };
 
 // The button text of each action of an empty section.
-const ACTION_KEYS = { 'add-query': 'empty.addQuery' };
+const ACTION_KEYS = { 'add-query': 'empty.addQuery', 'add-item': 'empty.addItem' };
 
 let emptyRun = null;
 
@@ -64,7 +64,8 @@ const renderEmpty = (shown) => {
   $('empty-text').textContent = text ? t(text, params) : '';
   $('empty-action').hidden = !shown || !action;
   $('empty-action').textContent = action ? t(ACTION_KEYS[action], params) : '';
-  emptyRun = { 'add-query': addQuery }[action] ?? null;
+  $('empty').classList.toggle('apart', Boolean(title && action));
+  emptyRun = { 'add-query': addQuery, 'add-item': openSheet }[action] ?? null;
 };
 
 // The search field of a list shows after a tap on the search button, which a list with no item

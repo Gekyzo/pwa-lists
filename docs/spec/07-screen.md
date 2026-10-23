@@ -44,9 +44,10 @@ the bottom bar at each width.
   with its title, while the install is not offered (INS-1). The version line is at the end of
   `Ajustes`; while a newer version is deployed, a banner above it says `Versión X disponible` and
   `Tienes la Y.` (the version in use), with the button **Actualizar** across the full width.
-- **NAV-7** An empty `Listas` shows a text in the lower half of the list area. It shows no
-  title, as its header already says `La lista está vacía`. It says `Toca + para añadir un
-  elemento.`, with no button: the `+` button is the action. A search with no match says
+- **NAV-7** An empty `Listas` has the title `Aún no hay elementos`, the text `Apunta lo que
+  tienes pendiente y márcalo cuando esté hecho.` and the button **+ Añadir elemento**, which opens
+  the add sheet. The title and the text stand in the middle of the room above the button, and the
+  button at the bottom, in reach of the thumb. A search with no match says
   `Ningún elemento coincide con «text».`, with the button **+ Añadir «text»** below it, which adds
   the name as the add sheet does and ends the search. While the button shows, the `+` button
   hides.

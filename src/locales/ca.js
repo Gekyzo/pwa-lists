@@ -22,7 +22,9 @@ export default {
   'group.noShop': 'Sense llista',
   'group.noAisle': 'Sense secció',
 
-  'empty.active': 'Toca + per afegir un element.',
+  'empty.activeTitle': 'Encara no hi ha elements',
+  'empty.active': 'Apunta el que tens pendent i marca-ho quan estigui fet.',
+  'empty.addItem': '+ Afegeix element',
   'empty.addQuery': '+ Afegeix «{query}»',
   'empty.noItemMatch': 'Cap element coincideix amb «{query}».',
 

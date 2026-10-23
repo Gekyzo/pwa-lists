@@ -22,7 +22,9 @@ export default {
   'group.noShop': 'Sin lista',
   'group.noAisle': 'Sin sección',
 
-  'empty.active': 'Toca + para añadir un elemento.',
+  'empty.activeTitle': 'Aún no hay elementos',
+  'empty.active': 'Apunta lo que tienes pendiente y márcalo cuando esté hecho.',
+  'empty.addItem': '+ Añadir elemento',
   'empty.addQuery': '+ Añadir «{query}»',
   'empty.noItemMatch': 'Ningún elemento coincide con «{query}».',
 

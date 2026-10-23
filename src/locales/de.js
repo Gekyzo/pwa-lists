@@ -22,7 +22,9 @@ export default {
   'group.noShop': 'Ohne Liste',
   'group.noAisle': 'Ohne Abteilung',
 
-  'empty.active': 'Tippe auf +, um einen Eintrag hinzuzufügen.',
+  'empty.activeTitle': 'Noch keine Einträge',
+  'empty.active': 'Notiere, was noch offen ist, und hake es ab, wenn es erledigt ist.',
+  'empty.addItem': '+ Eintrag hinzufügen',
   'empty.addQuery': '+ „{query}“ hinzufügen',
   'empty.noItemMatch': 'Kein Eintrag passt zu „{query}“.',
 

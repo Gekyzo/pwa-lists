@@ -53,12 +53,11 @@ export const shortcutStart = (name) => {
 export const dockShown = ({ view, activeCount }) => view === 'active' && activeCount > 0;
 
 // What an empty section says and offers. `title` and `text` are keys of the catalog, `title` null for
-// a search with no match and for Compra, whose header already says that it is empty. `action` is the
-// next step as a button: `add-query`; null when the add button of the screen is the action (or
-// nothing is). `query` is the search text.
+// a search with no match. `action` is the next step as a button: `add-query` or `add-item`; null
+// when nothing is. `query` is the search text.
 export const emptyAction = (view, { query }) => {
   const none = { title: null, text: null, action: null };
   if (view !== 'active') return none;
   if (query.trim() !== '') return { ...none, text: 'empty.noItemMatch', action: 'add-query' };
-  return { ...none, text: 'empty.active' };
+  return { title: 'empty.activeTitle', text: 'empty.active', action: 'add-item' };
 };
