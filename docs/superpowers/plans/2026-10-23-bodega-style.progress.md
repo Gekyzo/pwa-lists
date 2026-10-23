@@ -35,7 +35,7 @@ the 🎯 indicators (terminal status bar, tab ring, overlord tile) draw from thi
 | 5 | The + in the dock | ☑ |  | 2026-10-23 |  |
 | 6 | Group heads | ☑ |  | 2026-10-23 |  |
 | 7 | Tonal actions and full-width Ajustes | ☑ |  | 2026-10-23 |  |
-| 8 | Aisles and grouping control | ☐ |  |  |  |
+| 8 | Aisles and grouping control | ☑ |  | 2026-10-23 |  |
 | 9 | Empty list | ☐ |  |  |  |
 | 10 | Browser check | ☐ |  |  |  |
 

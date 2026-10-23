@@ -362,7 +362,9 @@
      @scope settings
      @summary The rows of the aisle sheet, each a name field with its move and remove buttons.
      @part product       One row.
-     @example <ul class="products" style="width: 100%"><li class="product"><div class="input-row"><input class="input" type="text" value="Lácteos"><button class="button icon" type="button" aria-label="Quitar">✕</button></div></li></ul> */
+     @variant flush  Rows across the sheet, as the rows of a list. A name field with no box, one line
+       below each row, from the start of the name to the end.
+     @example <ul class="products flush" style="width: 100%"><li class="product"><div class="input-row"><input class="input" type="text" value="Lámparas"><button class="button icon" type="button" aria-label="Quitar">✕</button></div></li></ul> */
   .products {
     margin: var(--space-2) 0 0;
     padding: 0;
@@ -374,6 +376,41 @@
     align-items: center;
     min-height: var(--tap);
     border-top: 1px solid var(--line);
+  }
+
+  .products.flush {
+    margin-inline: calc(-1 * var(--space-4));
+  }
+
+  .products.flush > .product {
+    border-top: 0;
+    border-bottom: 1px solid var(--line);
+    border-image: linear-gradient(to right, transparent var(--space-4), var(--line) 0) 0 0 1 0 / 0 0 1px 0;
+  }
+
+  /* The line of the row in edit is the colour of the text, as the border of a box in focus. */
+  .products.flush > .product:focus-within {
+    border-image-source: linear-gradient(to right, transparent var(--space-4), var(--text) 0);
+  }
+
+  .products.flush .input-row {
+    flex: 1;
+    gap: 0;
+    padding-inline-end: var(--space-2);
+  }
+
+  .products.flush .input-row > .input {
+    padding-inline: var(--space-4) var(--space-2);
+    border: 0;
+    border-radius: 0;
+    background: none;
+  }
+
+  /* The fill of a disabled submit (input-row) is not for the moves of an aisle: the first up and
+     the last down fade as any disabled button. */
+  .products.flush .input-row > .button.icon:disabled {
+    background: none;
+    opacity: 0.4;
   }
 
   /* @component settings
