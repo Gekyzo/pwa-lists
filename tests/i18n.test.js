@@ -166,7 +166,7 @@ test('each key of the catalog is used by the code or the page', () => {
     ...readdirSync(new URL('../src/ui/', import.meta.url)).map((name) => `src/ui/${name}`)];
   const code = files.map((file) => readFileSync(new URL(`../${file}`, import.meta.url), 'utf8')).join('\n');
   // Keys that the code builds from a part, such as `onboarding.${page}.title`.
-  const dynamic = ['onboarding.', 'aisles.usual.', 'list.'];
+  const dynamic = ['onboarding.', 'list.'];
   for (const key of Object.keys(CATALOGS.es)) {
     if (dynamic.some((prefix) => key.startsWith(prefix))) continue;
     assert.ok(code.includes(`'${key}'`) || code.includes(`"${key}"`) || code.includes(`:${key}`), key);

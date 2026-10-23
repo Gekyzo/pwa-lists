@@ -2,9 +2,6 @@ import * as aisles from '#aisles';
 import { $, el, state, ui, t, apply, render } from '#ui/context';
 import { bindField } from '#ui/controls';
 
-// The usual aisles, in the order of a walk through a common supermarket (AISLE-8).
-const USUAL = ['produce', 'bakery', 'meat', 'dairy', 'pantry', 'drinks', 'frozen', 'cleaning'];
-
 export const openAisles = () => {
   Object.assign(ui, { aislesOpen: true, openId: null });
   $('aisles-new').value = '';
@@ -59,7 +56,6 @@ export const renderAisles = () => {
   if (!ui.aislesOpen) return;
   const none = state.aisles.length === 0;
   $('aisles-empty').hidden = !none;
-  $('aisles-usual').hidden = !none;
   const list = $('aisles-list');
   if (list.children.length !== state.aisles.length) list.replaceChildren(...state.aisles.map(aisleNode));
   [...list.children].forEach(fillRow);
@@ -82,8 +78,4 @@ export const bind = () => {
     $('aisles-new').focus();
   });
   $('aisles-new').addEventListener('input', syncSubmit);
-  $('aisles-usual').addEventListener('click', () => {
-    apply(aisles.addDefaultAisles(state, USUAL.map((key) => t(`aisles.usual.${key}`))));
-    $('aisles-new').focus();
-  });
 };

@@ -19,7 +19,7 @@ bottom bar (NAV-1).
 - **AISLE-7** An item has one aisle at most. A set of an aisle takes the spelling of the list; an
   empty name clears it. A name that is not an aisle gives `error.aisleNotFound`, as a rename, a
   delete or a move of an unknown aisle does.
-- **AISLE-8** The usual aisles add each of their names that is not an aisle yet, in their order.
+- **AISLE-8** Removed: the app has no preset of usual aisles; the user writes each aisle.
 - **AISLE-9** The search of a list (LIST-22) also matches the aisle of an item.
 
 ## Sheet `Secciones de la tienda`
@@ -33,9 +33,7 @@ bottom bar (NAV-1).
   `Escape` puts the name back. An error keeps the old name.
 - **AISLE-13** The field **Nueva sección** with **Añadir** adds an aisle (AISLE-3). The field takes
   40 characters at most and keeps the focus after an add.
-- **AISLE-14** With no aisle, the sheet shows `Añade las secciones en el orden de tu tienda.` and the
-  button **Usar secciones habituales**, which adds eight aisles in the language of the screen, in
-  the order of a common walk (AISLE-8).
+- **AISLE-14** With no aisle, the sheet shows `Añade las secciones en el orden de tu tienda.`
 - **AISLE-15** `✕` deletes the aisle (AISLE-5) with the message `Sección "<name>" eliminada.` and
   `Deshacer`. An add, a rename and a move have no message.
 

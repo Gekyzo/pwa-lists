@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { emptyState, addItem, setSort } from '#store';
-import { addAisle, renameAisle, deleteAisle, moveAisle, setItemAisle, addDefaultAisles, aisleGroups } from '#aisles';
+import { addAisle, renameAisle, deleteAisle, moveAisle, setItemAisle, aisleGroups } from '#aisles';
 
 let counter = 0;
 const newId = () => `id-${++counter}`;
@@ -136,17 +136,6 @@ test('setItemAisle rejects an unknown item and an unknown aisle', () => {
   const unknown = setItemAisle(start, find(start, 'Milk').id, 'Frozen');
   assert.equal(unknown.state, start);
   assert.deepEqual(unknown.error, { key: 'error.aisleNotFound' });
-});
-
-test('addDefaultAisles adds the trimmed names that are not there, in their order', () => {
-  const start = build(['Dairy']);
-  const { state } = addDefaultAisles(start, [' Bakery ', 'dairy', '', 'Frozen', 'bakery']);
-  assert.deepEqual(state.aisles, ['Dairy', 'Bakery', 'Frozen']);
-});
-
-test('addDefaultAisles with nothing new returns the same state object', () => {
-  const start = build(['Dairy']);
-  assert.equal(addDefaultAisles(start, ['DAIRY']).state, start);
 });
 
 test('aisleGroups follows the order of the aisles and leaves out an aisle with no item', () => {

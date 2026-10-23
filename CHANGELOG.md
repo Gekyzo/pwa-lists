@@ -9,6 +9,7 @@ no change for the user has no entry.
 
 ## Unreleased
 
+- `Secciones de la tienda` has no **Usar secciones habituales**: the sections are written by hand.
 - The look of design system 0.7.1: the Geist font, the stone ground, smaller corners, heads in the colour of the text, and the names of the fields of a sheet above their boxes.
 - A tick deletes the item, with `"name" comprado.` and `Deshacer`. `Compra` has no `Comprados (N)`, no **Terminar compra**, no banner `¿Has terminado?` and no saved items; `Ajustes` has no **Al terminar la compra**. The header says `N artículos`, and the walkthrough has three pages. A backup or a stored list keeps only the items to buy.
 

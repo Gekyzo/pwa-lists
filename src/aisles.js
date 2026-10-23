@@ -74,12 +74,6 @@ export const setItemAisle = (state, id, name) => {
   return { state: { ...state, items: state.items.map((entry) => (entry.id === id ? { ...entry, aisle } : entry)) } };
 };
 
-// Adds each name that is not an aisle yet, in the order of `names`.
-export const addDefaultAisles = (state, names) => {
-  const next = names.reduce((current, name) => addAisle(current, name).state, state);
-  return { state: next.aisles.length === state.aisles.length ? state : next };
-};
-
 // A list by aisle, with the aisles in the order of the walk. `total` is the count of `items`. An
 // aisle with no item has no group. `rest` holds the items with no aisle.
 export const aisleGroups = (state) => {
