@@ -48,7 +48,7 @@ first one with a bare remote.
 - `icons/shortcut-*.png`: written by `npm run icons` from the glyphs of `scripts/make-icons.mjs`.
 - `docs/superpowers/plans/*.progress.md`: written by `plan-current.sh`.
 - `version.json` and the `version` of `package.json`: written by `scripts/bump-version.mjs`. Do not edit them by hand.
-- The version headings of `CHANGELOG.md`: written by `scripts/bump-version.mjs` from `Unreleased`. Write a change under `Unreleased` only.
+- The version headings of `CHANGELOG.md` and of `release-notes/*.md`: written by `scripts/bump-version.mjs` from `Unreleased`. Write a change under `Unreleased` only.
 
 ## Siblings
 
