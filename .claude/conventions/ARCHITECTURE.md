@@ -36,6 +36,7 @@ The `May import` column is the real set of `#` imports of each module.
 | `src/suggest.js` | The rows above the add input: create first, then the matching items, and which are in the list | `store` |
 | `src/storage.js` | Load, save, export, import, validation, migration, the language key and the device preferences | `store` |
 | `src/version.js` | Pure version rules: validation, comparison, the next version | nothing |
+| `src/whatsnew.js` | The parse of the release notes and the versions that a user has not seen | `version` |
 | `src/install.js` | The install offer state machine | nothing |
 | `src/i18n.js` | The language to show (`resolveLanguage`) and the function `t(key, params)` of one language (`translator`) | `locales/*` |
 | `src/locales/<lang>.js` | The text of one language: a flat object from key to a text or to `{ one, other }` | nothing |
@@ -77,7 +78,7 @@ against the imports of each module.
 - **`localStorage`**, key `lists.swipeHint`: `1` after `Compra` showed the slide of a row one
   time (ROW-14).
 - The keys other than `lists.v1` are not part of the state and not part of the backup.
-- **Cache API**, cache `lists-shell-v2`: the app shell, served stale-while-revalidate. A request
+- **Cache API**, cache `lists-shell-v6`: the app shell, served stale-while-revalidate. A request
   with the `latest` parameter goes to the network only. The message `{ type: 'refresh' }` loads
   the full shell again and answers `{ ok }` on the message port. Cache `lists-manifest`: the
   manifest in the language of the screen (SW-13). The worker deletes only stale `lists-` caches.

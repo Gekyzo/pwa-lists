@@ -1,4 +1,4 @@
-const CACHE = 'lists-shell-v5';
+const CACHE = 'lists-shell-v6';
 
 const SHELL = [
   './',
@@ -39,6 +39,7 @@ const SHELL = [
   './src/suggest.js',
   './src/storage.js',
   './src/version.js',
+  './src/whatsnew.js',
   './src/i18n.js',
   './src/locales/ca.js',
   './src/locales/de.js',
