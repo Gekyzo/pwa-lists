@@ -1,4 +1,4 @@
-const CACHE = 'lists-shell-v4';
+const CACHE = 'lists-shell-v5';
 
 const SHELL = [
   './',

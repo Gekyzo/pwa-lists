@@ -9,7 +9,7 @@ no change for the user has no entry.
 
 ## Unreleased
 
-No change.
+- The message that shows after an action, with its `Deshacer`, is a raised card in the colours of the screen. It is no longer a black box in light and a white box in dark.
 
 ## 1.0.1 - 2026-10-24
 
