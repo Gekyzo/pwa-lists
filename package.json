@@ -1,6 +1,6 @@
 {
   "name": "lists",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Lists of things: items, their shops as lists and their sections, offline on one phone",
   "private": true,
   "type": "module",
