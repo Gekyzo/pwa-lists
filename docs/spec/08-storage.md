@@ -14,6 +14,7 @@ Rules of `src/storage.js`, and of its use in `src/ui/context.js` and `src/ui/set
 | `localStorage` | `lists.density` | `compact` when the user chose **Compacta** ([07-screen.md](07-screen.md), NAV-21) |
 | `localStorage` | `lists.shopLists` | Retired: the choice of the row of shop lists. No code reads it; **Borrar todos los datos** removes it |
 | `localStorage` | `lists.swipeHint` | `1` after `Listas` showed the slide of a row one time ([07-screen.md](07-screen.md), ROW-14) |
+| `localStorage` | `lists.seen-version` | The newest version whose release notes the user has seen ([10-offline-version.md](10-offline-version.md), VER-20) |
 | `localStorage` | `lists.onboarded` | `1` after the walkthrough of the first start closed ([07-screen.md](07-screen.md), ONB-7) |
 | Cache API | `lists-shell-v6` | The app shell ([10-offline-version.md](10-offline-version.md)) |
 | Cache API | `lists-manifest` | The name, the description and the shortcut names of the manifest in the language of the screen (SW-13) |

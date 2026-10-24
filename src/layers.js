@@ -1,9 +1,14 @@
-// The layers that open over a section: a sheet, an open row, the search of a list, the open list
+// The layers that open over a section: a sheet (the What's new sheet too), an open row, the search of a list, the open list
 // over the first level of Listas. `view` is the state of the screen (`ui` of src/ui/context.js).
 
 // True while a sheet is open. One sheet is open at a time.
 export const sheetOpen = (view) =>
-  view.sheetOpen || view.arrangeOpen || view.aislesOpen || view.editId !== null || view.listSheet !== null;
+  view.sheetOpen ||
+  view.arrangeOpen ||
+  view.aislesOpen ||
+  view.whatsNewOpen ||
+  view.editId !== null ||
+  view.listSheet !== null;
 
 // The layer that `Escape` and the back of the phone close first: an open sheet, then an open row,
 // then the search of a list, then the list itself, back to the first level. Null when nothing is open.

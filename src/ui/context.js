@@ -122,6 +122,8 @@ export const ui = {
   arrangeOpen: false,
   // True while the sheet of the aisles of Ajustes is open.
   aislesOpen: false,
+  // The What's new sheet (VER-21).
+  whatsNewOpen: false,
   // The item whose edit sheet is open, or null.
   editId: null,
   // The list sheet: null while closed, `{ id: null }` to create a list, `{ id }` to rename one.

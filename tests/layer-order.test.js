@@ -7,6 +7,7 @@ const closed = () => ({
   sheetOpen: false,
   arrangeOpen: false,
   aislesOpen: false,
+  whatsNewOpen: false,
   view: 'active',
   list: null,
   editId: null,
@@ -20,7 +21,7 @@ test('sheetOpen is false with nothing open', () => {
 });
 
 test('sheetOpen is true for each sheet', () => {
-  for (const flag of ['sheetOpen', 'arrangeOpen', 'aislesOpen']) {
+  for (const flag of ['sheetOpen', 'arrangeOpen', 'aislesOpen', 'whatsNewOpen']) {
     assert.equal(sheetOpen({ ...closed(), [flag]: true }), true, flag);
   }
   assert.equal(sheetOpen({ ...closed(), editId: 'id-1' }), true);
@@ -58,4 +59,8 @@ test('closeTop does not change the screen state', () => {
 
 test('sheetOpen has no trip sheet', () => {
   assert.equal(sheetOpen({ ...closed(), tripOpen: true }), false);
+});
+
+test('closeTop gives the What\'s new sheet before the row, the search and the list (VER-21)', () => {
+  assert.equal(closeTop({ ...closed(), whatsNewOpen: true, openId: 'id-1', searchOpen: true, list: 'L' }), 'sheet');
 });

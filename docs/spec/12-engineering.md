@@ -9,7 +9,7 @@
 | `src/aisles.js` | Pure aisle operations and the list by aisle | `store` |
 | `src/swipe.js` | The rule that settles the slide of an item row | nothing |
 | `src/sections.js` | The order of the sections, the rule of the slide between them, the start of a shortcut and what an empty section says and offers, the collapse of the `+` button on a scroll, when the dock shows | nothing |
-| `src/layers.js` | The layers over a section: whether a sheet is open, and the top layer that `Escape` and the back close (`closeTop`) | nothing |
+| `src/layers.js` | The layers over a section: whether a sheet is open, the What's new sheet too, and the top layer that `Escape` and the back close (`closeTop`) | nothing |
 | `src/onboarding.js` | The pages of the walkthrough, the rule that shows it and the step between pages | nothing |
 | `src/reorder.js` | The geometry of a row move: drop place, gap, new order | nothing |
 | `src/sheets.js` | The rules of a sheet: when a field save shows `Guardado`, and for how long | nothing |
@@ -32,6 +32,7 @@
 | `src/ui/lists.js` | The first level of `Listas`: the list rows and cards, their actions and move, the list sheet, the open and the close of a list | `lists`, `ui/context`, `ui/view`, `ui/controls`, `ui/rows`, `ui/drag` |
 | `src/ui/add.js` | The add sheet, and the `+` button that opens it or the list sheet | `store`, `lists`, `suggest`, `ui/context`, `ui/view`, `ui/lists` |
 | `src/ui/onboarding.js` | The walkthrough | `lists`, `onboarding`, `sections`, `storage`, `ui/context`, `ui/controls` |
+| `src/ui/whatsnew.js` | The What's new sheet, its row of `Ajustes` and the seen version | `whatsnew`, `onboarding`, `i18n`, `storage`, `ds/sheet`, `ui/context`, `ui/controls` |
 | `src/ui/aisles.js` | The sheet of the aisles of `Ajustes` | `aisles`, `ui/context`, `ui/controls` |
 | `src/ui/install.js` | The Install button of `Ajustes` | `install`, `ui/context` |
 | `src/ui/settings.js` | `Ajustes`: version and update, language, hand, theme, export and import, the delete of the sample lists | `lists`, `sections`, `storage`, `version`, `i18n`, `ui/context`, `ui/onboarding` |
@@ -91,9 +92,9 @@
 | `tests/store.test.js` | Items, the tick, the order, the search, the arrival message |
 | `tests/lists.test.js` | The lists of the first level, their order and view, the items of one list, the move of an item |
 | `tests/aisles.test.js` | Aisles, the aisle of an item and the list by aisle |
-| `tests/storage.test.js` | Load, save, validation, migration, export, import, the language key and the device preferences |
+| `tests/storage.test.js` | Load, save, validation, migration, export, import, the language key, the device preferences and the seen version |
 | `tests/swipe.test.js` | The settle rule of a row slide |
-| `tests/sw.test.js` | The manifest text that the worker puts in place, with the names of the shortcuts (SW-13) |
+| `tests/sw.test.js` | The manifest text that the worker puts in place, with the names of the shortcuts (SW-13); the release notes of each language in `SHELL` (VER-20) |
 | `tests/layer-order.test.js` | The open sheet and the order of the layers that `Escape` and the back close (NAV-25) |
 | `tests/sections.test.js` | The slide between sections; the start of each shortcut and its place in the manifest (SHORT-1, SHORT-2) |
 | `tests/onboarding.test.js` | The show rule and the page steps of the walkthrough |
@@ -104,7 +105,7 @@
 | `tests/whatsnew.test.js` | The parse of the release notes and the unseen versions |
 | `tests/install.test.js` | The install offer states (INS-1) |
 | `tests/i18n.test.js` | The language choice, the translator, the parity of the catalogs |
-| `tests/markup.test.js` | `index.html` holds no text of its own |
+| `tests/markup.test.js` | `index.html` holds no text of its own; the sheets, `Ajustes` and the What's new sheet and row (VER-21, VER-22) |
 | `tests/aliases.test.js` | The import map against `package.json`; each `#ds/` alias names a vendored module |
 | `tests/layers.test.js` | The layer rules: no import of `src/app.js`, no view in a pure module, no cycle among `src/ui/`, one owner for each shared value, `SHELL` (ENG-16) |
 | `tests/design.test.js` | Each rule of `vendor/design-system/rules.js` over the two stylesheets, `index.html`, `icons.svg`, `src/ui/` and `designs/` (DSV-8); the classes of the item rows |

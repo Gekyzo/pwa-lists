@@ -28,6 +28,9 @@ import {
   SWIPE_HINT_KEY,
   loadSwipeHint,
   saveSwipeHint,
+  SEEN_VERSION_KEY,
+  loadSeen,
+  saveSeen,
   APP_KEYS,
   resetAll,
 } from '#storage';
@@ -700,7 +703,7 @@ test('resetAll removes every key of the app and keeps the keys of other apps', (
 });
 
 test('APP_KEYS holds the state, its corrupt copy and each preference of the device', () => {
-  const keys = [STORAGE_KEY, CORRUPT_KEY, LANGUAGE_KEY, HAND_KEY, SHOP_LISTS_KEY, THEME_KEY, DENSITY_KEY, ONBOARDED_KEY, SWIPE_HINT_KEY];
+  const keys = [STORAGE_KEY, CORRUPT_KEY, LANGUAGE_KEY, HAND_KEY, SHOP_LISTS_KEY, THEME_KEY, DENSITY_KEY, ONBOARDED_KEY, SWIPE_HINT_KEY, SEEN_VERSION_KEY];
   assert.deepEqual([...APP_KEYS].sort(), [...keys].sort());
 });
 
@@ -767,4 +770,21 @@ test('a Bodega version 9 backup imports as a version 12 state with its items, a 
 test('a stored version 9 state loads as version 12', () => {
   const storage = fakeStorage({ [STORAGE_KEY]: JSON.stringify({ ...sample(), version: 9 }) });
   assert.deepEqual(load(storage), current());
+});
+
+test('the seen version has a key of the app (VER-20)', () => {
+  assert.equal(SEEN_VERSION_KEY, 'lists.seen-version');
+});
+
+test('loadSeen gives the stored version, and null when there is none or the storage throws', () => {
+  assert.equal(loadSeen(fakeStorage({ [SEEN_VERSION_KEY]: '1.2.3' })), '1.2.3');
+  assert.equal(loadSeen(fakeStorage()), null);
+  assert.equal(loadSeen(brokenStorage()), null);
+});
+
+test('saveSeen stores the version, and is false for a storage that throws', () => {
+  const storage = fakeStorage();
+  assert.equal(saveSeen(storage, '1.2.3'), true);
+  assert.equal(loadSeen(storage), '1.2.3');
+  assert.equal(saveSeen(brokenStorage(), '1.2.3'), false);
 });

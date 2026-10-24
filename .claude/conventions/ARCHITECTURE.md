@@ -51,6 +51,7 @@ The `May import` column is the real set of `#` imports of each module.
 | `src/ui/list.js` | The list `Compra`: rows, search, shop lists and the end card, the dock and its shop picker, header | `store`, `shops`, `aisles`, `sections`, `ui/context`, `ui/view`, `ui/rows`, `ui/add` |
 | `src/ui/add.js` | The add sheet | `store`, `shops`, `suggest`, `ui/context`, `ui/view` |
 | `src/ui/onboarding.js` | The walkthrough of three pages | `lists`, `onboarding`, `sections`, `storage`, `ui/context`, `ui/controls` |
+| `src/ui/whatsnew.js` | The What's new sheet, its row of `Ajustes` and the seen version | `whatsnew`, `onboarding`, `i18n`, `storage`, `ds/sheet`, `ui/context`, `ui/controls` |
 | `src/ui/aisles.js` | The sheet of the aisles of `Ajustes` | `aisles`, `ui/context`, `ui/controls` |
 | `src/ui/install.js` | The Install button of `Ajustes` | `install`, `ui/context` |
 | `src/ui/settings.js` | `Ajustes`: version and update, language, hand, theme, export and import, the delete of the sample lists | `lists`, `sections`, `storage`, `version`, `i18n`, `ui/context`, `ui/onboarding` |
@@ -75,6 +76,8 @@ against the imports of each module.
   device preferences of `Ajustes` and of the list.
 - **`localStorage`**, key `lists.onboarded`: `1` after the walkthrough of the first start closed. No
   key and no `lists.v1` means a new install, which shows the walkthrough.
+- **`localStorage`**, key `lists.seen-version`: the newest version whose release notes the user
+  has seen (VER-20).
 - **`localStorage`**, key `lists.swipeHint`: `1` after `Compra` showed the slide of a row one
   time (ROW-14).
 - The keys other than `lists.v1` are not part of the state and not part of the backup.

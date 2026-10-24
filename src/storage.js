@@ -369,6 +369,28 @@ export const saveSwipeHint = (storage) => {
   }
 };
 
+// The newest version whose release notes the user has seen (VER-20). A preference of the device, as
+// the hand is.
+export const SEEN_VERSION_KEY = 'lists.seen-version';
+
+// Null when nothing is stored or the storage cannot be read: no notes show.
+export const loadSeen = (storage) => {
+  try {
+    return storage.getItem(SEEN_VERSION_KEY);
+  } catch {
+    return null;
+  }
+};
+
+export const saveSeen = (storage, version) => {
+  try {
+    storage.setItem(SEEN_VERSION_KEY, version);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
 // Every key that the app writes to the storage: the state, its corrupt copy and each preference of the
 // device. Borrar todos los datos removes them all (BACKUP-7).
 export const APP_KEYS = [
@@ -381,6 +403,7 @@ export const APP_KEYS = [
   DENSITY_KEY,
   ONBOARDED_KEY,
   SWIPE_HINT_KEY,
+  SEEN_VERSION_KEY,
 ];
 
 // After it, the install counts as new: the next start shows the walkthrough.

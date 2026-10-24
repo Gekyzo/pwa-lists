@@ -42,6 +42,7 @@ import { renderInstall, bind as bindInstall } from '#ui/install';
 import { renderAisles, closeAisles, bind as bindAisles } from '#ui/aisles';
 import { bind as bindNav } from '#ui/nav';
 import { closeList, openListSheet, renderListSheet, closeListSheet, bind as bindLists } from '#ui/lists';
+import { startWhatsNew, closeWhatsNew, bind as bindWhatsNew } from '#ui/whatsnew';
 
 // Screen
 
@@ -156,6 +157,7 @@ bindLists();
 
 // The open sheet closes by its own close; one sheet is open at a time.
 const closeSheets = () => {
+  if (ui.whatsNewOpen) closeWhatsNew();
   if (ui.sheetOpen) closeSheet();
   if (ui.arrangeOpen) closeArrange();
   if (ui.editId !== null) closeEdit();
@@ -228,6 +230,7 @@ $('toast-undo').addEventListener('click', () => {
 bindSettings();
 bindInstall();
 bindAisles();
+bindWhatsNew();
 
 // Each sheet closes by Listo of its head and by a drag down of its grab or head. Each close
 // hides the layer at once, so the closing transition starts where the drag left the sheet.
@@ -275,4 +278,5 @@ navigator.serviceWorker?.register('./sw.js').catch(() => {});
 readVersion('./version.json').then((running) => {
   ui.version.running = running;
   renderVersion();
+  startWhatsNew(running);
 });

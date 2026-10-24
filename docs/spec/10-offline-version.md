@@ -8,7 +8,7 @@ Rules of `sw.js`, `src/version.js`, `version.json`, `scripts/bump-version.mjs`,
 - **SW-1** `src/app.js` registers `sw.js` at each start. With no service worker the app works with
   a connection only.
 - **SW-2** The app shell is the list `SHELL` of `sw.js`: the page, the two stylesheets (DSV-2),
-  the font of the design system (`geist.woff2`), the manifest, each module of `src/`, each catalog, `version.json`, the icons of the app and the
+  the font of the design system (`geist.woff2`), the manifest, each module of `src/`, each catalog, `version.json`, the release notes of each language (VER-18), the icons of the app and the
   icon sprite `icons.svg`. A file that the app loads and that is not in `SHELL` does not work offline at the
   first start.
 - **SW-3** At its install the worker downloads the full shell past the HTTP cache, so the shell is
@@ -112,6 +112,28 @@ Rules of `sw.js`, `src/version.js`, `version.json`, `scripts/bump-version.mjs`,
   notes in some languages and not in the others, or when the files do not have the same released
   versions; the error names the languages.
 
+- **VER-20** At each start the app reads the release notes of the language of the screen, or
+  `release-notes/en.md` when that file cannot be read. Each file is in `SHELL`. It compares them
+  with the stored seen version (`lists.seen-version`) and the running version (`nextSeen`):
+  - nothing stored (a first start, or a start from before this rule): it stores the running
+    version and shows nothing;
+  - no notes could be read, or the walkthrough or another sheet covers the screen: it shows and
+    stores nothing, and the next start tries again;
+  - the notes have versions after the seen one and not after the running one: the **Novedades**
+    sheet shows them (VER-21), and its close stores the newest of them. A running version whose
+    notes are not in the cache yet thus stays unseen;
+  - otherwise it shows and stores nothing. The seen version never goes down.
+
+  A storage that cannot be read shows nothing. **Borrar todos los datos** removes the seen
+  version, so the next start is a first start.
+- **VER-21** The **Novedades** sheet has the title `whatsNew.title` and `whatsNew.close`, and
+  one block for each version, newest first: `whatsNew.version` with the day in the long form of
+  the language, then the notes as a list. A `` `name` `` in a note shows as the key of the
+  walkthrough. The veil, `Close`, a drag down, `Escape` and the back of the phone close it: it is
+  a sheet of `closeTop` (NAV-25).
+- **VER-22** **Ayuda** in `Ajustes` has the row `settings.whatsNew` after the introduction, which
+  shows the sheet with every version. The row is hidden while the notes have no version.
+
 ## Installation
 
 - **VER-14** The manifest makes the app installable from Chrome: **Add to Home screen →
@@ -131,4 +153,4 @@ Rules of `sw.js`, `src/version.js`, `version.json`, `scripts/bump-version.mjs`,
 
 ## Limits
 
-No message that says a new version is ready. No way back to an older version. No list of changes.
+No message that says a new version is ready. No way back to an older version.

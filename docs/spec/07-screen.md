@@ -36,7 +36,7 @@ the bottom bar at each width.
 - **NAV-6** `Ajustes` has five groups, each a title above one full-width group of rows: **Copia de seguridad**
   (**Exportar**, **Importar**, **Borrar todos los datos**), **Preferencias** (**Idioma**, **Mano**, **Tema**, **Densidad**),
   **Secciones**, **Aplicación** (**Instalar la aplicación**) and
-  **Ayuda** (**Ver la introducción**, **Borrar las listas de ejemplo** of ONB-14). A row is 56 px high or more.
+  **Ayuda** (**Ver la introducción**, **Novedades** of VER-22, **Borrar las listas de ejemplo** of ONB-14). A row is 56 px high or more.
   It has its name at the start. A row that opens something ends with a `›`; **Exportar**,
   **Importar**, **Secciones de las listas** and **Ver la introducción** do. A row of **Preferencias**
   also shows its current value before the `›`, and a tap on the row opens the picker of the device
@@ -153,7 +153,8 @@ the bottom bar at each width.
   square of the tap size (48 px) after a scroll of the list of more than 24 px down, and opens
   again on any scroll up and at the top of the list (`fabState`). Below 600px the `+` is the last
   button of the dock, with no collapse; it floats as from 600px only while the dock does not show.
-- **NAV-25** `Escape` and the back of the phone close one layer, the top one first: an open sheet,
+- **NAV-25** `Escape` and the back of the phone close one layer, the top one first: an open sheet
+  (the **Novedades** sheet of VER-21 too),
   then an open row, then the search of a list, then the open list, back to the first level
   (`closeTop`, LVL-13). While a layer is open, one entry of the
   history stands for it, so the back closes the layer and not the app. A layer closed in another
