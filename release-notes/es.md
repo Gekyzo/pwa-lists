@@ -4,6 +4,10 @@ Lo que cambia para ti en cada versión de la app. La versión más nueva va prim
 
 ## Unreleased
 
+No change.
+
+## 1.0.4 - 2026-10-25
+
 - Entras con tu cuenta de Google, o tocas **Usar sin conexión** para usar la app sin cuenta. El administrador aprueba cada cuenta nueva. Tus listas se quedan en este dispositivo.
 
 ## 1.0.3 - 2026-10-24

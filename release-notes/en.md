@@ -4,6 +4,10 @@ What changes for you in each version of the app. The newest version is first.
 
 ## Unreleased
 
+No change.
+
+## 1.0.4 - 2026-10-25
+
 - You sign in with your Google account, or tap **Use offline** to use the app with no account. The administrator approves each new account. Your lists stay on this device.
 
 ## 1.0.3 - 2026-10-24

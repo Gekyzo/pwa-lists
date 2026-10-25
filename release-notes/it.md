@@ -4,6 +4,10 @@ Cosa cambia per te in ogni versione dell’app. La versione più recente è la p
 
 ## Unreleased
 
+No change.
+
+## 1.0.4 - 2026-10-25
+
 - Accedi con il tuo account Google, oppure tocchi **Usa offline** per usare l’app senza account. L’amministratore approva ogni nuovo account. Le tue liste restano su questo dispositivo.
 
 ## 1.0.3 - 2026-10-24
