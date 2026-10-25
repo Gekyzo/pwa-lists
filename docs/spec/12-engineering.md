@@ -4,6 +4,9 @@
 
 | Module | Responsibility | May import |
 |---|---|---|
+| `src/config.js` | The slug of the app on the account server and the URL of that server | nothing |
+| `src/pocketbase.js` | The client of the account server: Google sign-in, refresh, the access row (ACC-3) | `config` |
+| `src/session.js` | The session on the device, the start route and the return from Google (ACC-1, ACC-4, ACC-5) | nothing |
 | `src/store.js` | Pure state operations and derived views | nothing |
 | `src/lists.js` | Pure list operations: the lists of the first level, their order and view, the items of one list, the move of an item | `store` |
 | `src/aisles.js` | Pure aisle operations and the list by aisle | `store` |
@@ -30,6 +33,7 @@
 | `src/ui/arrange.js` | The arrange sheet: the view and the order of the lists, the grouping and the order of the items | `store`, `lists`, `ui/context`, `ui/view`, `ui/motion` |
 | `src/ui/list.js` | The section `Listas`: the first level or the rows of the open list, search, empty state, the dock, header | `store`, `lists`, `aisles`, `sections`, `ui/context`, `ui/view`, `ui/rows`, `ui/add`, `ui/lists` |
 | `src/ui/lists.js` | The first level of `Listas`: the list rows and cards, their actions and move, the list sheet, the open and the close of a list | `lists`, `ui/context`, `ui/view`, `ui/controls`, `ui/rows`, `ui/drag` |
+| `src/ui/account.js` | The account screens and the group **Cuenta** of `Ajustes` (ACC-1 to ACC-10) | `pocketbase`, `session`, `config`, `ui/context` |
 | `src/ui/add.js` | The add sheet, and the `+` button that opens it or the list sheet | `store`, `lists`, `suggest`, `ui/context`, `ui/view`, `ui/lists` |
 | `src/ui/onboarding.js` | The walkthrough | `lists`, `onboarding`, `sections`, `storage`, `ui/context`, `ui/controls` |
 | `src/ui/whatsnew.js` | The What's new sheet, its row of `Ajustes` and the seen version | `whatsnew`, `onboarding`, `i18n`, `storage`, `ds/sheet`, `ui/context`, `ui/controls` |
@@ -92,6 +96,8 @@
 | `tests/store.test.js` | Items, the tick, the order, the search, the arrival message |
 | `tests/lists.test.js` | The lists of the first level, their order and view, the items of one list, the move of an item |
 | `tests/aisles.test.js` | Aisles, the aisle of an item and the list by aisle |
+| `tests/pocketbase.test.js` | The client of the account server and its URL (ACC-3, ACC-4, ACC-6) |
+| `tests/session.test.js` | The session, the start route, the offline flag, the pending sign-in and the return URL (ACC-1, ACC-4, ACC-5, ACC-10) |
 | `tests/storage.test.js` | Load, save, validation, migration, export, import, the language key, the device preferences and the seen version |
 | `tests/swipe.test.js` | The settle rule of a row slide |
 | `tests/sw.test.js` | The manifest text that the worker puts in place, with the names of the shortcuts (SW-13); the release notes of each language in `SHELL` (VER-20) |
@@ -105,7 +111,7 @@
 | `tests/whatsnew.test.js` | The parse of the release notes and the unseen versions |
 | `tests/install.test.js` | The install offer states (INS-1) |
 | `tests/i18n.test.js` | The language choice, the translator, the parity of the catalogs |
-| `tests/markup.test.js` | `index.html` holds no text of its own; the sheets, `Ajustes` and the What's new sheet and row (VER-21, VER-22) |
+| `tests/markup.test.js` | `index.html` holds no text of its own; the sheets, `Ajustes`, the What's new sheet and row (VER-21, VER-22) and the account markup (ACC-2, ACC-8) |
 | `tests/aliases.test.js` | The import map against `package.json`; each `#ds/` alias names a vendored module |
 | `tests/layers.test.js` | The layer rules: no import of `src/app.js`, no view in a pure module, no cycle among `src/ui/`, one owner for each shared value, `SHELL` (ENG-16) |
 | `tests/design.test.js` | Each rule of `vendor/design-system/rules.js` over the two stylesheets, `index.html`, `icons.svg`, `src/ui/` and `designs/` (DSV-8); the classes of the item rows |

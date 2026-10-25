@@ -4,7 +4,7 @@ El que canvia per a tu en cada versió de l’app. La versió més nova va prime
 
 ## Unreleased
 
-No change.
+- Entres amb el teu compte de Google, o toques **Usa sense connexió** per usar l’aplicació sense compte. L’administrador aprova cada compte nou. Les teves llistes es queden en aquest dispositiu.
 
 ## 1.0.3 - 2026-10-24
 

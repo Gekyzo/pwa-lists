@@ -16,8 +16,12 @@ Rules of `src/storage.js`, and of its use in `src/ui/context.js` and `src/ui/set
 | `localStorage` | `lists.swipeHint` | `1` after `Listas` showed the slide of a row one time ([07-screen.md](07-screen.md), ROW-14) |
 | `localStorage` | `lists.seen-version` | The newest version whose release notes the user has seen ([10-offline-version.md](10-offline-version.md), VER-20) |
 | `localStorage` | `lists.onboarded` | `1` after the walkthrough of the first start closed ([07-screen.md](07-screen.md), ONB-7) |
-| Cache API | `lists-shell-v6` | The app shell ([10-offline-version.md](10-offline-version.md)) |
+| Cache API | `lists-shell-v7` | The app shell ([10-offline-version.md](10-offline-version.md)) |
 | Cache API | `lists-manifest` | The name, the description and the shortcut names of the manifest in the language of the screen (SW-13) |
+
+The account keeps `lists.session` (ACC-5) and `lists.offline` (ACC-10) in `localStorage`, and `lists.oauth`
+in `sessionStorage` for the time of a Google redirect (ACC-4). [18-account.md](18-account.md) owns them;
+**Borrar todos los datos** leaves them.
 
 The `v1` of the key is the version of the key, not of the state. The state has its own `version`.
 

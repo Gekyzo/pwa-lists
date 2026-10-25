@@ -10,7 +10,7 @@ no change for the user has no entry.
 
 ## Unreleased
 
-No change.
+- Google sign-in and the approval gate of the PocketBase server, with an offline choice, as in `pwa-wardrobe` (ACC-1 to ACC-10, `docs/spec/18-account.md`): `src/config.js`, `src/pocketbase.js`, `src/session.js`, `src/ui/account.js`. The app opens for an approved Google account or, after **Usar sin conexión**, with no account. Nothing syncs. Server slug `pwa-lists`; keys `lists.session`, `lists.offline` and `lists.oauth` (`sessionStorage`). The shell cache is `lists-shell-v7`.
 
 ## 1.0.3 - 2026-10-24
 

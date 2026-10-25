@@ -4,7 +4,7 @@ Ce qui change pour vous dans chaque version de l’app. La version la plus réce
 
 ## Unreleased
 
-No change.
+- Tu te connectes avec ton compte Google, ou tu touches **Utiliser hors connexion** pour utiliser l’application sans compte. L’administrateur approuve chaque nouveau compte. Tes listes restent sur cet appareil.
 
 ## 1.0.3 - 2026-10-24
 

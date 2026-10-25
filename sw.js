@@ -1,4 +1,4 @@
-const CACHE = 'lists-shell-v6';
+const CACHE = 'lists-shell-v7';
 
 const SHELL = [
   './',
@@ -10,6 +10,10 @@ const SHELL = [
   './icons.svg',
   './manifest.webmanifest',
   './src/app.js',
+  './src/config.js',
+  './src/pocketbase.js',
+  './src/session.js',
+  './src/ui/account.js',
   './src/install.js',
   './src/ui/install.js',
   './src/ui/lists.js',

@@ -43,6 +43,12 @@ import { renderAisles, closeAisles, bind as bindAisles } from '#ui/aisles';
 import { bind as bindNav } from '#ui/nav';
 import { closeList, openListSheet, renderListSheet, closeListSheet, bind as bindLists } from '#ui/lists';
 import { startWhatsNew, closeWhatsNew, bind as bindWhatsNew } from '#ui/whatsnew';
+import { renderAccount, startAccount, goOnline, isAccountOpen, closeAccount, bind as bindAccount } from '#ui/account';
+import { readOAuthReturn } from '#session';
+
+// The return of the Google sign-in (ACC-4): `code`, `state` and `error` leave the URL at once.
+const { oauth, clean } = readOAuthReturn(new URL(location.href));
+if (oauth) history.replaceState(history.state, '', clean);
 
 // Screen
 
@@ -88,6 +94,7 @@ const renderAll = () => {
   renderVersion();
   renderSample();
   renderInstall();
+  renderAccount();
 
   // An action in the empty state replaces the add button.
   // Below 600px the add button of the dock takes the place of the fab (design-system.css), with the
@@ -208,6 +215,11 @@ scroller.addEventListener(
 );
 
 document.addEventListener('keydown', (event) => {
+  // The account screens cover the app, the walkthrough too. Only Sign in over an open app closes (ACC-2).
+  if (isAccountOpen()) {
+    if (event.key === 'Escape') closeAccount();
+    return;
+  }
   if (ui.onboarding !== null) {
     if (event.key === 'Escape') closeOnboarding();
     else if (event.key === 'ArrowRight') turnOnboarding(1);
@@ -231,6 +243,7 @@ bindSettings();
 bindInstall();
 bindAisles();
 bindWhatsNew();
+bindAccount();
 
 // Each sheet closes by Listo of its head and by a drag down of its grab or head. Each close
 // hides the layer at once, so the closing transition starts where the drag left the sheet.
@@ -248,6 +261,8 @@ for (const [id, close] of Object.entries(SHEET_CLOSE)) {
 
 applyLanguage();
 if (ui.onboarding !== null) $('onboarding-title').focus();
+startAccount(oauth);
+window.addEventListener('online', goOnline);
 // An automation of the phone opens `?arrival` at the shop. The query goes away, so a reload is silent.
 const params = new URLSearchParams(location.search);
 if (params.has('arrival')) {

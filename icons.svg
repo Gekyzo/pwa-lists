@@ -18,4 +18,5 @@
   <symbol id="chevron-down" viewBox="0 0 24 24"><path d="M5 9l7 7 7-7"/></symbol>
   <symbol id="plus" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="M12 5v14"/></symbol>
   <symbol id="close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="google" viewBox="0 0 24 24"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 12h-7"/></symbol>
 </svg>
