@@ -4,6 +4,10 @@ Ce qui change pour vous dans chaque version de l’app. La version la plus réce
 
 ## Unreleased
 
+No change.
+
+## 1.0.5 - 2026-10-27
+
 - L’app a une nouvelle icône : une pile de cartes de liste.
 
 ## 1.0.4 - 2026-10-25

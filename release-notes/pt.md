@@ -4,6 +4,10 @@ O que muda para ti em cada versão da app. A versão mais recente vem primeiro.
 
 ## Unreleased
 
+No change.
+
+## 1.0.5 - 2026-10-27
+
 - A app tem um ícone novo: uma pilha de cartões de lista.
 
 ## 1.0.4 - 2026-10-25

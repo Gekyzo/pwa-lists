@@ -4,6 +4,10 @@ Cosa cambia per te in ogni versione dell’app. La versione più recente è la p
 
 ## Unreleased
 
+No change.
+
+## 1.0.5 - 2026-10-27
+
 - L’app ha una nuova icona: una pila di schede di lista.
 
 ## 1.0.4 - 2026-10-25
