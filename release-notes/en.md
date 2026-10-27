@@ -4,7 +4,7 @@ What changes for you in each version of the app. The newest version is first.
 
 ## Unreleased
 
-No change.
+- The app has a new icon: a stack of list cards.
 
 ## 1.0.4 - 2026-10-25
 

@@ -4,7 +4,7 @@ El que canvia per a tu en cada versió de l’app. La versió més nova va prime
 
 ## Unreleased
 
-No change.
+- L’app té una icona nova: una pila de targetes de llista.
 
 ## 1.0.4 - 2026-10-25
 

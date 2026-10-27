@@ -4,7 +4,7 @@ Was sich für dich in jeder Version der App ändert. Die neueste Version steht o
 
 ## Unreleased
 
-No change.
+- Die App hat ein neues Symbol: ein Stapel Listenkarten.
 
 ## 1.0.4 - 2026-10-25
 

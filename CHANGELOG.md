@@ -10,7 +10,7 @@ no change for the user has no entry.
 
 ## Unreleased
 
-No change.
+- New app icon: three stacked list cards in place of the basket of Bodega. `icons/source.png` is the new art, cropped so that it fills 0.94 of its square, with its off-white background made pure white; `npm run icons` wrote `icon-192.png`, `icon-512.png`, `icon-maskable-512.png` and `logo.png` again (VER-15).
 
 ## 1.0.4 - 2026-10-25
 

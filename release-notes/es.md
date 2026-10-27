@@ -4,7 +4,7 @@ Lo que cambia para ti en cada versión de la app. La versión más nueva va prim
 
 ## Unreleased
 
-No change.
+- La app tiene un icono nuevo: un montón de tarjetas de lista.
 
 ## 1.0.4 - 2026-10-25
 
