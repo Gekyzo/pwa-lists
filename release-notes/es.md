@@ -4,6 +4,10 @@ Lo que cambia para ti en cada versión de la app. La versión más nueva va prim
 
 ## Unreleased
 
+No change.
+
+## 1.0.6 - 2026-10-31
+
 - Las palabras en negrita de Novedades se ven en negrita, sin asteriscos.
 
 ## 1.0.5 - 2026-10-27

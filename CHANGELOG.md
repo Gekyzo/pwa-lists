@@ -10,6 +10,10 @@ no change for the user has no entry.
 
 ## Unreleased
 
+No change.
+
+## 1.0.6 - 2026-10-31
+
 - The What's new sheet shows `**…**` in a note as bold text: `textParts` of `src/onboarding.js` gives such parts `strong: true`, keys included, and the note renderer of `src/ui/whatsnew.js` wraps them in a `<strong>`. A `**` with no pair stays in the text (VER-22).
 
 ## 1.0.5 - 2026-10-27
