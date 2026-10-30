@@ -4,7 +4,7 @@ O que muda para ti em cada versão da app. A versão mais recente vem primeiro.
 
 ## Unreleased
 
-No change.
+- As palavras em negrito das Novidades aparecem em negrito, sem asteriscos.
 
 ## 1.0.5 - 2026-10-27
 

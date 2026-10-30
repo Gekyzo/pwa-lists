@@ -20,9 +20,11 @@ const loadNotes = async () => {
   return null;
 };
 
-// A note with its `name` keys, as the walkthrough shows them.
-const keyNode = ({ text, key, icon: name }) =>
-  key ? el('span', { className: 'onboarding-key' }, name ? [icon(name, 'small'), text] : [text]) : text;
+// A note with its `name` keys, as the walkthrough shows them, and its **bold** text (VER-22).
+const keyNode = ({ text, key, icon: name, strong }) => {
+  const node = key ? el('span', { className: 'onboarding-key' }, name ? [icon(name, 'small'), text] : [text]) : text;
+  return strong ? el('strong', {}, [node]) : node;
+};
 
 const noteItem = (note) => el('li', {}, textParts(note).map(keyNode));
 

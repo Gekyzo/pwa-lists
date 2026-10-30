@@ -4,7 +4,7 @@ Ce qui change pour vous dans chaque version de l’app. La version la plus réce
 
 ## Unreleased
 
-No change.
+- Les mots en gras des Nouveautés s'affichent en gras, sans astérisques.
 
 ## 1.0.5 - 2026-10-27
 

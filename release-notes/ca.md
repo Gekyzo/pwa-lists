@@ -4,7 +4,7 @@ El que canvia per a tu en cada versió de l’app. La versió més nova va prime
 
 ## Unreleased
 
-No change.
+- Les paraules en negreta de Novetats es veuen en negreta, sense asteriscs.
 
 ## 1.0.5 - 2026-10-27
 

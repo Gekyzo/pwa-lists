@@ -4,7 +4,7 @@ What changes for you in each version of the app. The newest version is first.
 
 ## Unreleased
 
-No change.
+- Bold words in What's new show in bold, with no asterisks.
 
 ## 1.0.5 - 2026-10-27
 

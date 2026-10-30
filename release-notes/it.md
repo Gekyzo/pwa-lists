@@ -4,7 +4,7 @@ Cosa cambia per te in ogni versione dell’app. La versione più recente è la p
 
 ## Unreleased
 
-No change.
+- Le parole in grassetto delle Novità si vedono in grassetto, senza asterischi.
 
 ## 1.0.5 - 2026-10-27
 

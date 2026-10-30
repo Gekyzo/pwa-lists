@@ -4,7 +4,7 @@ Was sich für dich in jeder Version der App ändert. Die neueste Version steht o
 
 ## Unreleased
 
-No change.
+- Fett gesetzte Wörter in Neuigkeiten erscheinen fett, ohne Sternchen.
 
 ## 1.0.5 - 2026-10-27
 

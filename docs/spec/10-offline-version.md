@@ -132,7 +132,9 @@ Rules of `sw.js`, `src/version.js`, `version.json`, `scripts/bump-version.mjs`,
   walkthrough. The veil, `Close`, a drag down, `Escape` and the back of the phone close it: it is
   a sheet of `closeTop` (NAV-25).
 - **VER-22** **Ayuda** in `Ajustes` has the row `settings.whatsNew` after the introduction, which
-  shows the sheet with every version. The row is hidden while the notes have no version.
+  shows the sheet with every version. The row is hidden while the notes have no version. A note
+  shows a text between two `**` in bold, and a text between two backticks as a key, also inside
+  bold text; a `**` or a backtick with no pair stays in the text.
 
 ## Installation
 
